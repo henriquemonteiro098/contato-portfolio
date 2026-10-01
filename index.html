@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MEGλ | José Henrique — Creative Technologist & Gen AI Engineer</title>
+  <meta name="description" content="Portfólio de José Henrique Monteiro (MEGλ). Engenharia de IA Generativa, Ciência de Dados, Cibersegurança e Direção Criativa Digital.">
+  
+  <!-- Google Fonts: Syne, Space Grotesk & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Custom Magnetic Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Background 3D WebGL Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Noise Overlay for Cinematic Texture -->
+  <div class="noise-overlay"></div>
+
+  <!-- Ambient Sound Control Bar -->
+  <div class="ambient-audio-bar">
+    <button id="sound-toggle" aria-label="Som Ambiente">
+      <div class="sound-bars">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <span class="sound-label">SOUND</span>
+    </button>
+  </div>
+
+  <!-- Header / Navigation (Lusion Inspired) -->
+  <header id="header">
+    <div class="header-inner">
+      <a href="#hero" class="brand-logo" aria-label="MEGλ Home">
+        <span class="brand-text">MEG<span class="lambda">λ</span></span>
+        <span class="brand-badge">STUDIO</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#about" class="nav-item"><span>01</span> SOBRE</a>
+        <a href="#projects" class="nav-item"><span>02</span> PROJETOS</a>
+        <a href="#experience" class="nav-item"><span>03</span> FORMAÇÃO</a>
+        <a href="#contact" class="nav-item"><span>04</span> CONTATO</a>
+      </nav>
+
+      <!-- Action Buttons (GitHub, LinkedIn, Resume) -->
+      <div class="header-actions">
+        <a href="https://github.com/henriquemonteiro098" target="_blank" rel="noopener noreferrer" class="btn-pill btn-git">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GITHUB</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/jos%C3%A9-henrique-de-souza-monteiro-446480378/" target="_blank" rel="noopener noreferrer" class="btn-pill btn-in">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+          <span>LINKEDIN</span>
+        </a>
+
+        <a href="#contact" class="btn-pill btn-cta">
+          <span>VAMOS CONVERSAR</span>
+          <div class="arrow-dot">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.343 8h11.314m0 0L8.673 3.016M13.657 8l-4.984 4.984"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Scroll Container -->
+  <main id="main-content">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="section hero-section">
+      <div class="hero-container">
+        
+        <div class="hero-tag">
+          <span class="live-dot"></span>
+          <span>CREATIVE TECHNOLOGIST &bull; GEN AI &bull; DATA &bull; CYBER</span>
+        </div>
+
+        <h1 class="hero-title">
+          <div class="line"><span class="highlight">ARQUITETANDO</span> O FUTURO</div>
+          <div class="line">COM <span class="lambda-inline">MEGλ</span> &amp; INTELIGÊNCIA</div>
+          <div class="line italic-line">ARTIFICIAL GENERATIVA.</div>
+        </h1>
+
+        <div class="hero-footer">
+          <p class="hero-subtitle">
+            Desenvolvido por <strong>José Henrique Monteiro</strong>. Criando pontes entre 
+            Machine Learning, Segurança de Dados, Engenharia de Software e Narrativas Visuais Imersivas.
+          </p>
+
+          <div class="hero-quick-actions">
+            <a href="#projects" class="btn-explore">
+              <span>EXPLORAR CASOS</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M19 12l-7 7-7-7"/>
+              </svg>
+            </a>
+            <a href="assets/Resume_Tech.pdf" target="_blank" class="btn-resume-dl">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              <span>CURRÍCULO (PDF)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Scroll Indicator (Lusion Style) -->
+        <div class="scroll-indicator">
+          <div class="scroll-crosses">
+            <span>+</span><span>+</span><span>+</span><span>+</span>
+          </div>
+          <div class="scroll-label">ROLE PARA EXPLORAR</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SHOWREEL & MANIFESTO SECTION (Lusion Video Reel Pattern) -->
+    <section id="reel-section" class="section reel-section">
+      <div class="section-container">
+        <div class="reel-header">
+          <div class="section-badge">01 // REEL &amp; MANIFESTO</div>
+          <h2 class="reel-title">Visão Técnica.<br><span class="light-text">Precisão Algorítmica.</span></h2>
+          <p class="reel-description">
+            Combinamos engenharia de prompts avançada, arquitetura de sistemas com Python e SQL, 
+            e rigor em segurança cibernética para construir ecossistemas digitais de impacto e performance cinematográfica.
+          </p>
+        </div>
+
+        <!-- Video Player Box with Lusion Frame -->
+        <div class="reel-player-box">
+          <div class="reel-frame-decorations">
+            <div class="decor-top">
+              <span class="decor-tag">REC // 4K 60FPS</span>
+              <span class="decor-coords">LAT: -30.0346 | LNG: -51.2177 [POA]</span>
+              <span class="decor-status">ONLINE</span>
+            </div>
+          </div>
+
+          <div class="video-container">
+            <video id="main-reel-video" loop muted playsinline autoplay poster="assets/projects/portfolio-design.jpg">
+              <source src="assets/media/reel.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos HTML5.
+            </video>
+            
+            <div class="video-controls-overlay">
+              <button id="video-play-btn" class="video-play-btn" aria-label="Play / Pause Reel">
+                <span class="play-icon">▶</span>
+                <span class="play-text">ASSISTIR REEL</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="decor-bottom">
+            <span>GEN_AI &bull; LLM PIPELINES &bull; COMPUTER VISION &bull; DATA MINING</span>
+            <span>MEGλ PROTOCOL V2.6</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS SECTION (Lusion Showcase Cards) -->
+    <section id="projects" class="section projects-section">
+      <div class="section-container">
+        <div class="section-heading-split">
+          <div>
+            <div class="section-badge">02 // CASOS SELECIONADOS</div>
+            <h2 class="section-title">PROJETOS &amp;<br>DESENVOLVIMENTO</h2>
+          </div>
+          <p class="section-heading-desc">
+            Uma seleção de aplicações, arquiteturas de IA e simulações complexas 
+            construídas com código limpo, lógica robusta e foco em resultados.
+          </p>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="projects-grid">
+
+          <!-- Project 1: Como Fazer Vídeos Bons de IA -->
+          <article class="project-card" data-tilt>
+            <div class="project-media-wrap">
+              <img src="assets/projects/cinema-arri.jpg" alt="Metodologia e Pipeline de Vídeo IA" class="project-img" loading="lazy">
+              <div class="project-badge-float">REPOSITÓRIO DESTAQUE</div>
+            </div>
+            <div class="project-info">
+              <div class="project-meta">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Cinematic AI</span>
+                <span class="tech-tag">Prompt Engineering</span>
+              </div>
+              <h3 class="project-title">Como Fazer Vídeos Bons de IA</h3>
+              <p class="project-summary">
+                Metodologia completa, direção cinematográfica, engenharia de prompts e pipeline técnico 
+                para criar vídeos de IA de altíssimo padrão fotográfico e consistência cênica.
+              </p>
+              <div class="project-links">
+                <a href="https://github.com/henriquemonteiro098/como-fazer-videos-bons-de-ia" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                  <span>VER NO GITHUB</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Detecção de Fraudes em Cartão -->
+          <article class="project-card" data-tilt>
+            <div class="project-media-wrap">
+              <img src="assets/projects/blue-corridor.jpg" alt="Detecção de Fraudes em Cartão" class="project-img" loading="lazy">
+              <div class="project-badge-float">DATA &amp; CIBERSEGURANÇA</div>
+            </div>
+            <div class="project-info">
+              <div class="project-meta">
+                <span class="tech-tag">Jupyter</span>
+                <span class="tech-tag">Machine Learning</span>
+                <span class="tech-tag">Scikit-Learn</span>
+              </div>
+              <h3 class="project-title">Detecção de Fraudes em Cartão</h3>
+              <p class="project-summary">
+                Modelo preditivo treinado para detecção de anomalias em fluxos transacionais, 
+                mitigando fraudes financeiras com tratamento de dados desbalanceados e métricas de precisão/recall.
+              </p>
+              <div class="project-links">
+                <a href="https://github.com/henriquemonteiro098/deteccao-fraudes-cartao" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                  <span>VER NO GITHUB</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Assistente Virtual com IA -->
+          <article class="project-card" data-tilt>
+            <div class="project-media-wrap">
+              <img src="assets/projects/celestial.jpg" alt="Assistente Virtual IA" class="project-img" loading="lazy">
+              <div class="project-badge-float">GEN AI &bull; LLM</div>
+            </div>
+            <div class="project-info">
+              <div class="project-meta">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">LLMs</span>
+                <span class="tech-tag">Automation</span>
+              </div>
+              <h3 class="project-title">Assistente Virtual com IA</h3>
+              <p class="project-summary">
+                Agente conversacional autônomo com suporte a processamento de linguagem natural, 
+                execução de rotinas e integração para produtividade inteligente.
+              </p>
+              <div class="project-links">
+                <a href="https://github.com/henriquemonteiro098/assistente-virtual-ia" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                  <span>VER NO GITHUB</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Banco Fictício (Fintech Simulation) -->
+          <article class="project-card" data-tilt>
+            <div class="project-media-wrap">
+              <img src="assets/projects/portfolio-design.jpg" alt="Banco Fictício Simulação" class="project-img" loading="lazy">
+              <div class="project-badge-float">FULL STACK &amp; SQL</div>
+            </div>
+            <div class="project-info">
+              <div class="project-meta">
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">PL/pgSQL</span>
+              </div>
+              <h3 class="project-title">Banco Fictício — Fintech Banking Simulation</h3>
+              <p class="project-summary">
+                Plataforma bancária completa com gestão de contas, transferências atômicas, 
+                camada de banco de dados relacional e scripts Shell para automação de tarefas.
+              </p>
+              <div class="project-links">
+                <a href="https://github.com/henriquemonteiro098/projects" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                  <span>VER NO GITHUB</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5: Katana Logic / Creative Visual Tech -->
+          <article class="project-card" data-tilt>
+            <div class="project-media-wrap">
+              <img src="assets/projects/katana.jpg" alt="Creative AI & Visual Storytelling" class="project-img" loading="lazy">
+              <div class="project-badge-float">VISUAL STORYTELLING</div>
+            </div>
+            <div class="project-info">
+              <div class="project-meta">
+                <span class="tech-tag">Higgsfield AI</span>
+                <span class="tech-tag">Kling</span>
+                <span class="tech-tag">Direção de Arte</span>
+              </div>
+              <h3 class="project-title">MEGλ Creative &amp; AI Direction</h3>
+              <p class="project-summary">
+                Exploração de narrativa visual gerativa unindo iluminação cinematográfica, 
+                modelos de difusão de última geração e motion design interativo.
+              </p>
+              <div class="project-links">
+                <a href="https://github.com/henriquemonteiro098" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                  <span>HUB DE REPOSITÓRIOS</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS & SPECIALIZATIONS (Lusion Bento Layout) -->
+    <section id="skills" class="section skills-section">
+      <div class="section-container">
+        <div class="section-badge">03 // COMPETÊNCIAS</div>
+        <h2 class="section-title">STACK &amp; ARSENAL TÉCNICO</h2>
+
+        <div class="bento-grid">
+
+          <div class="bento-card bento-wide">
+            <div class="bento-icon">⚡</div>
+            <h3>Inteligência Artificial Generativa &amp; LLMs</h3>
+            <p>
+              Formação especializada através da <strong>DIO (Digital Innovation One) / Fundação Bradesco</strong>. 
+              Domínio de engenharia de prompts avançada, arquiteturas RAG, orquestração de agentes e fluxos de geração de imagens/vídeos com modelos de ponta.
+            </p>
+            <div class="skill-chips">
+              <span>Prompt Engineering</span>
+              <span>LLM Fine-Tuning/Context</span>
+              <span>GitHub Copilot Pro</span>
+              <span>SCTEC &amp; SENAI-SC Certs</span>
+            </div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-icon">🛡️</div>
+            <h3>Cibersegurança &amp; Resiliência</h3>
+            <p>
+              Análise de vulnerabilidades, compliance de dados, criptografia e proteção contra vetores de fraude em sistemas distribuídos.
+            </p>
+            <div class="skill-chips">
+              <span>Threat Modeling</span>
+              <span>Fraud Detection</span>
+              <span>Incident Response</span>
+            </div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-icon">📊</div>
+            <h3>Engenharia de Dados &amp; SQL</h3>
+            <p>
+              Modelagem relacional com PostgreSQL e PL/pgSQL, pipelines de análise de dados, queries otimizadas e automação com Shell Scripting.
+            </p>
+            <div class="skill-chips">
+              <span>PostgreSQL</span>
+              <span>Python Data Stack</span>
+              <span>Shell Scripting</span>
+            </div>
+          </div>
+
+          <div class="bento-card bento-full">
+            <div class="bento-split">
+              <div>
+                <div class="bento-icon">💻</div>
+                <h3>Desenvolvimento &amp; Suporte Corporativo</h3>
+                <p>
+                  Experiência consolidada em ambientes de alta criticidade (Corporate Helpdesk CSC Lojas Renner S.A., Mercado Livre Brasil Ltda e Adecco). 
+                  Foco absoluto em resolução de incidentes, SLAs rigorosos e engenharia de software sustentável.
+                </p>
+              </div>
+              <div class="exp-stats">
+                <div class="stat-item">
+                  <span class="stat-num">100%</span>
+                  <span class="stat-text">Comprometimento com SLA e Qualidade</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-num">5+</span>
+                  <span class="stat-text">Repositórios e Projetos Ativos</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-num">DIO</span>
+                  <span class="stat-text">Bootcamps Bradesco &amp; SCTEC</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT & PHILOSOPHY SECTION -->
+    <section id="about" class="section about-section">
+      <div class="section-container">
+        <div class="about-grid">
+          <div class="about-lead">
+            <div class="section-badge">04 // SOBRE O CRIADOR</div>
+            <h2 class="about-title">Onde a lógica dos dados encontra a estética do futuro.</h2>
+            <div class="brand-signature">
+              <span class="brand-monogram">MEGλ</span>
+              <span class="brand-by">JOSÉ HENRIQUE MONTEIRO</span>
+            </div>
+          </div>
+
+          <div class="about-body">
+            <p class="paragraph-large">
+              Baseado em Porto Alegre - RS, transformo problemas complexos em soluções digitais elegantes. 
+              Minha trajetória une vivência corporativa de suporte e operações em gigantes do varejo 
+              com a vanguarda técnica da Inteligência Artificial Generativa e da Cibersegurança.
+            </p>
+            <p>
+              O selo <strong>MEGλ</strong> (onde o 'A' se expressa pela letra grega Lambda, símbolo do cálculo e das funções puras) 
+              representa a constante busca pela união entre rigor científico e impacto sensorial.
+            </p>
+
+            <div class="about-links-box">
+              <a href="https://www.linkedin.com/in/jos%C3%A9-henrique-de-souza-monteiro-446480378/" target="_blank" rel="noopener noreferrer" class="link-btn-large">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+                <span>Conectar no LinkedIn</span>
+              </a>
+
+              <a href="https://github.com/henriquemonteiro098" target="_blank" rel="noopener noreferrer" class="link-btn-large">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                <span>Explorar GitHub (@henriquemonteiro098)</span>
+              </a>
+
+              <a href="assets/Resume_Tech.pdf" target="_blank" class="link-btn-large">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                <span>Baixar Currículo Técnico (PDF)</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION (Lusion Footer Style) -->
+    <section id="contact" class="section contact-section">
+      <div class="section-container">
+        <div class="contact-card">
+          <div class="contact-badge">VAMOS CONSTRUIR ALGO NOTÁVEL</div>
+          <h2 class="contact-huge-title">VAMOS CONVERSAR?</h2>
+          
+          <p class="contact-sub">
+            Disponível para posições em Tecnologia, Desenvolvimento de Software, Suporte Técnico 
+            ou Projetos de Inteligência Artificial e Dados.
+          </p>
+
+          <div class="contact-details">
+            <a href="mailto:mega.monteiro0908@gmail.com" class="contact-email">
+              mega.monteiro0908@gmail.com
+            </a>
+            
+            <div class="contact-meta-row">
+              <span class="meta-tag">📍 Porto Alegre - RS, Brasil</span>
+              <a href="tel:+5548988133626" class="meta-tag">📞 +55 (48) 98813-3626</a>
+              <span class="meta-tag">⚡ Resposta Rápida</span>
+            </div>
+          </div>
+
+          <div class="social-button-group">
+            <a href="https://github.com/henriquemonteiro098" target="_blank" rel="noopener noreferrer" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              <span>GitHub / henriquemonteiro098</span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/jos%C3%A9-henrique-de-souza-monteiro-446480378/" target="_blank" rel="noopener noreferrer" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              <span>LinkedIn / José Henrique</span>
+            </a>
+          </div>
+
+        </div>
+
+        <footer class="footer-bar">
+          <div class="footer-brand">
+            MEG<span class="lambda">λ</span> &copy; 2026. Todos os direitos reservados.
+          </div>
+          <div class="footer-tech">
+            DESIGN INSPIRADO EM LUSION.CO &bull; POWERED BY THREE.JS &amp; WEBGL
+          </div>
+        </footer>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- External Libraries: Three.js and GSAP for fluid motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Interactive Script -->
+  <script src="main.js"></script>
+</body>
+</html>
