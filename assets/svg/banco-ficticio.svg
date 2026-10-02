@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0c"/>
+      <stop offset="50%" stop-color="#12141a"/>
+      <stop offset="100%" stop-color="#060608"/>
+    </linearGradient>
+    <linearGradient id="neonGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00ffaa"/>
+      <stop offset="100%" stop-color="#00aaff"/>
+    </linearGradient>
+    <filter id="fintechGlow">
+      <feGaussianBlur stdDeviation="8" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes barRise { 0% { height: 30px; y: 280px; } 50% { height: 110px; y: 200px; } 100% { height: 30px; y: 280px; } }
+    @keyframes pulseLed { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+    @keyframes blockFloat { 0% { transform: translateY(0); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
+    .bar-1 { animation: barRise 3s ease-in-out infinite; }
+    .bar-2 { animation: barRise 3s ease-in-out infinite 0.6s; }
+    .bar-3 { animation: barRise 3s ease-in-out infinite 1.2s; }
+    .bar-4 { animation: barRise 3s ease-in-out infinite 1.8s; }
+    .float-ledger { transform-origin: center; animation: blockFloat 4s ease-in-out infinite; }
+    .led { animation: pulseLed 2s infinite; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg4)"/>
+
+  <!-- Database SQL Isometric Grids -->
+  <g class="float-ledger">
+    <!-- Main Fintech Card Layer -->
+    <rect x="230" y="140" width="340" height="210" rx="20" fill="#0c0e14" stroke="#252d3d" stroke-width="2"/>
+    <rect x="230" y="140" width="340" height="55" rx="20" fill="#131722"/>
+
+    <!-- DB Cylinders / Storage Icons -->
+    <ellipse cx="270" cy="168" rx="14" ry="6" fill="#00ffaa" filter="url(#fintechGlow)" opacity="0.8"/>
+    <text x="295" y="172" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold">POSTGRESQL // DB_CORE</text>
+    
+    <circle cx="530" cy="168" r="4" fill="#00ffaa" class="led"/>
+    <text x="500" y="172" fill="#5c6f8f" font-family="'JetBrains Mono', monospace" font-size="10">ONLINE</text>
+
+    <!-- Dynamic Growth Chart Bars (Fintech Metric) -->
+    <g fill="url(#neonGreen)">
+      <rect x="280" y="270" width="22" height="40" rx="4" class="bar-1"/>
+      <rect x="320" y="240" width="22" height="70" rx="4" class="bar-2"/>
+      <rect x="360" y="210" width="22" height="100" rx="4" class="bar-3"/>
+      <rect x="400" y="230" width="22" height="80" rx="4" class="bar-4"/>
+    </g>
+
+    <!-- Balance / Currency HUD -->
+    <text x="445" y="245" fill="#7588a8" font-family="'JetBrains Mono', monospace" font-size="11">TOTAL_VOLUME</text>
+    <text x="445" y="275" fill="#00ffaa" font-family="'Syne', sans-serif" font-size="22" font-weight="bold">R$ 489.250</text>
+    <text x="445" y="295" fill="#52647d" font-family="'JetBrains Mono', monospace" font-size="10">2,410 TPS // ZERO_LOSS</text>
+  </g>
+
+  <!-- Shell Pipeline Streams -->
+  <path d="M 100 410 L 230 410 L 280 435 L 520 435 L 570 410 L 700 410" fill="none" stroke="#252d3d" stroke-width="2"/>
+  <circle cx="280" cy="435" r="4" fill="#00ffaa"/>
+  <circle cx="520" cy="435" r="4" fill="#00ffaa"/>
+  <text x="340" y="440" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="10">AUTOMATION // SHELL_DAEMON</text>
+
+  <!-- Telemetry Header -->
+  <text x="50" y="70" fill="#43526e" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">BANKING_SIM // PL_PGSQL</text>
+  <text x="50" y="90" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="11" opacity="0.7">ATOMIC TRANSACTIONS : ENABLED</text>
+
+  <text x="600" y="70" fill="#43526e" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">LATENCY: 0.8ms</text>
+  <text x="640" y="90" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="11">ACID COMPLIANT</text>
+</svg>

@@ -177,7 +177,7 @@
       </div>
     </section>
 
-    <!-- FEATURED PROJECTS SECTION (Lusion Showcase Cards) -->
+    <!-- FEATURED PROJECTS SECTION (Lusion Showcase Cards with Interactive Scratch Reveal) -->
     <section id="projects" class="section projects-section">
       <div class="section-container">
         <div class="section-heading-split">
@@ -186,8 +186,8 @@
             <h2 class="section-title">PROJETOS &amp;<br>DESENVOLVIMENTO</h2>
           </div>
           <p class="section-heading-desc">
-            Uma seleção de aplicações, arquiteturas de IA e simulações complexas 
-            construídas com código limpo, lógica robusta e foco em resultados.
+            Cards interativos com arte vetorial animada em SVG. 
+            Clique em <strong>"RASPAR / REVELAR"</strong> para abrir a tela de raspadinha interativa e descobrir os bastidores técnicos de cada projeto!
           </p>
         </div>
 
@@ -197,8 +197,11 @@
           <!-- Project 1: Como Fazer Vídeos Bons de IA -->
           <article class="project-card" data-tilt>
             <div class="project-media-wrap">
-              <img src="assets/projects/cinema-arri.jpg" alt="Metodologia e Pipeline de Vídeo IA" class="project-img" loading="lazy">
+              <img src="assets/svg/video-ia.svg" alt="Metodologia e Pipeline de Vídeo IA" class="project-img" loading="lazy">
               <div class="project-badge-float">REPOSITÓRIO DESTAQUE</div>
+              <button class="btn-scratch-trigger" data-project="video-ia" aria-label="Raspar e revelar detalhes">
+                <span>✨ RASPAR / REVELAR</span>
+              </button>
             </div>
             <div class="project-info">
               <div class="project-meta">
@@ -225,8 +228,11 @@
           <!-- Project 2: Detecção de Fraudes em Cartão -->
           <article class="project-card" data-tilt>
             <div class="project-media-wrap">
-              <img src="assets/projects/blue-corridor.jpg" alt="Detecção de Fraudes em Cartão" class="project-img" loading="lazy">
+              <img src="assets/svg/fraude-cartao.svg" alt="Detecção de Fraudes em Cartão" class="project-img" loading="lazy">
               <div class="project-badge-float">DATA &amp; CIBERSEGURANÇA</div>
+              <button class="btn-scratch-trigger" data-project="fraude-cartao" aria-label="Raspar e revelar detalhes">
+                <span>✨ RASPAR / REVELAR</span>
+              </button>
             </div>
             <div class="project-info">
               <div class="project-meta">
@@ -253,8 +259,11 @@
           <!-- Project 3: Assistente Virtual com IA -->
           <article class="project-card" data-tilt>
             <div class="project-media-wrap">
-              <img src="assets/projects/celestial.jpg" alt="Assistente Virtual IA" class="project-img" loading="lazy">
+              <img src="assets/svg/assistente-ia.svg" alt="Assistente Virtual IA" class="project-img" loading="lazy">
               <div class="project-badge-float">GEN AI &bull; LLM</div>
+              <button class="btn-scratch-trigger" data-project="assistente-ia" aria-label="Raspar e revelar detalhes">
+                <span>✨ RASPAR / REVELAR</span>
+              </button>
             </div>
             <div class="project-info">
               <div class="project-meta">
@@ -281,8 +290,11 @@
           <!-- Project 4: Banco Fictício (Fintech Simulation) -->
           <article class="project-card" data-tilt>
             <div class="project-media-wrap">
-              <img src="assets/projects/portfolio-design.jpg" alt="Banco Fictício Simulação" class="project-img" loading="lazy">
+              <img src="assets/svg/banco-ficticio.svg" alt="Banco Fictício Simulação" class="project-img" loading="lazy">
               <div class="project-badge-float">FULL STACK &amp; SQL</div>
+              <button class="btn-scratch-trigger" data-project="banco-ficticio" aria-label="Raspar e revelar detalhes">
+                <span>✨ RASPAR / REVELAR</span>
+              </button>
             </div>
             <div class="project-info">
               <div class="project-meta">
@@ -309,8 +321,11 @@
           <!-- Project 5: Katana Logic / Creative Visual Tech -->
           <article class="project-card" data-tilt>
             <div class="project-media-wrap">
-              <img src="assets/projects/katana.jpg" alt="Creative AI & Visual Storytelling" class="project-img" loading="lazy">
+              <img src="assets/svg/katana-ai.svg" alt="Creative AI & Visual Storytelling" class="project-img" loading="lazy">
               <div class="project-badge-float">VISUAL STORYTELLING</div>
+              <button class="btn-scratch-trigger" data-project="katana-ai" aria-label="Raspar e revelar detalhes">
+                <span>✨ RASPAR / REVELAR</span>
+              </button>
             </div>
             <div class="project-info">
               <div class="project-meta">
@@ -337,6 +352,57 @@
         </div>
       </div>
     </section>
+
+    <!-- INTERACTIVE SCRATCH CARD MODAL -->
+    <div id="scratch-modal" class="scratch-modal-backdrop">
+      <div class="scratch-modal-card">
+        
+        <!-- Modal Top Bar -->
+        <div class="scratch-modal-header">
+          <div class="scratch-badge-box">
+            <span class="live-dot"></span>
+            <span id="scratch-badge-text">RASPADINHA INTERATIVA // SECRETS</span>
+          </div>
+          <button id="scratch-modal-close" class="scratch-close-btn" aria-label="Fechar raspadinha">✕</button>
+        </div>
+
+        <div class="scratch-instruction">
+          <span class="coin-icon">🪙</span>
+          <span>Passe o mouse ou dedo sobre a camada prateada para raspar e revelar os bastidores!</span>
+          <button id="scratch-reveal-all" class="btn-reveal-quick">Revelar Tudo</button>
+        </div>
+
+        <!-- Scratch Game Arena -->
+        <div class="scratch-arena">
+          
+          <!-- Content to be revealed underneath -->
+          <div id="scratch-secret-content" class="scratch-secret-content">
+            <div class="secret-header">
+              <span id="secret-tag" class="secret-tag">PIPELINE DEEP-DIVE</span>
+              <h2 id="secret-title" class="secret-title">Título do Projeto</h2>
+            </div>
+            
+            <div id="secret-body" class="secret-body">
+              <!-- Dynamically populated via JS -->
+            </div>
+
+            <div class="secret-footer">
+              <a id="secret-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-secret-action">
+                <span>ACESSAR CÓDIGO NO GITHUB</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- HTML5 Scratch Canvas (Silver Foil Overlay) -->
+          <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
+
+        </div>
+
+      </div>
+    </div>
 
     <!-- SKILLS & SPECIALIZATIONS (Lusion Bento Layout) -->
     <section id="skills" class="section skills-section">

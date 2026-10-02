@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08070d"/>
+      <stop offset="50%" stop-color="#120e1f"/>
+      <stop offset="100%" stop-color="#050408"/>
+    </linearGradient>
+    <linearGradient id="aiOrb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ffcc"/>
+      <stop offset="50%" stop-color="#7928ca"/>
+      <stop offset="100%" stop-color="#ff0080"/>
+    </linearGradient>
+    <filter id="synthGlow">
+      <feGaussianBlur stdDeviation="10" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes orbBreathe { 0% { transform: scale(0.92); opacity: 0.8; } 50% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(0.92); opacity: 0.8; } }
+    @keyframes waveMotion { 0% { transform: translateX(0); } 100% { transform: translateX(-400px); } }
+    @keyframes orbitNode { 0% { transform: rotate(0deg) translateX(110px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(110px) rotate(-360deg); } }
+    .ai-core { transform-origin: 400px 240px; animation: orbBreathe 4s ease-in-out infinite; }
+    .satellite { transform-origin: 400px 240px; animation: orbitNode 8s linear infinite; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg3)"/>
+
+  <!-- Audio Wave Speech Spectrum (Behind AI) -->
+  <g opacity="0.3" stroke="#00ffcc" stroke-width="2">
+    <line x1="200" y1="240" x2="200" y2="240"/>
+    <line x1="230" y1="200" x2="230" y2="280"/>
+    <line x1="260" y1="180" x2="260" y2="300"/>
+    <line x1="290" y1="150" x2="290" y2="330"/>
+    <line x1="320" y1="190" x2="320" y2="290"/>
+    <line x1="480" y1="190" x2="480" y2="290"/>
+    <line x1="510" y1="150" x2="510" y2="330"/>
+    <line x1="540" y1="180" x2="540" y2="300"/>
+    <line x1="570" y1="200" x2="570" y2="280"/>
+    <line x1="600" y1="240" x2="600" y2="240"/>
+  </g>
+
+  <!-- Central LLM Neural Core -->
+  <g class="ai-core">
+    <circle cx="400" cy="240" r="85" fill="url(#aiOrb)" opacity="0.85" filter="url(#synthGlow)"/>
+    <circle cx="400" cy="240" r="55" fill="#08070d" stroke="#00ffcc" stroke-width="2"/>
+    <circle cx="400" cy="240" r="30" fill="#00ffcc" opacity="0.4" filter="url(#synthGlow)"/>
+    <circle cx="400" cy="240" r="12" fill="#ffffff"/>
+  </g>
+
+  <!-- Orbiting Knowledge Nodes -->
+  <g class="satellite">
+    <circle cx="400" cy="240" r="8" fill="#00ffcc" filter="url(#synthGlow)"/>
+  </g>
+
+  <!-- Terminal Chat Bubble HUD -->
+  <rect x="220" y="370" width="360" height="42" rx="21" fill="#120e1f" stroke="#3d2a59" stroke-width="1.5"/>
+  <circle cx="245" cy="391" r="5" fill="#00ffcc"/>
+  <text x="265" y="396" fill="#ded5eb" font-family="'JetBrains Mono', monospace" font-size="12">"Como posso otimizar seu fluxo hoje?"</text>
+
+  <!-- Telemetry Header -->
+  <text x="50" y="70" fill="#584570" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">AUTONOMOUS_AGENT // NLP_ENGINE</text>
+  <text x="50" y="90" fill="#00ffcc" font-family="'JetBrains Mono', monospace" font-size="11" opacity="0.7">STATUS: LISTENING &amp; REASONING</text>
+
+  <text x="590" y="70" fill="#584570" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">TOKEN_SPEED : 95 t/s</text>
+  <text x="640" y="90" fill="#ff0080" font-family="'JetBrains Mono', monospace" font-size="11">CONTEXT: 128K</text>
+</svg>

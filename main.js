@@ -203,6 +203,222 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ------------------------------------------------------------------------
+     4. Interactive Scratch Card Engine (HTML5 Canvas Scratch-to-Reveal)
+     ------------------------------------------------------------------------ */
+  const projectDetails = {
+    'video-ia': {
+      tag: 'PIPELINE TÉCNICO // CINEMATIC AI',
+      title: 'Como Fazer Vídeos Bons de IA',
+      link: 'https://github.com/henriquemonteiro098/como-fazer-videos-bons-de-ia',
+      html: `
+        <h4>🎬 Arquitetura da Metodologia</h4>
+        <p>Desenvolvimento de um framework completo para produção de cinema digital com IA, eliminando anomalias e alucinações de movimento.</p>
+        <h4>🛠️ O que foi construído nos bastidores:</h4>
+        <ul>
+          <li><strong>Direção de Fotografia Sintética:</strong> Calibração de anamorphic lenses (2.39:1), ISO, obturador e iluminação de 3 pontos em prompts estruturados.</li>
+          <li><strong>Pipeline Multi-Modelos:</strong> Integração de Higgsfield CLI, Kling Diffusion e scripts em Python para interpolação de quadros e consistência de personagens.</li>
+          <li><strong>Engenharia de Prompt Avançada:</strong> Estruturação com tags semânticas, seeds controladas e eliminação de artefatos temporais.</li>
+        </ul>
+      `
+    },
+    'fraude-cartao': {
+      tag: 'MACHINE LEARNING // CYBERSECURITY',
+      title: 'Detecção de Fraudes em Cartão',
+      link: 'https://github.com/henriquemonteiro098/deteccao-fraudes-cartao',
+      html: `
+        <h4>🛡️ Detecção em Tempo Real</h4>
+        <p>Engenharia de dados e machine learning focado na resolução de fraudes transacionais de alta criticidade.</p>
+        <h4>🛠️ Destaques da Implementação:</h4>
+        <ul>
+          <li><strong>Tratamento de Desbalanceamento Extremo:</strong> Uso de técnicas SMOTE / Random Undersampling para bases financeiras onde fraudes representam < 0.2%.</li>
+          <li><strong>Algoritmos Aplicados:</strong> Random Forest, Regressão Logística e XGBoost com otimização focada em Área sob a Curva Precision-Recall (PR-AUC).</li>
+          <li><strong>Mitigação de Falsos Positivos:</strong> Ajuste fino de thresholds de decisão para garantir máxima proteção sem bloquear compras legítimas.</li>
+        </ul>
+      `
+    },
+    'assistente-ia': {
+      tag: 'AUTONOMOUS AGENTS // NLP PIPELINES',
+      title: 'Assistente Virtual com IA',
+      link: 'https://github.com/henriquemonteiro098/assistente-virtual-ia',
+      html: `
+        <h4>🤖 Inteligência Autônoma em Python</h4>
+        <p>Criação de um assistente virtual capaz de interpretar comandos complexos em linguagem natural e orquestrar tarefas locais no sistema operacional.</p>
+        <h4>🛠️ Capacidades do Sistema:</h4>
+        <ul>
+          <li><strong>Processamento de Linguagem Natural:</strong> Conexão com modelos LLM para raciocínio contextual e extração de entidades de comando.</li>
+          <li><strong>Tool Calling & Execução:</strong> Automação de rotinas em Shell/Python, buscas na web e controle de produtividade.</li>
+          <li><strong>Memória de Sessão:</strong> Manutenção de histórico de conversação com baixo consumo de memória e latência minimizada.</li>
+        </ul>
+      `
+    },
+    'banco-ficticio': {
+      tag: 'FULL STACK & DATABASE // ACID SIMULATION',
+      title: 'Banco Fictício — Fintech Simulation',
+      link: 'https://github.com/henriquemonteiro098/projects',
+      html: `
+        <h4>💳 Plataforma Bancária Resiliente</h4>
+        <p>Simulação completa de um ecossistema bancário digital moderno com garantias ACID e automações corporativas.</p>
+        <h4>🛠️ Tecnologias e Camadas:</h4>
+        <ul>
+          <li><strong>Camada de Dados Relacional:</strong> PostgreSQL estruturado com PL/pgSQL, triggers de validação de saldo e integridade transacional concorrente.</li>
+          <li><strong>Regras de Negócio:</strong> Aplicação em JavaScript e Python gerenciando abertura de contas, transferências e histórico de extratos.</li>
+          <li><strong>Automação de Infraestrutura:</strong> Shell Scripts para rotinas de backup, testes de concorrência e deploy ágil.</li>
+        </ul>
+      `
+    },
+    'katana-ai': {
+      tag: 'CREATIVE TECH // 4K VISUAL STORYTELLING',
+      title: 'MEGλ Creative & AI Direction',
+      link: 'https://github.com/henriquemonteiro098',
+      html: `
+        <h4>⚡ Fusão entre Arte, Código e Cinema</h4>
+        <p>Pesquisa visual de vanguarda que dá vida à identidade <strong>MEGλ ($A=\lambda$)</strong>.</p>
+        <h4>🛠️ Bastidores da Criação:</h4>
+        <ul>
+          <li><strong>Estética Neo-Noir:</strong> Inspiração em diretores lendários (Wong Kar-Wai, Denis Villeneuve) fundidos com visual cyberpunk industrial.</li>
+          <li><strong>Renderização & Motion:</strong> Geração de assets em resolução 2K/4K com texturização fina e iluminação volumétrica.</li>
+          <li><strong>Design System Fluido:</strong> Aplicação dos conceitos da Lusion.co para transformar tecnologia em experiência imersiva.</li>
+        </ul>
+      `
+    }
+  };
+
+  const scratchModal = document.getElementById('scratch-modal');
+  const scratchCloseBtn = document.getElementById('scratch-modal-close');
+  const scratchCanvas = document.getElementById('scratch-canvas');
+  const secretTag = document.getElementById('secret-tag');
+  const secretTitle = document.getElementById('secret-title');
+  const secretBody = document.getElementById('secret-body');
+  const secretLink = document.getElementById('secret-link');
+  const revealAllBtn = document.getElementById('scratch-reveal-all');
+
+  let ctx = null;
+  let isScratching = false;
+
+  function initScratchFoil() {
+    if (!scratchCanvas) return;
+    const rect = scratchCanvas.getBoundingClientRect();
+    scratchCanvas.width = rect.width;
+    scratchCanvas.height = rect.height;
+
+    ctx = scratchCanvas.getContext('2d');
+    
+    // Draw Metallic Holographic Scratch Foil
+    const grad = ctx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
+    grad.addColorStop(0, '#2c333f');
+    grad.addColorStop(0.3, '#455062');
+    grad.addColorStop(0.5, '#6a7891');
+    grad.addColorStop(0.7, '#455062');
+    grad.addColorStop(1, '#1e242d');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+
+    // Decorative holographic pattern
+    ctx.strokeStyle = 'rgba(0, 255, 170, 0.25)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < scratchCanvas.width; i += 40) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i + 40, scratchCanvas.height);
+      ctx.stroke();
+    }
+
+    // Centered instruction badge on the scratch foil
+    ctx.fillStyle = '#0a0d12';
+    const boxW = 280;
+    const boxH = 50;
+    const boxX = (scratchCanvas.width - boxW) / 2;
+    const boxY = (scratchCanvas.height - boxH) / 2;
+    ctx.roundRect ? ctx.roundRect(boxX, boxY, boxW, boxH, 25) : ctx.rect(boxX, boxY, boxW, boxH);
+    ctx.fill();
+
+    ctx.strokeStyle = '#00ffaa';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#00ffaa';
+    ctx.font = 'bold 12px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('⚡ RASPE AQUI COM O MOUSE ⚡', scratchCanvas.width / 2, scratchCanvas.height / 2 + 5);
+  }
+
+  function scratch(x, y) {
+    if (!ctx) return;
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 28, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function handleScratchMove(e) {
+    if (!isScratching) return;
+    const rect = scratchCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    scratch(x, y);
+  }
+
+  if (scratchCanvas) {
+    scratchCanvas.addEventListener('mousedown', (e) => {
+      isScratching = true;
+      handleScratchMove(e);
+    });
+    scratchCanvas.addEventListener('mousemove', handleScratchMove);
+    window.addEventListener('mouseup', () => { isScratching = false; });
+
+    // Touch events for mobile/tablet
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      isScratching = true;
+      handleScratchMove(e);
+    }, { passive: true });
+    scratchCanvas.addEventListener('touchmove', handleScratchMove, { passive: true });
+    window.addEventListener('touchend', () => { isScratching = false; });
+  }
+
+  // Open Scratch Modal for Specific Project
+  document.querySelectorAll('.btn-scratch-trigger').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const projKey = btn.getAttribute('data-project');
+      const data = projectDetails[projKey];
+      if (!data) return;
+
+      secretTag.textContent = data.tag;
+      secretTitle.textContent = data.title;
+      secretBody.innerHTML = data.html;
+      secretLink.href = data.link;
+
+      scratchModal.classList.add('active');
+      setTimeout(initScratchFoil, 50);
+    });
+  });
+
+  // Close Modal
+  if (scratchCloseBtn) {
+    scratchCloseBtn.addEventListener('click', () => {
+      scratchModal.classList.remove('active');
+    });
+  }
+
+  scratchModal.addEventListener('click', (e) => {
+    if (e.target === scratchModal) {
+      scratchModal.classList.remove('active');
+    }
+  });
+
+  // Reveal All button
+  if (revealAllBtn) {
+    revealAllBtn.addEventListener('click', () => {
+      if (ctx && scratchCanvas) {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------------
      4. Ambient Sound Synthesizer (Web Audio API)
      ------------------------------------------------------------------------ */
   const soundToggle = document.getElementById('sound-toggle');

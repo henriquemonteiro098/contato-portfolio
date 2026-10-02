@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060911"/>
+      <stop offset="50%" stop-color="#0a1224"/>
+      <stop offset="100%" stop-color="#04060c"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0055ff" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="neonGlow">
+      <feGaussianBlur stdDeviation="6" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes sweepRadar { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes pulseCard { 0% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.02); opacity: 1; } 100% { transform: scale(1); opacity: 0.85; } }
+    @keyframes flowNodes { 0% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 0; } }
+    .radar { transform-origin: 400px 240px; animation: sweepRadar 6s linear infinite; }
+    .pulse-shield { transform-origin: 400px 240px; animation: pulseCard 4s ease-in-out infinite; }
+    .node-line { stroke-dasharray: 6 6; animation: flowNodes 2s linear infinite; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg2)"/>
+
+  <!-- Radar Circles -->
+  <circle cx="400" cy="240" r="180" fill="none" stroke="#132442" stroke-width="1.5"/>
+  <circle cx="400" cy="240" r="130" fill="none" stroke="#1c3563" stroke-width="1.5"/>
+  <circle cx="400" cy="240" r="70" fill="none" stroke="#254785" stroke-width="1.5"/>
+
+  <!-- Radar Sweeper Beam -->
+  <g class="radar">
+    <path d="M 400 240 L 580 240 A 180 180 0 0 0 400 60 Z" fill="url(#shieldGrad)" opacity="0.15"/>
+    <line x1="400" y1="240" x2="580" y2="240" stroke="#00f0ff" stroke-width="2" filter="url(#neonGlow)"/>
+  </g>
+
+  <!-- Cyber Shield & Neural Nodes -->
+  <g class="pulse-shield">
+    <!-- Futuristic Credit Card Outline -->
+    <rect x="250" y="140" width="300" height="190" rx="16" fill="#081021" stroke="#00f0ff" stroke-width="2" filter="url(#neonGlow)" opacity="0.9"/>
+    
+    <!-- Chip -->
+    <rect x="285" y="195" width="45" height="35" rx="6" fill="#ffb700" opacity="0.8"/>
+    <line x1="285" y1="212" x2="330" y2="212" stroke="#4a3600" stroke-width="1.5"/>
+    <line x1="307" y1="195" x2="307" y2="230" stroke="#4a3600" stroke-width="1.5"/>
+
+    <!-- Contactless Wave -->
+    <path d="M 350 200 A 15 15 0 0 1 350 226" fill="none" stroke="#00f0ff" stroke-width="2" opacity="0.8"/>
+    <path d="M 358 194 A 25 25 0 0 1 358 232" fill="none" stroke="#00f0ff" stroke-width="2" opacity="0.5"/>
+
+    <!-- Neural Anomaly Detection Overlay -->
+    <circle cx="480" cy="205" r="18" fill="#ff0055" opacity="0.2"/>
+    <circle cx="480" cy="205" r="6" fill="#ff0055" filter="url(#neonGlow)"/>
+    <text x="440" y="240" fill="#ff0055" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold">ANOMALY DETECTED</text>
+    <text x="455" y="255" fill="#a0b8e6" font-family="'JetBrains Mono', monospace" font-size="9">SCORE: 0.994</text>
+  </g>
+
+  <!-- Connected Network Data Stream -->
+  <path d="M 120 380 L 250 280 L 400 380 L 550 280 L 680 380" fill="none" stroke="#00f0ff" stroke-width="1.5" class="node-line" opacity="0.6"/>
+  
+  <circle cx="120" cy="380" r="4" fill="#00f0ff"/>
+  <circle cx="250" cy="280" r="4" fill="#00f0ff"/>
+  <circle cx="400" cy="380" r="5" fill="#00ffaa"/>
+  <circle cx="550" cy="280" r="4" fill="#00f0ff"/>
+  <circle cx="680" cy="380" r="4" fill="#00f0ff"/>
+
+  <!-- Telemetry Header -->
+  <text x="50" y="70" fill="#39537d" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">CYBERSECURITY // FRAUD_DETECTION</text>
+  <text x="50" y="90" fill="#00f0ff" font-family="'JetBrains Mono', monospace" font-size="11" opacity="0.7">MODEL: RANDOM_FOREST + XGBOOST</text>
+
+  <text x="600" y="70" fill="#39537d" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">STATUS: ENCRYPTED</text>
+  <text x="640" y="90" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="11">ACCURACY: 99.8%</text>
+</svg>
