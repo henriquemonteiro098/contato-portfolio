@@ -639,26 +639,141 @@ body {
   color: var(--text-dim);
 }
 
-/* Projects Grid */
-.section-heading-split {
+/* ==========================================================================
+   Lusion Project List & Dynamic Scroll Lines
+   ========================================================================== */
+
+.lusion-project-list {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 64px;
+  flex-direction: column;
+  gap: 120px;
+  position: relative;
+  margin-top: 40px;
 }
 
-.section-heading-desc {
-  max-width: 520px;
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.projects-grid {
+.lusion-project-item {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 36px;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  position: relative;
+  align-items: start;
+}
+
+/* Lusion Animated Connecting Scroll Line */
+.lusion-scroll-line {
+  position: sticky;
+  top: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  min-height: 280px;
+}
+
+.line-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--lambda-color);
+  border-radius: 50%;
+  box-shadow: 0 0 14px var(--lambda-color);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.lusion-project-item:hover .line-dot {
+  transform: scale(1.5);
+  box-shadow: 0 0 24px var(--lambda-color);
+}
+
+.line-track {
+  width: 2px;
+  flex-grow: 1;
+  background: linear-gradient(180deg, var(--lambda-color) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.02) 100%);
+  position: relative;
+  border-radius: 1px;
+}
+
+.line-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  letter-spacing: 0.15em;
+  margin-top: 8px;
+  transition: color 0.3s;
+}
+
+.lusion-project-item:hover .line-tag {
+  color: #ffffff;
+}
+
+/* Lusion Horizontal Showcase Card */
+.lusion-card {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  background: rgba(14, 15, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.6s;
+}
+
+.lusion-card:hover {
+  border-color: rgba(0, 255, 170, 0.4);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 255, 170, 0.1);
+}
+
+.lusion-card .project-media-wrap {
+  aspect-ratio: 16 / 10;
+  height: 100%;
+  min-height: 380px;
+}
+
+.lusion-card .project-info {
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lusion-card .project-title {
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 18px;
+}
+
+.lusion-card .project-summary {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 1024px) {
+  .lusion-project-item {
+    grid-template-columns: 40px 1fr;
+    gap: 18px;
+  }
+  .lusion-card {
+    grid-template-columns: 1fr;
+  }
+  .lusion-card .project-media-wrap {
+    min-height: 260px;
+  }
+  .lusion-card .project-info {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .lusion-project-item {
+    grid-template-columns: 1fr;
+  }
+  .lusion-scroll-line {
+    display: none;
+  }
 }
 
 .project-card {

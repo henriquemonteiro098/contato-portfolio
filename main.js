@@ -490,9 +490,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ------------------------------------------------------------------------
-     6. GSAP Scroll Animations
+     6. GSAP Scroll Animations & Lusion Line Reveals
      ------------------------------------------------------------------------ */
   if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
     gsap.from('.hero-title .line', {
       duration: 1.2,
       y: 60,
@@ -507,6 +509,46 @@ document.addEventListener('DOMContentLoaded', () => {
       opacity: 0,
       delay: 0.6,
       ease: 'power3.out',
+    });
+
+    // Lusion Project Items & Scroll Lines Reveal
+    document.querySelectorAll('.lusion-project-item').forEach((item) => {
+      const lineTrack = item.querySelector('.line-track');
+      const card = item.querySelector('.lusion-card');
+
+      if (lineTrack) {
+        gsap.fromTo(lineTrack, 
+          { scaleY: 0.1, transformOrigin: 'top center' },
+          {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+              end: 'bottom 50%',
+              scrub: 1,
+            }
+          }
+        );
+      }
+
+      if (card) {
+        gsap.fromTo(card,
+          { y: 50, opacity: 0.35, scale: 0.98 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 88%',
+              toggleActions: 'play none none reverse',
+            }
+          }
+        );
+      }
     });
   }
 
