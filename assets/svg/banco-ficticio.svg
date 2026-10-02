@@ -1,16 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
   <defs>
-    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0a0a0c"/>
-      <stop offset="50%" stop-color="#12141a"/>
-      <stop offset="100%" stop-color="#060608"/>
+    <!-- Background Gradient: Ultra Dark Slate & Carbon -->
+    <linearGradient id="fintechBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050709"/>
+      <stop offset="50%" stop-color="#0a1017"/>
+      <stop offset="100%" stop-color="#030406"/>
     </linearGradient>
-    <linearGradient id="neonGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00ffaa"/>
-      <stop offset="100%" stop-color="#00aaff"/>
+
+    <!-- Emerald Growth Gradient -->
+    <linearGradient id="emeraldBar" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#00aa66"/>
+      <stop offset="60%" stop-color="#00ffaa"/>
+      <stop offset="100%" stop-color="#e0fff4"/>
     </linearGradient>
+
+    <!-- Card Mesh Gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121822"/>
+      <stop offset="100%" stop-color="#080c12"/>
+    </linearGradient>
+
     <filter id="fintechGlow">
-      <feGaussianBlur stdDeviation="8" result="glow"/>
+      <feGaussianBlur stdDeviation="7" result="glow"/>
       <feMerge>
         <feMergeNode in="glow"/>
         <feMergeNode in="SourceGraphic"/>
@@ -19,57 +30,88 @@
   </defs>
 
   <style>
-    @keyframes barRise { 0% { height: 30px; y: 280px; } 50% { height: 110px; y: 200px; } 100% { height: 30px; y: 280px; } }
-    @keyframes pulseLed { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-    @keyframes blockFloat { 0% { transform: translateY(0); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
-    .bar-1 { animation: barRise 3s ease-in-out infinite; }
-    .bar-2 { animation: barRise 3s ease-in-out infinite 0.6s; }
-    .bar-3 { animation: barRise 3s ease-in-out infinite 1.2s; }
-    .bar-4 { animation: barRise 3s ease-in-out infinite 1.8s; }
-    .float-ledger { transform-origin: center; animation: blockFloat 4s ease-in-out infinite; }
-    .led { animation: pulseLed 2s infinite; }
+    @keyframes barPulse1 { 0%, 100% { height: 60px; y: 240px; } 50% { height: 110px; y: 190px; } }
+    @keyframes barPulse2 { 0%, 100% { height: 120px; y: 180px; } 50% { height: 70px; y: 230px; } }
+    @keyframes barPulse3 { 0%, 100% { height: 90px; y: 210px; } 50% { height: 145px; y: 155px; } }
+    @keyframes barPulse4 { 0%, 100% { height: 135px; y: 165px; } 50% { height: 95px; y: 205px; } }
+    @keyframes cardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    @keyframes chipBlink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    @keyframes lineFlow { 0% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 0; } }
+
+    .chart-bar-1 { animation: barPulse1 3.5s ease-in-out infinite; }
+    .chart-bar-2 { animation: barPulse2 3.5s ease-in-out infinite 0.5s; }
+    .chart-bar-3 { animation: barPulse3 3.5s ease-in-out infinite 1s; }
+    .chart-bar-4 { animation: barPulse4 3.5s ease-in-out infinite 1.5s; }
+    .floating-fintech { transform-origin: 400px 245px; animation: cardFloat 4.5s ease-in-out infinite; }
+    .blink-light { animation: chipBlink 2s infinite; }
+    .flow-path { stroke-dasharray: 6 6; animation: lineFlow 1.8s linear infinite; }
   </style>
 
-  <!-- Background -->
-  <rect width="800" height="500" fill="url(#bg4)"/>
+  <!-- Deep Background -->
+  <rect width="800" height="500" fill="url(#fintechBg)"/>
 
-  <!-- Database SQL Isometric Grids -->
-  <g class="float-ledger">
-    <!-- Main Fintech Card Layer -->
-    <rect x="230" y="140" width="340" height="210" rx="20" fill="#0c0e14" stroke="#252d3d" stroke-width="2"/>
-    <rect x="230" y="140" width="340" height="55" rx="20" fill="#131722"/>
-
-    <!-- DB Cylinders / Storage Icons -->
-    <ellipse cx="270" cy="168" rx="14" ry="6" fill="#00ffaa" filter="url(#fintechGlow)" opacity="0.8"/>
-    <text x="295" y="172" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold">POSTGRESQL // DB_CORE</text>
-    
-    <circle cx="530" cy="168" r="4" fill="#00ffaa" class="led"/>
-    <text x="500" y="172" fill="#5c6f8f" font-family="'JetBrains Mono', monospace" font-size="10">ONLINE</text>
-
-    <!-- Dynamic Growth Chart Bars (Fintech Metric) -->
-    <g fill="url(#neonGreen)">
-      <rect x="280" y="270" width="22" height="40" rx="4" class="bar-1"/>
-      <rect x="320" y="240" width="22" height="70" rx="4" class="bar-2"/>
-      <rect x="360" y="210" width="22" height="100" rx="4" class="bar-3"/>
-      <rect x="400" y="230" width="22" height="80" rx="4" class="bar-4"/>
-    </g>
-
-    <!-- Balance / Currency HUD -->
-    <text x="445" y="245" fill="#7588a8" font-family="'JetBrains Mono', monospace" font-size="11">TOTAL_VOLUME</text>
-    <text x="445" y="275" fill="#00ffaa" font-family="'Syne', sans-serif" font-size="22" font-weight="bold">R$ 489.250</text>
-    <text x="445" y="295" fill="#52647d" font-family="'JetBrains Mono', monospace" font-size="10">2,410 TPS // ZERO_LOSS</text>
+  <!-- Isometric Financial Ledger Floor Grid -->
+  <g stroke="#00ffaa" stroke-opacity="0.06" stroke-width="1">
+    <line x1="100" y1="440" x2="400" y2="280"/>
+    <line x1="200" y1="470" x2="500" y2="310"/>
+    <line x1="300" y1="500" x2="600" y2="340"/>
+    <line x1="700" y1="440" x2="400" y2="280"/>
+    <line x1="600" y1="470" x2="300" y2="310"/>
   </g>
 
-  <!-- Shell Pipeline Streams -->
-  <path d="M 100 410 L 230 410 L 280 435 L 520 435 L 570 410 L 700 410" fill="none" stroke="#252d3d" stroke-width="2"/>
-  <circle cx="280" cy="435" r="4" fill="#00ffaa"/>
-  <circle cx="520" cy="435" r="4" fill="#00ffaa"/>
-  <text x="340" y="440" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="10">AUTOMATION // SHELL_DAEMON</text>
+  <!-- Main Floating Fintech Core Dashboard -->
+  <g class="floating-fintech">
+    <!-- Outer Card Frame -->
+    <rect x="210" y="125" width="380" height="240" rx="22" fill="url(#cardGrad)" stroke="#1a2736" stroke-width="2"/>
+    <rect x="210" y="125" width="380" height="240" rx="22" fill="none" stroke="#00ffaa" stroke-width="1" stroke-opacity="0.3"/>
 
-  <!-- Telemetry Header -->
-  <text x="50" y="70" fill="#43526e" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">BANKING_SIM // PL_PGSQL</text>
-  <text x="50" y="90" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="11" opacity="0.7">ATOMIC TRANSACTIONS : ENABLED</text>
+    <!-- Header Panel of the Fintech System -->
+    <rect x="210" y="125" width="380" height="52" rx="22" fill="#0d141e"/>
+    
+    <!-- Database Core Indicator -->
+    <rect x="235" y="142" width="28" height="18" rx="4" fill="#00ffaa" opacity="0.15"/>
+    <text x="240" y="155" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold">SQL</text>
+    <text x="272" y="156" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold">POSTGRESQL // ACID_CORE</text>
 
-  <text x="600" y="70" fill="#43526e" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="3">LATENCY: 0.8ms</text>
-  <text x="640" y="90" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="11">ACID COMPLIANT</text>
+    <!-- Status Beacon -->
+    <circle cx="560" cy="151" r="4.5" fill="#00ffaa" class="blink-light" filter="url(#fintechGlow)"/>
+
+    <!-- Left: Dynamic Financial Growth Column Bars -->
+    <g fill="url(#emeraldBar)" filter="url(#fintechGlow)">
+      <rect x="245" y="240" width="20" height="60" rx="4" class="chart-bar-1"/>
+      <rect x="275" y="180" width="20" height="120" rx="4" class="chart-bar-2"/>
+      <rect x="305" y="210" width="20" height="90" rx="4" class="chart-bar-3"/>
+      <rect x="335" y="165" width="20" height="135" rx="4" class="chart-bar-4"/>
+    </g>
+
+    <!-- Baseline Chart Line -->
+    <line x1="235" y1="305" x2="365" y2="305" stroke="#223345" stroke-width="1.5"/>
+
+    <!-- Right: Real-time Account Balance & Transaction Telemetry -->
+    <g transform="translate(385, 195)">
+      <text x="0" y="0" fill="#62788f" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="1">SIMULATED_BALANCE</text>
+      <text x="0" y="26" fill="#ffffff" font-family="'Syne', sans-serif" font-size="24" font-weight="800">R$ 1.489.250</text>
+      <text x="0" y="44" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">+28.4% VOLUME</text>
+
+      <!-- Atomic Transaction Verification Check -->
+      <rect x="0" y="60" width="180" height="30" rx="6" fill="#081018" stroke="#1d2d3e" stroke-width="1"/>
+      <circle cx="15" cy="75" r="4" fill="#00ffaa"/>
+      <text x="26" y="79" fill="#9cb4cc" font-family="'JetBrains Mono', monospace" font-size="9">TRANSACTION: ATOMIC COMMIT</text>
+    </g>
+  </g>
+
+  <!-- Automated Pipeline Connectors (Shell Script Daemons) -->
+  <path d="M 90 410 L 210 410 L 260 435 L 540 435 L 590 410 L 710 410" fill="none" stroke="#00ffaa" stroke-width="1.5" class="flow-path" opacity="0.6"/>
+  <circle cx="90" cy="410" r="4" fill="#00ffaa"/>
+  <circle cx="210" cy="410" r="3.5" fill="#00ffaa"/>
+  <circle cx="400" cy="435" r="5" fill="#00ffaa" filter="url(#fintechGlow)"/>
+  <circle cx="590" cy="410" r="3.5" fill="#00ffaa"/>
+  <circle cx="710" cy="410" r="4" fill="#00ffaa"/>
+
+  <!-- Top Telemetry Header -->
+  <text x="50" y="65" fill="#4b637a" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="3">BANKING_ENGINE // FINTECH_SIMULATION</text>
+  <text x="50" y="85" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="11" opacity="0.8">PL_PGSQL RELATIONAL TRANSACTIONS &amp; AUTOMATION</text>
+
+  <text x="580" y="65" fill="#4b637a" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="3">STATUS: CONCURRENT 2.4k TPS</text>
+  <text x="640" y="85" fill="#00ffaa" font-family="'JetBrains Mono', monospace" font-size="11">ACID COMPLIANT</text>
 </svg>
