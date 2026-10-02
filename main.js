@@ -550,6 +550,220 @@ document.addEventListener('DOMContentLoaded', () => {
         );
       }
     });
+
+    /* ------------------------------------------------------------------------
+       7. 3D Card Stack Tray (Bandeja 3D Empilhada com Scroll Scrub)
+          "arruma os cards do arsenal coloca eles como uma bandeja e quando escrola
+          o que ta na frente vai pra tras e o que ta atras some, no final desce para contato"
+       ------------------------------------------------------------------------ */
+    const traySection = document.getElementById('stack-tray-section');
+    const trayCards = Array.from(document.querySelectorAll('.tray-card'));
+    const trayDots = Array.from(document.querySelectorAll('.tray-dot'));
+
+    if (traySection && trayCards.length > 0) {
+      const totalCards = trayCards.length;
+
+      // Initial visual setup for tray cards
+      function updateTrayCards(progress) {
+        // progress goes 0 -> 1 over the pinned scroll duration
+        // We have totalCards (4). Progress maps to virtual card index:
+        const clampedProg = Math.max(0, Math.min(1, progress));
+        const activeFloatIndex = clampedProg * (totalCards - 1);
+        const currentActiveInt = Math.min(totalCards - 1, Math.floor(activeFloatIndex));
+
+        // Update progress dots
+        trayDots.forEach((dot, idx) => {
+          if (idx === Math.round(activeFloatIndex)) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+
+        trayCards.forEach((card, index) => {
+          const diff = index - activeFloatIndex;
+
+          if (diff < -0.4) {
+            // Already viewed card pushed backwards and disappears:
+            // "o que ta na frente vai pra tras e o que ta atras some"
+            const exitRatio = Math.min(1, Math.abs(diff + 0.4) / 0.6);
+            const exitZ = -300 - (exitRatio * 400);
+            const exitY = 60 + (exitRatio * 80);
+            const exitScale = Math.max(0.65, 0.9 - exitRatio * 0.25);
+            const exitOpacity = Math.max(0, 1 - exitRatio * 1.6);
+            const exitBlur = exitRatio * 12;
+
+            card.style.transform = `translate3d(0px, ${exitY}px, ${exitZ}px) rotateX(${8 + exitRatio * 8}deg) scale(${exitScale})`;
+            card.style.opacity = exitOpacity.toFixed(3);
+            card.style.filter = `blur(${exitBlur.toFixed(1)}px)`;
+            card.style.zIndex = 0;
+            card.style.pointerEvents = 'none';
+          } else if (diff >= -0.4 && diff <= 0.4) {
+            // Active front card
+            const transRatio = diff; // -0.4 to 0.4
+            const zPos = -Math.abs(transRatio) * 60;
+            const yPos = transRatio * 15;
+            const scale = 1 - Math.abs(transRatio) * 0.04;
+
+            card.style.transform = `translate3d(0px, ${yPos}px, ${zPos}px) rotateX(0deg) scale(${scale})`;
+            card.style.opacity = '1';
+            card.style.filter = 'blur(0px)';
+            card.style.zIndex = 10;
+            card.style.pointerEvents = 'auto';
+          } else {
+            // Cards stacked in the tray waiting behind
+            const stackDepth = diff; // > 0.4
+            const zPos = -stackDepth * 85;
+            const yPos = stackDepth * 24;
+            const scale = Math.max(0.8, 1 - (stackDepth * 0.05));
+            const opacity = Math.max(0.1, 1 - (stackDepth * 0.25));
+
+            card.style.transform = `translate3d(0px, ${yPos}px, ${zPos}px) rotateX(${Math.min(6, stackDepth * 2)}deg) scale(${scale})`;
+            card.style.opacity = opacity.toFixed(3);
+            card.style.filter = `blur(${Math.min(4, (stackDepth - 0.4) * 2)}px)`;
+            card.style.zIndex = Math.max(1, 8 - Math.round(stackDepth * 2));
+            card.style.pointerEvents = 'none';
+          }
+        });
+      }
+
+      // Initial call
+      updateTrayCards(0);
+
+      // ScrollTrigger pinning the tray section while scrubbing cards
+      ScrollTrigger.create({
+        trigger: traySection,
+        start: 'top 18%',
+        end: '+=1800',
+        pin: true,
+        scrub: 0.8,
+        onUpdate: (self) => {
+          updateTrayCards(self.progress);
+        }
+      });
+
+      // Dot click manual navigation
+      trayDots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const step = parseInt(dot.getAttribute('data-step'), 10) || 0;
+          const targetProgress = step / (totalCards - 1);
+          // Scroll to the relative position
+          const st = ScrollTrigger.getById && ScrollTrigger.getAll().find(s => s.trigger === traySection);
+          if (st) {
+            const scrollTarget = st.start + (targetProgress * (st.end - st.start));
+            window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+          } else {
+            updateTrayCards(targetProgress);
+          }
+        });
+      });
+    }
+
+  }
+
+  /* ------------------------------------------------------------------------
+     8. Interactive Magnetic Physics Bubble Carousel
+        Skills: JavaScript, Python, SQL, Dados, IA Generativa
+     ------------------------------------------------------------------------ */
+  const bubbleContainer = document.getElementById('skills-bubble-carousel');
+  const bubbles = Array.from(document.querySelectorAll('.skill-bubble'));
+
+  if (bubbleContainer && bubbles.length > 0) {
+    // State for each bubble: natural floating oscillation + magnetic spring response
+    const bubbleStates = bubbles.map((el, i) => ({
+      el: el,
+      baseX: 0,
+      baseY: 0,
+      currentX: 0,
+      currentY: 0,
+      targetX: 0,
+      targetY: 0,
+      vx: 0,
+      vy: 0,
+      floatPhase: (i * Math.PI * 2) / bubbles.length,
+      floatSpeed: 0.025 + (i * 0.005),
+      floatRadius: 8 + (i % 3) * 3,
+    }));
+
+    // Mouse tracking relative to the bubble container
+    let mouseInContainer = false;
+    let bMouseX = 0;
+    let bMouseY = 0;
+
+    bubbleContainer.addEventListener('mouseenter', () => {
+      mouseInContainer = true;
+    });
+
+    bubbleContainer.addEventListener('mouseleave', () => {
+      mouseInContainer = false;
+      bubbleStates.forEach((b) => {
+        b.targetX = 0;
+        b.targetY = 0;
+      });
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = bubbleContainer.getBoundingClientRect();
+      bMouseX = e.clientX;
+      bMouseY = e.clientY;
+    });
+
+    // Physics Animation Loop
+    let bubbleTime = 0;
+    function animateBubbles() {
+      bubbleTime += 1;
+
+      bubbleStates.forEach((b) => {
+        const rect = b.el.getBoundingClientRect();
+        const bubbleCenterX = rect.left + rect.width / 2;
+        const bubbleCenterY = rect.top + rect.height / 2;
+
+        // Natural organic hovering
+        const naturalX = Math.cos(bubbleTime * b.floatSpeed + b.floatPhase) * b.floatRadius;
+        const naturalY = Math.sin(bubbleTime * b.floatSpeed + b.floatPhase) * b.floatRadius;
+
+        if (mouseInContainer) {
+          const dx = bMouseX - bubbleCenterX;
+          const dy = bMouseY - bubbleCenterY;
+          const dist = Math.hypot(dx, dy);
+          const maxDist = 260;
+
+          if (dist < maxDist && dist > 1) {
+            // Magnetic force: pulls gently when close, pushes if right on top
+            const force = (1 - dist / maxDist);
+            const repel = dist < 70 ? -1.2 : 0.8;
+            b.targetX = naturalX + (dx / dist) * force * 45 * repel;
+            b.targetY = naturalY + (dy / dist) * force * 45 * repel;
+          } else {
+            b.targetX = naturalX;
+            b.targetY = naturalY;
+          }
+        } else {
+          b.targetX = naturalX;
+          b.targetY = naturalY;
+        }
+
+        // Spring physics interpolation
+        const spring = 0.08;
+        const friction = 0.85;
+
+        const ax = (b.targetX - b.currentX) * spring;
+        const ay = (b.targetY - b.currentY) * spring;
+
+        b.vx = (b.vx + ax) * friction;
+        b.vy = (b.vy + ay) * friction;
+
+        b.currentX += b.vx;
+        b.currentY += b.vy;
+
+        b.el.style.transform = `translate3d(${b.currentX.toFixed(2)}px, ${b.currentY.toFixed(2)}px, 0px)`;
+      });
+
+      requestAnimationFrame(animateBubbles);
+    }
+
+    requestAnimationFrame(animateBubbles);
   }
 
 });
+

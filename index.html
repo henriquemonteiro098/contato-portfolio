@@ -419,83 +419,152 @@
       </div>
     </div>
 
-    <!-- SKILLS & SPECIALIZATIONS (Lusion Bento Layout) -->
+    <!-- SKILLS & SPECIALIZATIONS (3D Stack Tray & Interactive Physics Bubbles) -->
     <section id="skills" class="section skills-section">
       <div class="section-container">
         <div class="section-badge">03 // COMPETÊNCIAS</div>
         <h2 class="section-title">STACK &amp; ARSENAL TÉCNICO</h2>
 
-        <div class="bento-grid">
-
-          <div class="bento-card bento-wide">
-            <div class="bento-icon">⚡</div>
-            <h3>Inteligência Artificial Generativa &amp; LLMs</h3>
-            <p>
-              Formação especializada através da <strong>DIO (Digital Innovation One) / Fundação Bradesco</strong>. 
-              Domínio de engenharia de prompts avançada, arquiteturas RAG, orquestração de agentes e fluxos de geração de imagens/vídeos com modelos de ponta.
-            </p>
-            <div class="skill-chips">
-              <span>Prompt Engineering</span>
-              <span>LLM Fine-Tuning/Context</span>
-              <span>GitHub Copilot Pro</span>
-              <span>SCTEC &amp; SENAI-SC Certs</span>
+        <!-- Interactive Physics Bubbles Carousel -->
+        <div class="bubbles-wrapper">
+          <div class="bubbles-header">
+            <span class="bubbles-indicator">🫧</span>
+            <span class="bubbles-label">NÚCLEO DE COMPETÊNCIAS // INTERAÇÃO MAGNÉTICA:</span>
+          </div>
+          <div class="skills-bubble-carousel" id="skills-bubble-carousel">
+            <div class="skill-bubble" data-tech="javascript" style="--accent:#f7df1e;">
+              <span class="bubble-glow"></span>
+              <span class="bubble-icon">JS</span>
+              <span class="bubble-title">JavaScript</span>
+              <span class="bubble-sub">Full Stack &amp; WebGL</span>
+            </div>
+            <div class="skill-bubble" data-tech="python" style="--accent:#3776ab;">
+              <span class="bubble-glow"></span>
+              <span class="bubble-icon">PY</span>
+              <span class="bubble-title">Python</span>
+              <span class="bubble-sub">AI &amp; Automation</span>
+            </div>
+            <div class="skill-bubble" data-tech="sql" style="--accent:#336791;">
+              <span class="bubble-glow"></span>
+              <span class="bubble-icon">SQL</span>
+              <span class="bubble-title">SQL</span>
+              <span class="bubble-sub">PostgreSQL / PL/pgSQL</span>
+            </div>
+            <div class="skill-bubble" data-tech="dados" style="--accent:#00ffaa;">
+              <span class="bubble-glow"></span>
+              <span class="bubble-icon">DATA</span>
+              <span class="bubble-title">Dados</span>
+              <span class="bubble-sub">Pipelines &amp; Análise</span>
+            </div>
+            <div class="skill-bubble" data-tech="ia-generativa" style="--accent:#ff0080;">
+              <span class="bubble-glow"></span>
+              <span class="bubble-icon">GEN_AI</span>
+              <span class="bubble-title">IA Generativa</span>
+              <span class="bubble-sub">LLMs &amp; Prompt Eng</span>
             </div>
           </div>
-
-          <div class="bento-card">
-            <div class="bento-icon">🛡️</div>
-            <h3>Cibersegurança &amp; Resiliência</h3>
-            <p>
-              Análise de vulnerabilidades, compliance de dados, criptografia e proteção contra vetores de fraude em sistemas distribuídos.
-            </p>
-            <div class="skill-chips">
-              <span>Threat Modeling</span>
-              <span>Fraud Detection</span>
-              <span>Incident Response</span>
-            </div>
-          </div>
-
-          <div class="bento-card">
-            <div class="bento-icon">📊</div>
-            <h3>Engenharia de Dados &amp; SQL</h3>
-            <p>
-              Modelagem relacional com PostgreSQL e PL/pgSQL, pipelines de análise de dados, queries otimizadas e automação com Shell Scripting.
-            </p>
-            <div class="skill-chips">
-              <span>PostgreSQL</span>
-              <span>Python Data Stack</span>
-              <span>Shell Scripting</span>
-            </div>
-          </div>
-
-          <div class="bento-card bento-full">
-            <div class="bento-split">
-              <div>
-                <div class="bento-icon">💻</div>
-                <h3>Desenvolvimento &amp; Suporte Corporativo</h3>
-                <p>
-                  Experiência consolidada em ambientes de alta criticidade (Corporate Helpdesk CSC Lojas Renner S.A., Mercado Livre Brasil Ltda e Adecco). 
-                  Foco absoluto em resolução de incidentes, SLAs rigorosos e engenharia de software sustentável.
-                </p>
-              </div>
-              <div class="exp-stats">
-                <div class="stat-item">
-                  <span class="stat-num">100%</span>
-                  <span class="stat-text">Comprometimento com SLA e Qualidade</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-num">5+</span>
-                  <span class="stat-text">Repositórios e Projetos Ativos</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-num">DIO</span>
-                  <span class="stat-text">Bootcamps Bradesco &amp; SCTEC</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        <!-- 3D Card Stack Tray (Bandeja que empilha, recua e desce no scroll) -->
+        <div class="stack-tray-section" id="stack-tray-section">
+          <div class="stack-tray-progress">
+            <span class="tray-label">BANDEJA DE ARSENAL [SCROLL TO CYCLE]</span>
+            <div class="tray-dots">
+              <span class="tray-dot active" data-step="0"></span>
+              <span class="tray-dot" data-step="1"></span>
+              <span class="tray-dot" data-step="2"></span>
+              <span class="tray-dot" data-step="3"></span>
+            </div>
+          </div>
+
+          <div class="stack-tray-viewport">
+            <!-- Tray Card 1 -->
+            <div class="tray-card" data-index="0">
+              <div class="tray-card-top">
+                <span class="tray-badge">01 // NÚCLEO COGNITIVO</span>
+                <span class="tray-icon">⚡</span>
+              </div>
+              <h3>Inteligência Artificial Generativa &amp; LLMs</h3>
+              <p>
+                Formação especializada através da <strong>DIO (Digital Innovation One) / Fundação Bradesco</strong>. 
+                Domínio de engenharia de prompts avançada, arquiteturas RAG, orquestração de agentes e fluxos de geração de imagens/vídeos com modelos de ponta.
+              </p>
+              <div class="tray-chips">
+                <span>Prompt Engineering</span>
+                <span>LLM Fine-Tuning</span>
+                <span>GitHub Copilot Pro</span>
+                <span>SCTEC &amp; SENAI-SC</span>
+              </div>
+            </div>
+
+            <!-- Tray Card 2 -->
+            <div class="tray-card" data-index="1">
+              <div class="tray-card-top">
+                <span class="tray-badge">02 // DEFESA &amp; RESILIÊNCIA</span>
+                <span class="tray-icon">🛡️</span>
+              </div>
+              <h3>Cibersegurança &amp; Resiliência</h3>
+              <p>
+                Análise de vulnerabilidades, compliance de dados, criptografia e proteção contra vetores de fraude em sistemas distribuídos. Foco em políticas Zero-Trust e mitigação de anomalias.
+              </p>
+              <div class="tray-chips">
+                <span>Threat Modeling</span>
+                <span>Fraud Detection</span>
+                <span>Incident Response</span>
+                <span>Data Compliance</span>
+              </div>
+            </div>
+
+            <!-- Tray Card 3 -->
+            <div class="tray-card" data-index="2">
+              <div class="tray-card-top">
+                <span class="tray-badge">03 // PERSISTÊNCIA &amp; DADOS</span>
+                <span class="tray-icon">📊</span>
+              </div>
+              <h3>Engenharia de Dados &amp; SQL</h3>
+              <p>
+                Modelagem relacional com PostgreSQL e PL/pgSQL, pipelines de análise de dados, queries otimizadas e automação com Shell Scripting para infraestrutura resiliente.
+              </p>
+              <div class="tray-chips">
+                <span>PostgreSQL</span>
+                <span>PL/pgSQL</span>
+                <span>Python Data Stack</span>
+                <span>Shell Automation</span>
+              </div>
+            </div>
+
+            <!-- Tray Card 4 -->
+            <div class="tray-card" data-index="3">
+              <div class="tray-card-top">
+                <span class="tray-badge">04 // OPERAÇÃO &amp; ENGENHARIA</span>
+                <span class="tray-icon">💻</span>
+              </div>
+              <div class="tray-split">
+                <div>
+                  <h3>Desenvolvimento &amp; Suporte Corporativo</h3>
+                  <p>
+                    Experiência consolidada em ambientes de alta criticidade (Corporate Helpdesk CSC Lojas Renner S.A., Mercado Livre Brasil Ltda e Adecco). Foco em resolução de incidentes, SLAs rigorosos e engenharia de software sustentável.
+                  </p>
+                </div>
+                <div class="tray-stats">
+                  <div class="stat-box">
+                    <span class="stat-val">100%</span>
+                    <span class="stat-lbl">SLA Compliance</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val">5+</span>
+                    <span class="stat-lbl">Projetos Ativos</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-val">DIO</span>
+                    <span class="stat-lbl">Bradesco &amp; SCTEC</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
