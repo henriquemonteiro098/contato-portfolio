@@ -1,227 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MEGλ | José Henrique — Creative Technologist & Gen AI Engineer</title>
-  <meta name="description" content="Portfólio de José Henrique Monteiro (MEGλ). Engenharia de IA Generativa, Ciência de Dados, Cibersegurança e Desenvolvimento Criativo.">
-  
-  <!-- Google Fonts: Syne, Space Grotesk & JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
-  
-  <!-- CSS Stylesheet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>José Henrique Monteiro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Custom Magnetic Cursor -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+  <main class="container">
+    <header class="header">
+      <h1 class="name">José Henrique Monteiro</h1>
+      <p class="role">Creative Technologist &bull; Gen AI</p>
+      <p class="location">Palhoça - SC, Brasil</p>
+    </header>
 
-  <!-- Background 3D WebGL Canvas -->
-  <canvas id="webgl-canvas"></canvas>
-
-  <!-- Noise Overlay for Cinematic Texture -->
-  <div class="noise-overlay"></div>
-
-  <!-- Ambient Sound Control Bar -->
-  <div class="ambient-audio-bar">
-    <button id="sound-toggle" aria-label="Som Ambiente">
-      <div class="sound-bars">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-      <span class="sound-label">SOUND</span>
-    </button>
-  </div>
-
-  <!-- Header / Navigation -->
-  <header id="header">
-    <div class="header-inner">
-      <a href="#hero" class="brand-logo" aria-label="MEGλ Home">
-        <span class="brand-text">MEG<span class="lambda">λ</span></span>
-        <span class="brand-badge">STUDIO</span>
-      </a>
-
-      <nav class="nav-links">
-        <a href="#hero" class="nav-item"><span>01</span> INÍCIO</a>
-        <a href="#skills" class="nav-item"><span>02</span> COMPETÊNCIAS</a>
-        <a href="#contact" class="nav-item"><span>03</span> CONTATO</a>
-      </nav>
-
-      <!-- Action Button -->
-      <div class="header-actions">
-        <a href="#contact" class="btn-pill btn-cta">
-          <span>VAMOS CONVERSAR</span>
-          <div class="arrow-dot">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.343 8h11.314m0 0L8.673 3.016M13.657 8l-4.984 4.984"/>
-            </svg>
-          </div>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Scroll Container -->
-  <main id="main-content">
-
-    <!-- 1. HERO SECTION (Minimalist, High-Impact & Clean) -->
-    <section id="hero" class="section hero-section">
-      <div class="hero-container">
-        
-        <div class="hero-tag">
-          <span class="live-dot"></span>
-          <span>DISPONÍVEL PARA PROJETOS &bull; PALHOÇA - SC, BR</span>
-        </div>
-
-        <h1 class="hero-title">
-          <div class="line"><span class="highlight">JOSÉ HENRIQUE</span></div>
-          <div class="line">CREATIVE TECHNOLOGIST</div>
-          <div class="line italic-line">&amp; GEN AI ENGINEER.</div>
-        </h1>
-
-        <div class="hero-footer">
-          <p class="hero-subtitle">
-            Construindo experiências digitais interativas, engenharia de inteligência artificial 
-            e arquiteturas de dados na fronteira entre código e design.
-          </p>
-
-          <div class="hero-quick-actions">
-            <a href="#contact" class="btn-explore">
-              <span>VAMOS CONVERSAR</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-          <div class="scroll-crosses">
-            <span>+</span><span>+</span><span>+</span><span>+</span>
-          </div>
-          <div class="scroll-label">EXPLORAR COMPETÊNCIAS</div>
-        </div>
-
-      </div>
+    <section class="content">
+      <p class="status">Espaço em reformulação para o Portfólio V2 com identidade 100% autoral.</p>
     </section>
 
-    <!-- 2. SKILLS & SPECIALIZATIONS (Interactive Physics Bubbles) -->
-    <section id="skills" class="section skills-section">
-      <div class="section-container">
-        <div class="section-badge">02 // ARSENAL TÉCNICO</div>
-        <h2 class="section-title">STACK &amp; EXPERTISE</h2>
-
-        <!-- Interactive Physics Bubbles Carousel -->
-        <div class="bubbles-wrapper">
-          <div class="bubbles-header">
-            <span class="bubbles-indicator">🫧</span>
-            <span class="bubbles-label">NÚCLEO DE COMPETÊNCIAS // FÍSICA MAGNÉTICA:</span>
-          </div>
-          <div class="skills-bubble-carousel" id="skills-bubble-carousel">
-            <div class="skill-bubble" data-tech="javascript" style="--accent:#f7df1e;">
-              <span class="bubble-glow"></span>
-              <span class="bubble-icon">JS</span>
-              <span class="bubble-title">JavaScript</span>
-              <span class="bubble-sub">Full Stack &amp; WebGL</span>
-            </div>
-            <div class="skill-bubble" data-tech="python" style="--accent:#3776ab;">
-              <span class="bubble-glow"></span>
-              <span class="bubble-icon">PY</span>
-              <span class="bubble-title">Python</span>
-              <span class="bubble-sub">AI &amp; Automation</span>
-            </div>
-            <div class="skill-bubble" data-tech="sql" style="--accent:#336791;">
-              <span class="bubble-glow"></span>
-              <span class="bubble-icon">SQL</span>
-              <span class="bubble-title">SQL</span>
-              <span class="bubble-sub">PostgreSQL / PL/pgSQL</span>
-            </div>
-            <div class="skill-bubble" data-tech="dados" style="--accent:#00ffaa;">
-              <span class="bubble-glow"></span>
-              <span class="bubble-icon">DATA</span>
-              <span class="bubble-title">Dados</span>
-              <span class="bubble-sub">Pipelines &amp; Análise</span>
-            </div>
-            <div class="skill-bubble" data-tech="ia-generativa" style="--accent:#ff0080;">
-              <span class="bubble-glow"></span>
-              <span class="bubble-icon">GEN_AI</span>
-              <span class="bubble-title">IA Generativa</span>
-              <span class="bubble-sub">LLMs &amp; Prompt Eng</span>
-            </div>
-          </div>
-        </div>
-
+    <footer class="contact">
+      <p><a href="mailto:mega.monteiro0908@gmail.com">mega.monteiro0908@gmail.com</a></p>
+      <div class="links">
+        <a href="https://github.com/henriquemonteiro098" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span>&bull;</span>
+        <a href="https://www.linkedin.com/in/jos%C3%A9-henrique-de-souza-monteiro-446480378/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
-    </section>
-
-    <!-- 3. CONTACT SECTION (Clean & Direct) -->
-    <section id="contact" class="section contact-section">
-      <div class="section-container">
-        <div class="contact-card">
-          <div class="contact-badge">03 // CONTATO DIRETO</div>
-          <h2 class="contact-huge-title">VAMOS CONVERSAR?</h2>
-          
-          <p class="contact-sub">
-            Disponível para posições em Tecnologia, Desenvolvimento de Software, 
-            Engenharia de Inteligência Artificial ou Projetos Criativos.
-          </p>
-
-          <div class="contact-details">
-            <a href="mailto:mega.monteiro0908@gmail.com" class="contact-email">
-              mega.monteiro0908@gmail.com
-            </a>
-            
-            <div class="contact-meta-row">
-              <span class="meta-tag">📍 Palhoça - SC, Brasil</span>
-              <a href="tel:+5548988133626" class="meta-tag">📞 +55 (48) 98813-3626</a>
-              <span class="meta-tag">⚡ Resposta Rápida</span>
-            </div>
-          </div>
-
-          <div class="social-button-group">
-            <a href="https://github.com/henriquemonteiro098" target="_blank" rel="noopener noreferrer" class="social-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
-              <span>GitHub / henriquemonteiro098</span>
-            </a>
-
-            <a href="https://www.linkedin.com/in/jos%C3%A9-henrique-de-souza-monteiro-446480378/" target="_blank" rel="noopener noreferrer" class="social-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-              <span>LinkedIn / José Henrique</span>
-            </a>
-          </div>
-
-        </div>
-
-        <footer class="footer-bar">
-          <div class="footer-brand">
-            MEG<span class="lambda">λ</span> &copy; 2026. Todos os direitos reservados.
-          </div>
-          <div class="footer-tech">
-            DESIGN MINIMALISTA &bull; THREE.JS &amp; WEBGL
-          </div>
-        </footer>
-      </div>
-    </section>
-
+    </footer>
   </main>
 
-  <!-- External Libraries: Three.js and GSAP for fluid motion -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <!-- Interactive Script -->
   <script src="main.js"></script>
 </body>
 </html>
