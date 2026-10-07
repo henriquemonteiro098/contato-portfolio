@@ -153,20 +153,24 @@ body {
 .brand-title {
   display: inline-flex;
   align-items: center;
+  gap: 0.16em;
   font-family: var(--font-display);
   font-size: 1.45rem;
   font-weight: 800;
-  letter-spacing: -0.04em;
   color: var(--text-main);
   line-height: 1;
 }
 
+.brand-title > span {
+  display: inline-block;
+  line-height: 1;
+}
+
 .brand-lambda-glyph {
-  width: 0.95em;
-  height: 0.95em;
+  height: 0.74em;
+  width: auto;
   display: inline-flex;
   align-items: center;
-  margin-left: 1px;
   overflow: visible;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
