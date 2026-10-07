@@ -148,14 +148,14 @@ body {
 }
 
 .brand-monogram-icon {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
   flex-shrink: 0;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-main);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color var(--transition-theme);
 }
 
 .brand-wrap:hover .brand-monogram-icon {
