@@ -303,6 +303,64 @@ html[data-theme="dark"] .moon-icon {
   transition: var(--transition-theme);
 }
 
+/* ==========================================================================
+   Gemini Animated Gradient Text Effect (Continuous Shimmer)
+   ========================================================================== */
+@keyframes geminiShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.gemini-text-shimmer {
+  display: inline-block;
+  font-weight: 800;
+  
+  /* Recorte do fundo na forma das letras */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  /* Tamanho expandido para permitir a movimentação do gradiente */
+  background-size: 200% auto;
+  animation: geminiShimmer 4s linear infinite;
+
+  /* Tema Claro: Paleta Dourada Contínua */
+  background-image: linear-gradient(
+    90deg,
+    #bf953f 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #bf953f 100%
+  );
+}
+
+/* Tema Escuro: Paleta Rubi & Carmesim Contínua */
+html[data-theme="dark"] .gemini-text-shimmer,
+:root[data-theme="dark"] .gemini-text-shimmer,
+.dark .gemini-text-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    #99001f 0%,
+    #e0115f 25%,
+    #ff2a6d 50%,
+    #c9184a 75%,
+    #99001f 100%
+  );
+}
+
+/* Respeito a acessibilidade do sistema */
+@media (prefers-reduced-motion: reduce) {
+  .gemini-text-shimmer {
+    animation: none;
+  }
+}
+
 .hero-sub {
   font-size: clamp(1.1rem, 1.8vw, 1.3rem);
   color: var(--text-muted);
