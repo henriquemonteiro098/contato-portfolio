@@ -63,7 +63,7 @@ npx serve .
 - **GitHub:** [@henriquemonteiro098](https://github.com/henriquemonteiro098)  
 - **LinkedIn:** [José Henrique de Souza Monteiro](https://www.linkedin.com/in/jos%C3%A9-henrique-de-souza-monteiro-446480378/)  
 - **Email:** `mega.monteiro0908@gmail.com`  
-- **Localização:** Porto Alegre - RS, Brasil  
+- **Localização:** Palhoça - SC, Brasil  
 
 Formações em **Inteligência Artificial Generativa, Dados e Cibersegurança** via DIO (Digital Innovation One) / Fundação Bradesco, SCTEC e SENAI-SC.
 

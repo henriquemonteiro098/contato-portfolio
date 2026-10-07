@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MEGλ (Lusion Style) - Interactive Three.js WebGL & Motion Logic
+   MEGλ - Interactive Three.js WebGL & Minimalist Motion Logic
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,44 +10,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const cursorDot = document.getElementById('cursor-dot');
   const cursorRing = document.getElementById('cursor-ring');
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let ringX = mouseX;
-  let ringY = mouseY;
+  if (cursorDot && cursorRing) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
 
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-  });
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
 
-  function renderCursor() {
-    ringX += (mouseX - ringX) * 0.15;
-    ringY += (mouseY - ringY) * 0.15;
-    cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      requestAnimationFrame(renderCursor);
+    }
     requestAnimationFrame(renderCursor);
-  }
-  requestAnimationFrame(renderCursor);
 
-  // Hover states on links and buttons
-  const interactiveElements = document.querySelectorAll('a, button, .project-card, .bento-card');
-  interactiveElements.forEach((el) => {
-    el.addEventListener('mouseenter', () => {
-      cursorRing.style.width = '64px';
-      cursorRing.style.height = '64px';
-      cursorRing.style.borderColor = 'rgba(0, 255, 170, 0.7)';
-      cursorRing.style.backgroundColor = 'rgba(0, 255, 170, 0.05)';
+    // Hover states on links, buttons and interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .skill-bubble');
+    interactiveElements.forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        cursorRing.style.width = '56px';
+        cursorRing.style.height = '56px';
+        cursorRing.style.borderColor = 'rgba(0, 255, 170, 0.7)';
+        cursorRing.style.backgroundColor = 'rgba(0, 255, 170, 0.05)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorRing.style.width = '32px';
+        cursorRing.style.height = '32px';
+        cursorRing.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+        cursorRing.style.backgroundColor = 'transparent';
+      });
     });
-    el.addEventListener('mouseleave', () => {
-      cursorRing.style.width = '32px';
-      cursorRing.style.height = '32px';
-      cursorRing.style.borderColor = 'rgba(255, 255, 255, 0.4)';
-      cursorRing.style.backgroundColor = 'transparent';
-    });
-  });
+  }
 
   /* ------------------------------------------------------------------------
-     2. Three.js Background Simulation (Fluid Morphing Particle Mesh)
+     2. Three.js Background Simulation (Fluid Particle Mesh)
      ------------------------------------------------------------------------ */
   const canvas = document.getElementById('webgl-canvas');
   if (canvas && typeof THREE !== 'undefined') {
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Particle Sphere Geometry (Lusion 3D Orb look)
+    // Particle Sphere Geometry
     const particleCount = 2800;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    // Particle Material with subtle cyan/white luminescence
+    // Particle Material
     const material = new THREE.PointsMaterial({
       color: 0x00ffaa,
       size: 0.035,
@@ -107,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    // Inner wireframe sphere for depth
+    // Inner wireframe sphere for subtle depth
     const wireGeo = new THREE.IcosahedronGeometry(2.5, 3);
     const wireMat = new THREE.MeshBasicMaterial({
       color: 0xffffff,
@@ -149,29 +151,36 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(animateThree);
       const elapsedTime = clock.getElapsedTime();
 
-      // Fluid rotation
-      particles.rotation.y += 0.003;
-      particles.rotation.x = THREE.MathUtils.lerp(particles.rotation.x, targetRotationX + scrollYOffset * 0.5, 0.05);
-      particles.rotation.y = THREE.MathUtils.lerp(particles.rotation.y, targetRotationY + elapsedTime * 0.1, 0.05);
-
-      wireMesh.rotation.y = -particles.rotation.y * 0.8;
-      wireMesh.rotation.x = particles.rotation.x * 0.8;
-
-      // Wave displacement effect
+      // Fluid sinusoidal vertex displacement
       const posAttr = geometry.attributes.position;
-      for (let i = 0; i < particleCount; i++) {
-        const u = i * 3;
-        const ox = originalPositions[u];
-        const oy = originalPositions[u + 1];
-        const oz = originalPositions[u + 2];
+      const currentArr = posAttr.array;
 
-        // Complex sinusoidal pulse
-        const wave = Math.sin(elapsedTime * 1.5 + ox * 1.8 + oy * 1.8) * 0.22;
-        posAttr.array[u] = ox * (1 + wave * 0.25);
-        posAttr.array[u + 1] = oy * (1 + wave * 0.25);
-        posAttr.array[u + 2] = oz * (1 + wave * 0.25);
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        const ox = originalPositions[i3];
+        const oy = originalPositions[i3 + 1];
+        const oz = originalPositions[i3 + 2];
+
+        const noise =
+          Math.sin(ox * 1.5 + elapsedTime * 1.2) *
+          Math.cos(oy * 1.5 + elapsedTime * 1.2) *
+          Math.sin(oz * 1.5 + elapsedTime * 1.2);
+
+        const displacement = 1 + noise * 0.16;
+
+        currentArr[i3] = ox * displacement;
+        currentArr[i3 + 1] = oy * displacement;
+        currentArr[i3 + 2] = oz * displacement;
       }
       posAttr.needsUpdate = true;
+
+      // Soft rotation easing
+      particles.rotation.y += (targetRotationY - particles.rotation.y) * 0.04 + 0.0015;
+      particles.rotation.x += (targetRotationX - particles.rotation.x) * 0.04;
+      particles.rotation.z = scrollYOffset;
+
+      wireMesh.rotation.y = particles.rotation.y * 0.8;
+      wireMesh.rotation.x = particles.rotation.x * 0.8;
 
       renderer.render(scene, camera);
     }
@@ -179,327 +188,88 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ------------------------------------------------------------------------
-     3. 3D Tilt Effect on Project Cards
-     ------------------------------------------------------------------------ */
-  const tiltCards = document.querySelectorAll('[data-tilt]');
-  tiltCards.forEach((card) => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * -7;
-      const rotateY = ((x - centerX) / centerX) * 7;
-
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-    });
-  });
-
-  /* ------------------------------------------------------------------------
-     4. Interactive Scratch Card Engine (HTML5 Canvas Scratch-to-Reveal)
-     ------------------------------------------------------------------------ */
-  const projectDetails = {
-    'video-ia': {
-      tag: 'PIPELINE TÉCNICO // CINEMATIC AI',
-      title: 'Como Fazer Vídeos Bons de IA',
-      link: 'https://github.com/henriquemonteiro098/como-fazer-videos-bons-de-ia',
-      html: `
-        <h4>🎬 Arquitetura da Metodologia</h4>
-        <p>Desenvolvimento de um framework completo para produção de cinema digital com IA, eliminando anomalias e alucinações de movimento.</p>
-        <h4>🛠️ O que foi construído nos bastidores:</h4>
-        <ul>
-          <li><strong>Direção de Fotografia Sintética:</strong> Calibração de anamorphic lenses (2.39:1), ISO, obturador e iluminação de 3 pontos em prompts estruturados.</li>
-          <li><strong>Pipeline Multi-Modelos:</strong> Integração de Higgsfield CLI, Kling Diffusion e scripts em Python para interpolação de quadros e consistência de personagens.</li>
-          <li><strong>Engenharia de Prompt Avançada:</strong> Estruturação com tags semânticas, seeds controladas e eliminação de artefatos temporais.</li>
-        </ul>
-      `
-    },
-    'fraude-cartao': {
-      tag: 'MACHINE LEARNING // CYBERSECURITY',
-      title: 'Detecção de Fraudes em Cartão',
-      link: 'https://github.com/henriquemonteiro098/deteccao-fraudes-cartao',
-      html: `
-        <h4>🛡️ Detecção em Tempo Real</h4>
-        <p>Engenharia de dados e machine learning focado na resolução de fraudes transacionais de alta criticidade.</p>
-        <h4>🛠️ Destaques da Implementação:</h4>
-        <ul>
-          <li><strong>Tratamento de Desbalanceamento Extremo:</strong> Uso de técnicas SMOTE / Random Undersampling para bases financeiras onde fraudes representam < 0.2%.</li>
-          <li><strong>Algoritmos Aplicados:</strong> Random Forest, Regressão Logística e XGBoost com otimização focada em Área sob a Curva Precision-Recall (PR-AUC).</li>
-          <li><strong>Mitigação de Falsos Positivos:</strong> Ajuste fino de thresholds de decisão para garantir máxima proteção sem bloquear compras legítimas.</li>
-        </ul>
-      `
-    },
-    'assistente-ia': {
-      tag: 'AUTONOMOUS AGENTS // NLP PIPELINES',
-      title: 'Assistente Virtual com IA',
-      link: 'https://github.com/henriquemonteiro098/assistente-virtual-ia',
-      html: `
-        <h4>🤖 Inteligência Autônoma em Python</h4>
-        <p>Criação de um assistente virtual capaz de interpretar comandos complexos em linguagem natural e orquestrar tarefas locais no sistema operacional.</p>
-        <h4>🛠️ Capacidades do Sistema:</h4>
-        <ul>
-          <li><strong>Processamento de Linguagem Natural:</strong> Conexão com modelos LLM para raciocínio contextual e extração de entidades de comando.</li>
-          <li><strong>Tool Calling & Execução:</strong> Automação de rotinas em Shell/Python, buscas na web e controle de produtividade.</li>
-          <li><strong>Memória de Sessão:</strong> Manutenção de histórico de conversação com baixo consumo de memória e latência minimizada.</li>
-        </ul>
-      `
-    },
-    'banco-ficticio': {
-      tag: 'FULL STACK & DATABASE // ACID SIMULATION',
-      title: 'Banco Fictício — Fintech Simulation',
-      link: 'https://github.com/henriquemonteiro098/projects',
-      html: `
-        <h4>💳 Plataforma Bancária Resiliente</h4>
-        <p>Simulação completa de um ecossistema bancário digital moderno com garantias ACID e automações corporativas.</p>
-        <h4>🛠️ Tecnologias e Camadas:</h4>
-        <ul>
-          <li><strong>Camada de Dados Relacional:</strong> PostgreSQL estruturado com PL/pgSQL, triggers de validação de saldo e integridade transacional concorrente.</li>
-          <li><strong>Regras de Negócio:</strong> Aplicação em JavaScript e Python gerenciando abertura de contas, transferências e histórico de extratos.</li>
-          <li><strong>Automação de Infraestrutura:</strong> Shell Scripts para rotinas de backup, testes de concorrência e deploy ágil.</li>
-        </ul>
-      `
-    },
-    'katana-ai': {
-      tag: 'CREATIVE TECH // 4K VISUAL STORYTELLING',
-      title: 'MEGλ Creative & AI Direction',
-      link: 'https://github.com/henriquemonteiro098',
-      html: `
-        <h4>⚡ Fusão entre Arte, Código e Cinema</h4>
-        <p>Pesquisa visual de vanguarda que dá vida à identidade <strong>MEGλ ($A=\lambda$)</strong>.</p>
-        <h4>🛠️ Bastidores da Criação:</h4>
-        <ul>
-          <li><strong>Estética Neo-Noir:</strong> Inspiração em diretores lendários (Wong Kar-Wai, Denis Villeneuve) fundidos com visual cyberpunk industrial.</li>
-          <li><strong>Renderização & Motion:</strong> Geração de assets em resolução 2K/4K com texturização fina e iluminação volumétrica.</li>
-          <li><strong>Design System Fluido:</strong> Aplicação dos conceitos da Lusion.co para transformar tecnologia em experiência imersiva.</li>
-        </ul>
-      `
-    }
-  };
-
-  const scratchModal = document.getElementById('scratch-modal');
-  const scratchCloseBtn = document.getElementById('scratch-modal-close');
-  const scratchCanvas = document.getElementById('scratch-canvas');
-  const secretTag = document.getElementById('secret-tag');
-  const secretTitle = document.getElementById('secret-title');
-  const secretBody = document.getElementById('secret-body');
-  const secretLink = document.getElementById('secret-link');
-  const revealAllBtn = document.getElementById('scratch-reveal-all');
-
-  let ctx = null;
-  let isScratching = false;
-
-  function initScratchFoil() {
-    if (!scratchCanvas) return;
-    const rect = scratchCanvas.getBoundingClientRect();
-    scratchCanvas.width = rect.width;
-    scratchCanvas.height = rect.height;
-
-    ctx = scratchCanvas.getContext('2d');
-    
-    // Draw Metallic Holographic Scratch Foil
-    const grad = ctx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
-    grad.addColorStop(0, '#2c333f');
-    grad.addColorStop(0.3, '#455062');
-    grad.addColorStop(0.5, '#6a7891');
-    grad.addColorStop(0.7, '#455062');
-    grad.addColorStop(1, '#1e242d');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-
-    // Decorative holographic pattern
-    ctx.strokeStyle = 'rgba(0, 255, 170, 0.25)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < scratchCanvas.width; i += 40) {
-      ctx.beginPath();
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i + 40, scratchCanvas.height);
-      ctx.stroke();
-    }
-
-    // Centered instruction badge on the scratch foil
-    ctx.fillStyle = '#0a0d12';
-    const boxW = 280;
-    const boxH = 50;
-    const boxX = (scratchCanvas.width - boxW) / 2;
-    const boxY = (scratchCanvas.height - boxH) / 2;
-    ctx.roundRect ? ctx.roundRect(boxX, boxY, boxW, boxH, 25) : ctx.rect(boxX, boxY, boxW, boxH);
-    ctx.fill();
-
-    ctx.strokeStyle = '#00ffaa';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.fillStyle = '#00ffaa';
-    ctx.font = 'bold 12px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('⚡ RASPE AQUI COM O MOUSE ⚡', scratchCanvas.width / 2, scratchCanvas.height / 2 + 5);
-  }
-
-  function scratch(x, y) {
-    if (!ctx) return;
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(x, y, 28, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  function handleScratchMove(e) {
-    if (!isScratching) return;
-    const rect = scratchCanvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    scratch(x, y);
-  }
-
-  if (scratchCanvas) {
-    scratchCanvas.addEventListener('mousedown', (e) => {
-      isScratching = true;
-      handleScratchMove(e);
-    });
-    scratchCanvas.addEventListener('mousemove', handleScratchMove);
-    window.addEventListener('mouseup', () => { isScratching = false; });
-
-    // Touch events for mobile/tablet
-    scratchCanvas.addEventListener('touchstart', (e) => {
-      isScratching = true;
-      handleScratchMove(e);
-    }, { passive: true });
-    scratchCanvas.addEventListener('touchmove', handleScratchMove, { passive: true });
-    window.addEventListener('touchend', () => { isScratching = false; });
-  }
-
-  // Open Scratch Modal for Specific Project
-  document.querySelectorAll('.btn-scratch-trigger').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const projKey = btn.getAttribute('data-project');
-      const data = projectDetails[projKey];
-      if (!data) return;
-
-      secretTag.textContent = data.tag;
-      secretTitle.textContent = data.title;
-      secretBody.innerHTML = data.html;
-      secretLink.href = data.link;
-
-      scratchModal.classList.add('active');
-      setTimeout(initScratchFoil, 50);
-    });
-  });
-
-  // Close Modal
-  if (scratchCloseBtn) {
-    scratchCloseBtn.addEventListener('click', () => {
-      scratchModal.classList.remove('active');
-    });
-  }
-
-  scratchModal.addEventListener('click', (e) => {
-    if (e.target === scratchModal) {
-      scratchModal.classList.remove('active');
-    }
-  });
-
-  // Reveal All button
-  if (revealAllBtn) {
-    revealAllBtn.addEventListener('click', () => {
-      if (ctx && scratchCanvas) {
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-      }
-    });
-  }
-
-  /* ------------------------------------------------------------------------
-     4. Ambient Sound Synthesizer (Web Audio API)
+     3. Ambient Sound Synthesizer (Web Audio API)
      ------------------------------------------------------------------------ */
   const soundToggle = document.getElementById('sound-toggle');
   let audioCtx = null;
   let isSoundActive = false;
   let oscNodes = [];
 
-  soundToggle.addEventListener('click', () => {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    if (!isSoundActive) {
-      // Play deep ambient sine drone chord
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+  if (soundToggle) {
+    soundToggle.addEventListener('click', () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
 
-      const freqs = [55, 110, 164.81]; // A1, A2, E3 ambient harmonic drone
-      oscNodes = freqs.map((freq) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+      if (!isSoundActive) {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
 
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        const freqs = [55, 110, 164.81]; // A1, A2, E3 ambient drone
+        oscNodes = freqs.map((freq) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
 
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.035, audioCtx.currentTime + 2.5);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
+          gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.035, audioCtx.currentTime + 2.5);
 
-        return { osc, gain };
-      });
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
 
-      isSoundActive = true;
-      soundToggle.classList.add('playing');
-    } else {
-      // Fade out
-      oscNodes.forEach(({ osc, gain }) => {
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
-        setTimeout(() => osc.stop(), 1300);
-      });
-      oscNodes = [];
-      isSoundActive = false;
-      soundToggle.classList.remove('playing');
-    }
-  });
+          return { osc, gain };
+        });
 
-  /* ------------------------------------------------------------------------
-     5. Video Reel Play / Pause Controller
-     ------------------------------------------------------------------------ */
-  const video = document.getElementById('main-reel-video');
-  const playBtn = document.getElementById('video-play-btn');
-
-  if (video && playBtn) {
-    playBtn.addEventListener('click', () => {
-      if (video.paused) {
-        video.play();
-        playBtn.querySelector('.play-text').textContent = 'PAUSAR REEL';
-        playBtn.querySelector('.play-icon').textContent = '⏸';
+        soundToggle.classList.add('playing');
+        const soundLabel = soundToggle.querySelector('.sound-label');
+        if (soundLabel) soundLabel.textContent = 'MUTE';
+        isSoundActive = true;
       } else {
-        video.pause();
-        playBtn.querySelector('.play-text').textContent = 'ASSISTIR REEL';
-        playBtn.querySelector('.play-icon').textContent = '▶';
+        if (oscNodes.length > 0) {
+          oscNodes.forEach(({ osc, gain }) => {
+            gain.gain.setValueAtTime(gain.gain.value, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+            setTimeout(() => {
+              try { osc.stop(); } catch (err) {}
+            }, 850);
+          });
+          oscNodes = [];
+        }
+
+        soundToggle.classList.remove('playing');
+        const soundLabel = soundToggle.querySelector('.sound-label');
+        if (soundLabel) soundLabel.textContent = 'SOUND';
+        isSoundActive = false;
       }
     });
   }
 
   /* ------------------------------------------------------------------------
-     6. GSAP Scroll Animations & Lusion Line Reveals
+     4. GSAP Minimalist Entrance Animations
      ------------------------------------------------------------------------ */
   if (typeof gsap !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    gsap.from('.hero-tag', {
+      duration: 1,
+      y: 20,
+      opacity: 0,
+      delay: 0.1,
+      ease: 'power3.out',
+    });
 
     gsap.from('.hero-title .line', {
       duration: 1.2,
-      y: 60,
+      y: 50,
       opacity: 0,
       stagger: 0.15,
+      delay: 0.2,
       ease: 'power4.out',
     });
 
@@ -510,166 +280,15 @@ document.addEventListener('DOMContentLoaded', () => {
       delay: 0.6,
       ease: 'power3.out',
     });
-
-    // Lusion Project Items & Scroll Lines Reveal
-    document.querySelectorAll('.lusion-project-item').forEach((item) => {
-      const lineTrack = item.querySelector('.line-track');
-      const card = item.querySelector('.lusion-card');
-
-      if (lineTrack) {
-        gsap.fromTo(lineTrack, 
-          { scaleY: 0.1, transformOrigin: 'top center' },
-          {
-            scaleY: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 85%',
-              end: 'bottom 50%',
-              scrub: 1,
-            }
-          }
-        );
-      }
-
-      if (card) {
-        gsap.fromTo(card,
-          { y: 50, opacity: 0.35, scale: 0.98 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 88%',
-              toggleActions: 'play none none reverse',
-            }
-          }
-        );
-      }
-    });
-
-    /* ------------------------------------------------------------------------
-       7. 3D Card Stack Tray (Bandeja 3D Empilhada com Scroll Scrub)
-          "arruma os cards do arsenal coloca eles como uma bandeja e quando escrola
-          o que ta na frente vai pra tras e o que ta atras some, no final desce para contato"
-       ------------------------------------------------------------------------ */
-    const traySection = document.getElementById('stack-tray-section');
-    const trayCards = Array.from(document.querySelectorAll('.tray-card'));
-    const trayDots = Array.from(document.querySelectorAll('.tray-dot'));
-
-    if (traySection && trayCards.length > 0) {
-      const totalCards = trayCards.length;
-
-      // Initial visual setup for tray cards
-      function updateTrayCards(progress) {
-        // progress goes 0 -> 1 over the pinned scroll duration
-        // We have totalCards (4). Progress maps to virtual card index:
-        const clampedProg = Math.max(0, Math.min(1, progress));
-        const activeFloatIndex = clampedProg * (totalCards - 1);
-        const currentActiveInt = Math.min(totalCards - 1, Math.floor(activeFloatIndex));
-
-        // Update progress dots
-        trayDots.forEach((dot, idx) => {
-          if (idx === Math.round(activeFloatIndex)) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-
-        trayCards.forEach((card, index) => {
-          const diff = index - activeFloatIndex;
-
-          if (diff < -0.4) {
-            // Already viewed card pushed backwards and disappears:
-            // "o que ta na frente vai pra tras e o que ta atras some"
-            const exitRatio = Math.min(1, Math.abs(diff + 0.4) / 0.6);
-            const exitZ = -300 - (exitRatio * 400);
-            const exitY = 60 + (exitRatio * 80);
-            const exitScale = Math.max(0.65, 0.9 - exitRatio * 0.25);
-            const exitOpacity = Math.max(0, 1 - exitRatio * 1.6);
-            const exitBlur = exitRatio * 12;
-
-            card.style.transform = `translate3d(0px, ${exitY}px, ${exitZ}px) rotateX(${8 + exitRatio * 8}deg) scale(${exitScale})`;
-            card.style.opacity = exitOpacity.toFixed(3);
-            card.style.filter = `blur(${exitBlur.toFixed(1)}px)`;
-            card.style.zIndex = 0;
-            card.style.pointerEvents = 'none';
-          } else if (diff >= -0.4 && diff <= 0.4) {
-            // Active front card
-            const transRatio = diff; // -0.4 to 0.4
-            const zPos = -Math.abs(transRatio) * 60;
-            const yPos = transRatio * 15;
-            const scale = 1 - Math.abs(transRatio) * 0.04;
-
-            card.style.transform = `translate3d(0px, ${yPos}px, ${zPos}px) rotateX(0deg) scale(${scale})`;
-            card.style.opacity = '1';
-            card.style.filter = 'blur(0px)';
-            card.style.zIndex = 10;
-            card.style.pointerEvents = 'auto';
-          } else {
-            // Cards stacked in the tray waiting behind
-            const stackDepth = diff; // > 0.4
-            const zPos = -stackDepth * 85;
-            const yPos = stackDepth * 24;
-            const scale = Math.max(0.8, 1 - (stackDepth * 0.05));
-            const opacity = Math.max(0.1, 1 - (stackDepth * 0.25));
-
-            card.style.transform = `translate3d(0px, ${yPos}px, ${zPos}px) rotateX(${Math.min(6, stackDepth * 2)}deg) scale(${scale})`;
-            card.style.opacity = opacity.toFixed(3);
-            card.style.filter = `blur(${Math.min(4, (stackDepth - 0.4) * 2)}px)`;
-            card.style.zIndex = Math.max(1, 8 - Math.round(stackDepth * 2));
-            card.style.pointerEvents = 'none';
-          }
-        });
-      }
-
-      // Initial call
-      updateTrayCards(0);
-
-      // ScrollTrigger pinning the tray section while scrubbing cards
-      ScrollTrigger.create({
-        trigger: traySection,
-        start: 'top 18%',
-        end: '+=1800',
-        pin: true,
-        scrub: 0.8,
-        onUpdate: (self) => {
-          updateTrayCards(self.progress);
-        }
-      });
-
-      // Dot click manual navigation
-      trayDots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const step = parseInt(dot.getAttribute('data-step'), 10) || 0;
-          const targetProgress = step / (totalCards - 1);
-          // Scroll to the relative position
-          const st = ScrollTrigger.getById && ScrollTrigger.getAll().find(s => s.trigger === traySection);
-          if (st) {
-            const scrollTarget = st.start + (targetProgress * (st.end - st.start));
-            window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
-          } else {
-            updateTrayCards(targetProgress);
-          }
-        });
-      });
-    }
-
   }
 
   /* ------------------------------------------------------------------------
-     8. Interactive Magnetic Physics Bubble Carousel
-        Skills: JavaScript, Python, SQL, Dados, IA Generativa
+     5. Interactive Magnetic Physics Bubble Carousel
      ------------------------------------------------------------------------ */
   const bubbleContainer = document.getElementById('skills-bubble-carousel');
   const bubbles = Array.from(document.querySelectorAll('.skill-bubble'));
 
   if (bubbleContainer && bubbles.length > 0) {
-    // State for each bubble: natural floating oscillation + magnetic spring response
     const bubbleStates = bubbles.map((el, i) => ({
       el: el,
       baseX: 0,
@@ -685,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
       floatRadius: 8 + (i % 3) * 3,
     }));
 
-    // Mouse tracking relative to the bubble container
     let mouseInContainer = false;
     let bMouseX = 0;
     let bMouseY = 0;
@@ -703,12 +321,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('mousemove', (e) => {
-      const rect = bubbleContainer.getBoundingClientRect();
       bMouseX = e.clientX;
       bMouseY = e.clientY;
     });
 
-    // Physics Animation Loop
     let bubbleTime = 0;
     function animateBubbles() {
       bubbleTime += 1;
@@ -718,7 +334,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const bubbleCenterX = rect.left + rect.width / 2;
         const bubbleCenterY = rect.top + rect.height / 2;
 
-        // Natural organic hovering
         const naturalX = Math.cos(bubbleTime * b.floatSpeed + b.floatPhase) * b.floatRadius;
         const naturalY = Math.sin(bubbleTime * b.floatSpeed + b.floatPhase) * b.floatRadius;
 
@@ -729,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const maxDist = 260;
 
           if (dist < maxDist && dist > 1) {
-            // Magnetic force: pulls gently when close, pushes if right on top
             const force = (1 - dist / maxDist);
             const repel = dist < 70 ? -1.2 : 0.8;
             b.targetX = naturalX + (dx / dist) * force * 45 * repel;
@@ -743,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
           b.targetY = naturalY;
         }
 
-        // Spring physics interpolation
         const spring = 0.08;
         const friction = 0.85;
 
@@ -766,4 +379,3 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
-
