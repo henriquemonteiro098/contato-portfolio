@@ -589,6 +589,85 @@ html[data-theme="dark"] .hero-lambda-leg {
   transition: var(--transition-theme);
 }
 
+/* ==========================================================================
+   Section: Education & Qualification
+   ========================================================================== */
+.section-education {
+  padding: 100px 0;
+  border-top: 1px solid var(--border-light);
+  transition: var(--transition-theme);
+}
+
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.education-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 34px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease;
+  box-shadow: var(--shadow-card);
+}
+
+.education-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-hover);
+}
+
+.education-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.education-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+}
+
+.education-status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-light);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-light);
+}
+
+.education-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: var(--text-main);
+  transition: var(--transition-theme);
+}
+
+.education-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  transition: var(--transition-theme);
+}
+
 /* Contact Section */
 .section-contact {
   padding: 110px 0 80px;
@@ -700,7 +779,8 @@ html[data-theme="dark"] .hero-lambda-leg {
   .hero-art-box {
     max-width: 280px;
   }
-  .pillars-grid {
+  .pillars-grid,
+  .education-grid {
     grid-template-columns: 1fr;
   }
 }
