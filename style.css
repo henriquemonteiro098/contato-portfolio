@@ -465,16 +465,47 @@ html[data-theme="dark"] .gemini-text-shimmer,
 
 .hero-art-box {
   width: 100%;
-  max-width: 440px;
+  max-width: 480px;
   aspect-ratio: 1 / 1;
   color: var(--vector-color);
-  animation: softFloat 6s ease-in-out infinite alternate;
+  animation: softFloat 7s ease-in-out infinite alternate;
   transition: var(--transition-theme);
+  cursor: default;
 }
 
 @keyframes softFloat {
   0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-12px) rotate(3deg); }
+  100% { transform: translateY(-10px) rotate(1.5deg); }
+}
+
+/* Monumental Hero Lambda Styling */
+.hero-lambda-stem {
+  fill: #121214;
+  transition: fill var(--transition-theme);
+}
+
+html[data-theme="dark"] .hero-lambda-stem {
+  fill: #f8fafc;
+}
+
+.hero-lambda-leg {
+  fill: #d97706;
+  transition: fill var(--transition-theme), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: 345px 270px;
+}
+
+html[data-theme="dark"] .hero-lambda-leg {
+  fill: #ff2a55;
+}
+
+/* Microinteração magnética no hover da arte hero */
+.hero-art-box:hover .hero-lambda-leg {
+  transform: translate(6px, 4px);
+}
+
+.hero-art-box:hover .blueprint-grid {
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
 }
 
 /* Section: Pillars of Craft */
