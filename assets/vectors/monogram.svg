@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none" class="brand-monogram-svg">
+  <!-- Dynamic Monogram: José Henrique (JH / Lambda) -->
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="crimsonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff2a55" />
+      <stop offset="50%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#9f1239" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Geometric Precision Hexagon Frame -->
+  <polygon points="60,8 106,34 106,86 60,112 14,86 14,34" 
+           stroke="currentColor" 
+           stroke-width="1.5" 
+           stroke-dasharray="4 2" 
+           opacity="0.35" />
+
+  <!-- Core Architectural Structure: J + H + Lambda -->
+  <!-- Left Pillar (J arc) -->
+  <path d="M42 32 V76 C42 84 36 88 28 88" 
+        stroke="currentColor" 
+        stroke-width="3.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+
+  <!-- Central Lambda Apex & Slanted Descent -->
+  <path d="M60 32 L46 88" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        stroke-linecap="round" />
+        
+  <path d="M54 58 L78 88" 
+        stroke="currentColor" 
+        stroke-width="3.5" 
+        stroke-linecap="round" />
+
+  <!-- Right Pillar (H structure) -->
+  <path d="M86 32 V88" 
+        stroke="currentColor" 
+        stroke-width="3.5" 
+        stroke-linecap="round" />
+        
+  <path d="M72 60 H86" 
+        stroke="currentColor" 
+        stroke-width="2.5" 
+        stroke-linecap="round" />
+
+  <!-- Ambient Micro-Coordinates -->
+  <circle cx="60" cy="32" r="3" fill="currentColor" />
+  <circle cx="42" cy="32" r="2" fill="currentColor" opacity="0.6" />
+  <circle cx="86" cy="32" r="2" fill="currentColor" opacity="0.6" />
+  <circle cx="60" cy="112" r="2" fill="currentColor" opacity="0.4" />
+</svg>
