@@ -6,17 +6,124 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const themeToggle = document.getElementById('theme-toggle');
 
-  // ── 1. Theme Controller (Light / Dark) ──────────────────────────────────
+  // ── 1. Theme Controller (Magic UI AnimatedThemeToggler - Star Variant) ──
   const savedTheme = localStorage.getItem('jh_theme') || 'light';
   applyTheme(savedTheme);
 
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = root.getAttribute('data-theme') || 'light';
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  let isThemeTransitioning = false;
+  let activeThemeAnim = null;
+
+  function cancelThemeAnim() {
+    if (activeThemeAnim) {
+      activeThemeAnim.cancel();
+      activeThemeAnim = null;
+    }
+  }
+
+  function getStarClipPaths(cx, cy, maxRadius, viewportWidth, viewportHeight) {
+    const toX = (x) => `${(x / viewportWidth) * 100}%`;
+    const toY = (y) => `${(y / viewportHeight) * 100}%`;
+    const point = (x, y) => `${toX(x)} ${toY(y)}`;
+
+    // Slight overscan so extreme corners of the viewport are seamlessly covered
+    const R = maxRadius * Math.SQRT2 * 1.05;
+    const innerRatio = 0.42;
+
+    const starPolygon = (radius) => {
+      const verts = [];
+      for (let i = 0; i < 5; i++) {
+        const outerA = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
+        verts.push(point(cx + radius * Math.cos(outerA), cy + radius * Math.sin(outerA)));
+        const innerA = outerA + Math.PI / 5;
+        verts.push(point(cx + radius * innerRatio * Math.cos(innerA), cy + radius * innerRatio * Math.sin(innerA)));
+      }
+      return `polygon(${verts.join(', ')})`;
+    };
+
+    const startR = Math.max(2, R * 0.025);
+    return [starPolygon(startR), starPolygon(R)];
+  }
+
+  function toggleThemeWithStarAnimation() {
+    const currentTheme = root.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (typeof document.startViewTransition !== 'function' || prefersReducedMotion) {
+      applyTheme(newTheme);
+      localStorage.setItem('jh_theme', newTheme);
+      return;
+    }
+
+    if (isThemeTransitioning || root.dataset.magicuiThemeVt === 'active') {
+      return;
+    }
+
+    const duration = 500;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    let cx = viewportWidth / 2;
+    let cy = viewportHeight / 2;
+
+    if (themeToggle) {
+      const rect = themeToggle.getBoundingClientRect();
+      cx = rect.left + rect.width / 2;
+      cy = rect.top + rect.height / 2;
+    }
+
+    const maxRadius = Math.hypot(
+      Math.max(cx, viewportWidth - cx),
+      Math.max(cy, viewportHeight - cy)
+    );
+
+    const clipPaths = getStarClipPaths(cx, cy, maxRadius, viewportWidth, viewportHeight);
+
+    root.dataset.magicuiThemeVt = 'active';
+    root.style.setProperty('--magicui-theme-toggle-vt-duration', `${duration}ms`);
+    root.style.setProperty('--magicui-theme-vt-clip-from', clipPaths[0]);
+
+    const cleanup = () => {
+      isThemeTransitioning = false;
+      delete root.dataset.magicuiThemeVt;
+      root.style.removeProperty('--magicui-theme-toggle-vt-duration');
+      root.style.removeProperty('--magicui-theme-vt-clip-from');
+      cancelThemeAnim();
+    };
+
+    isThemeTransitioning = true;
+
+    const transition = document.startViewTransition(() => {
       applyTheme(newTheme);
       localStorage.setItem('jh_theme', newTheme);
     });
+
+    if (transition && transition.finished && typeof transition.finished.finally === 'function') {
+      transition.finished.finally(cleanup).catch(() => {});
+    } else {
+      cleanup();
+    }
+
+    if (transition && transition.ready && typeof transition.ready.then === 'function') {
+      transition.ready.then(() => {
+        const anim = document.documentElement.animate(
+          {
+            clipPath: clipPaths,
+          },
+          {
+            duration: duration,
+            easing: 'linear',
+            fill: 'forwards',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+        activeThemeAnim = anim;
+      }).catch(() => {});
+    }
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleThemeWithStarAnimation);
   }
 
   function applyTheme(theme) {
