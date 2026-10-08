@@ -21,58 +21,62 @@
 
 /* --------------------------------------------------------------------------
    THEME 1: SOLAR GOLD (Light Mode)
-   Fundo branco puro, tipografia grafite, acentos em ouro e âmbar refinados.
+   Fundo branco puro, tipografia grafite, acentos em ouro metálico luminoso.
    -------------------------------------------------------------------------- */
 html[data-theme="light"], :root {
   --bg-main: #ffffff;
   --bg-subtle: #fbf9f5;
-  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card: rgba(255, 255, 255, 0.88);
   --bg-card-hover: #ffffff;
   
   --text-main: #121214;
   --text-muted: #57534e;
   --text-subtle: #a8a29e;
   
-  --accent-primary: #b45309;       /* Ouro profundo legível */
-  --accent-glow: #d97706;          /* Ouro âmbar */
-  --accent-light: #fef3c7;         /* Ouro suave para chips/tags */
+  --accent-primary: #c88a04;       /* Ouro metálico luminoso */
+  --accent-glow: #f59e0b;          /* Âmbar dourado vibrante */
+  --accent-gold: #fcd34d;          /* Ouro claro / amarelo dourado */
+  --accent-light: rgba(245, 158, 11, 0.12); /* Chip/glow translúcido */
   --accent-contrast: #ffffff;
   
-  --border-light: rgba(180, 83, 9, 0.15);
-  --border-hover: rgba(180, 83, 9, 0.35);
+  --border-light: rgba(200, 138, 4, 0.18);
+  --border-hover: rgba(200, 138, 4, 0.45);
   
-  --shadow-card: 0 10px 30px rgba(180, 83, 9, 0.06);
-  --shadow-hover: 0 20px 40px rgba(180, 83, 9, 0.12);
+  --shadow-card: 0 10px 30px rgba(200, 138, 4, 0.08);
+  --shadow-hover: 0 20px 40px rgba(200, 138, 4, 0.16);
+  --shadow-theme: rgba(200, 138, 4, 0.35);
   
-  --vector-color: #d97706;
+  --vector-color: #d49a00;
 }
 
 /* --------------------------------------------------------------------------
    THEME 2: CRIMSON VOID (Dark Mode)
-   Fundo preto profundo, tipografia e acentos em vermelho carmesim vibrante.
+   Fundo preto profundo, vermelho tech metálico, tipografia platina legível.
    -------------------------------------------------------------------------- */
 html[data-theme="dark"] {
-  --bg-main: #050507;
-  --bg-subtle: #0d0a0d;
-  --bg-card: rgba(20, 8, 12, 0.65);
-  --bg-card-hover: rgba(30, 10, 18, 0.85);
+  --bg-main: #060608;
+  --bg-subtle: #0d0a0e;
+  --bg-card: rgba(18, 10, 14, 0.72);
+  --bg-card-hover: rgba(28, 14, 20, 0.88);
   
-  --text-main: #ff2a55;           /* Vermelho carmesim marcante */
-  --text-muted: #f43f5e;          /* Rosa carmesim secundário */
-  --text-subtle: #9f1239;         /* Bordô escuro */
+  --text-main: #f8fafc;           /* Platina de alta legibilidade */
+  --text-muted: #a1a1aa;          /* Cinza técnico */
+  --text-subtle: #71717a;         /* Cinza discreto */
   
-  --accent-primary: #ff2a55;      /* Carmesim neon */
-  --accent-glow: #e11d48;         /* Carmesim vibrante */
-  --accent-light: rgba(255, 42, 85, 0.12);
-  --accent-contrast: #050507;
+  --accent-primary: #e60012;      /* Vermelho tech puro */
+  --accent-glow: #b3000f;         /* Glow tech red profundo */
+  --accent-gold: #fcd34d;         /* Dourado amarelo metálico para detalhes */
+  --accent-light: rgba(230, 0, 18, 0.14);
+  --accent-contrast: #ffffff;
   
-  --border-light: rgba(255, 42, 85, 0.22);
-  --border-hover: rgba(255, 42, 85, 0.55);
+  --border-light: rgba(230, 0, 18, 0.24);
+  --border-hover: rgba(230, 0, 18, 0.65);
   
-  --shadow-card: 0 10px 30px rgba(255, 42, 85, 0.12);
-  --shadow-hover: 0 20px 50px rgba(255, 42, 85, 0.25);
+  --shadow-card: 0 10px 30px rgba(230, 0, 18, 0.16);
+  --shadow-hover: 0 20px 50px rgba(230, 0, 18, 0.32);
+  --shadow-theme: rgba(230, 0, 18, 0.45);
   
-  --vector-color: #ff2a55;
+  --vector-color: #e60012;
 }
 
 /* Reset & Base */
@@ -123,11 +127,16 @@ body {
   left: 0;
   width: 100%;
   z-index: 50;
-  padding: 24px 36px;
-  background: rgba(var(--bg-main), 0.8);
-  backdrop-filter: blur(16px);
+  padding: 18px 36px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border-light);
   transition: var(--transition-theme);
+}
+
+html[data-theme="dark"] .site-header {
+  background: rgba(6, 6, 8, 0.85);
 }
 
 .header-inner {
@@ -136,7 +145,70 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
+
+/* ==========================================================================
+   iOS / Apple Music Style Segmented Glass Tab Navigation
+   Segmento escuro translúcido tipo vidro, letras em branco, abas ativas
+   em alto relevo metálico com cores do tema (dourado / vermelho tech).
+   ========================================================================== */
+.tab-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(22, 22, 26, 0.78);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .tab-nav {
+  background: rgba(12, 8, 10, 0.82);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.14);
+}
+
+.tab-item {
+  position: relative;
+  padding: 7px 18px;
+  border-radius: calc(var(--radius-pill) - 2px);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tab-item:hover:not(.active) {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* Active tab: tema dourado metálico no modo claro */
+html[data-theme="light"] .tab-item.active {
+  background: linear-gradient(135deg, #fce881 0%, #e5a912 40%, #c88a04 80%, #9e6b02 100%);
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(90, 60, 0, 0.65);
+  box-shadow: 0 3px 14px rgba(200, 138, 4, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+}
+
+/* Active tab: tema vermelho tech metálico no modo escuro */
+html[data-theme="dark"] .tab-item.active {
+  background: linear-gradient(135deg, #ff334b 0%, #e60012 45%, #a8000d 85%, #660008 100%);
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(60, 0, 4, 0.7);
+  box-shadow: 0 3px 18px rgba(230, 0, 18, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+}
+
 
 .brand-wrap {
   display: inline-flex;
@@ -345,60 +417,155 @@ html[data-theme="dark"] .moon-icon {
 }
 
 /* ==========================================================================
-   Gemini Animated Gradient Text Effect (Continuous Shimmer)
+   Multi-Directional Liquid Metallic Silk Shimmer
+   Múltiplas ondas líquidas cruzadas (diagonal 45°, cross-diagonal 135°,
+   ondulações verticais 180° e reflexos caústicos 90°) simulando tecido metálico
+   e água líquida fluindo continuamente em várias direções pelas letras.
    ========================================================================== */
-@keyframes geminiShimmer {
+
+@keyframes liquidMetalSilk {
   0% {
-    background-position: 0% 50%;
+    background-position:
+      0% 0%,        /* Onda 1: diagonal 45° */
+      100% 0%,      /* Onda 2: cruzada 135° */
+      50% 0%,       /* Onda 3: vertical fluida */
+      0% 50%;       /* Onda 4: caústica / glint */
+  }
+  50% {
+    background-position:
+      100% 100%,
+      0% 100%,
+      50% 150%,
+      100% 50%;
   }
   100% {
-    background-position: 200% 50%;
+    background-position:
+      200% 200%,
+      -100% 200%,
+      50% 300%,
+      200% 50%;
   }
 }
 
 .gemini-text-shimmer {
   display: inline-block;
   font-weight: 800;
-  
-  /* Recorte do fundo na forma das letras */
+  position: relative;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 
-  /* Tamanho expandido para permitir a movimentação do gradiente */
-  background-size: 200% auto;
-  animation: geminiShimmer 4s linear infinite;
+  /* OURO METÁLICO LÍQUIDO MULTI-DIRECIONAL (Modo Claro) */
+  background-image:
+    /* Layer 1: Glint especular diagonal de alta frequência */
+    linear-gradient(
+      45deg,
+      transparent 0%,
+      transparent 38%,
+      rgba(255, 255, 255, 0.95) 48%,
+      rgba(255, 254, 215, 0.95) 52%,
+      transparent 62%,
+      transparent 100%
+    ),
+    /* Layer 2: Tecido cruzado em ouro líquido 24k */
+    linear-gradient(
+      135deg,
+      #5c3a02 0%,
+      #a67405 18%,
+      #f5c53a 36%,
+      #fff8d0 48%,
+      #e5a912 58%,
+      #8a5806 76%,
+      #5c3a02 100%
+    ),
+    /* Layer 3: Ondas verticais fluidas */
+    linear-gradient(
+      180deg,
+      #7a4f02 0%,
+      #e5a912 25%,
+      #fff4be 50%,
+      #d49a00 75%,
+      #7a4f02 100%
+    ),
+    /* Layer 4: Caústica e reflexo horizontal */
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 248, 200, 0.85) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
 
-  /* Tema Claro: Paleta Dourada Contínua */
-  background-image: linear-gradient(
-    90deg,
-    #bf953f 0%,
-    #fcf6ba 25%,
-    #b38728 50%,
-    #fbf5b7 75%,
-    #bf953f 100%
-  );
+  background-size:
+    200% 200%,
+    200% 200%,
+    100% 300%,
+    200% 100%;
+
+  background-blend-mode: color-dodge, normal, soft-light, overlay;
+  animation: liquidMetalSilk 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter: drop-shadow(0 2px 10px rgba(200, 138, 4, 0.35));
 }
 
-/* Tema Escuro: Paleta Rubi & Carmesim Contínua */
-html[data-theme="dark"] .gemini-text-shimmer,
-:root[data-theme="dark"] .gemini-text-shimmer,
-.dark .gemini-text-shimmer {
-  background-image: linear-gradient(
-    90deg,
-    #99001f 0%,
-    #e0115f 25%,
-    #ff2a6d 50%,
-    #c9184a 75%,
-    #99001f 100%
-  );
+/* VERMELHO TECH METÁLICO LÍQUIDO (Modo Escuro) */
+html[data-theme="dark"] .gemini-text-shimmer {
+  background-image:
+    /* Layer 1: Glint de platina / reflexo laser */
+    linear-gradient(
+      45deg,
+      transparent 0%,
+      transparent 38%,
+      rgba(255, 255, 255, 0.95) 48%,
+      rgba(255, 200, 210, 0.95) 52%,
+      transparent 62%,
+      transparent 100%
+    ),
+    /* Layer 2: Tecido cruzado de titânio vermelho tech */
+    linear-gradient(
+      135deg,
+      #2e0005 0%,
+      #7a000d 18%,
+      #d8001d 36%,
+      #ff7588 48%,
+      #e60012 58%,
+      #59000a 76%,
+      #2e0005 100%
+    ),
+    /* Layer 3: Ondas verticais fluidas */
+    linear-gradient(
+      180deg,
+      #470007 0%,
+      #cc0018 25%,
+      #ffa3b1 50%,
+      #b30014 75%,
+      #470007 100%
+    ),
+    /* Layer 4: Caústica laser horizontal */
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 180, 195, 0.85) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+
+  background-size:
+    200% 200%,
+    200% 200%,
+    100% 300%,
+    200% 100%;
+
+  background-blend-mode: color-dodge, normal, soft-light, overlay;
+  filter: drop-shadow(0 2px 14px rgba(230, 0, 18, 0.5));
 }
 
-/* Respeito a acessibilidade do sistema */
+/* Acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   .gemini-text-shimmer {
     animation: none;
+    background-image: linear-gradient(90deg, #c88a04, #f5c53a);
+  }
+  html[data-theme="dark"] .gemini-text-shimmer {
+    background-image: linear-gradient(90deg, #e60012, #ff7588);
   }
 }
 
@@ -785,16 +952,47 @@ html[data-theme="dark"] .hero-lambda-leg {
   }
 }
 
+@media (max-width: 768px) {
+  .site-header {
+    padding: 14px 18px;
+  }
+  .btn-header-cta {
+    display: none;
+  }
+  .tab-nav {
+    padding: 3px;
+    gap: 2px;
+  }
+  .tab-item {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+  }
+}
+
 @media (max-width: 640px) {
   .site-header {
-    padding: 18px 20px;
+    padding: 14px 16px;
+  }
+  .header-inner {
+    gap: 8px;
+  }
+  .brand-title {
+    font-size: 1.25rem;
+  }
+  .tab-item {
+    padding: 5px 8px;
+    font-size: 0.68rem;
+  }
+  .theme-toggle-btn {
+    width: 34px;
+    height: 34px;
   }
   .container {
     padding: 0 20px;
   }
   .hero-section {
-    padding-top: 130px;
-    padding-bottom: 80px;
+    padding-top: 120px;
+    padding-bottom: 70px;
   }
   .site-footer {
     flex-direction: column;
@@ -802,3 +1000,4 @@ html[data-theme="dark"] .hero-lambda-leg {
     text-align: center;
   }
 }
+
