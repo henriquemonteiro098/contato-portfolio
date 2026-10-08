@@ -172,6 +172,43 @@ body {
   transition: var(--transition-theme);
 }
 
+/* ==========================================================================
+   AnimatedGridPattern: Background Dinâmico com Grid & Pulso de Quadrados
+   ========================================================================== */
+
+.animated-grid-pattern {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  transition: color var(--transition-theme);
+  /* Máscara radial harmônica para difusão natural nas margens */
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 35%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 35%, transparent 95%);
+}
+
+html[data-theme="light"] .animated-grid-pattern {
+  color: rgba(148, 163, 184, 0.28); /* fill-gray-400/30 stroke-gray-400/30 */
+}
+
+html[data-theme="dark"] .animated-grid-pattern {
+  color: rgba(148, 163, 184, 0.14); /* cyber suave */
+}
+
+.animated-grid-squares {
+  overflow: visible;
+}
+
+.animated-grid-pattern .grid-square {
+  fill: currentColor;
+  stroke: none;
+  pointer-events: none;
+  will-change: opacity;
+}
+
 /* Header & Nav */
 .site-header {
   position: fixed;
@@ -646,6 +683,85 @@ html[data-theme="dark"] .aurora-text:hover .aurora-text-gradient {
 .btn-secondary:hover {
   border-color: var(--border-hover);
   transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   AnimatedShinyText: Efeito de Brilho Dinâmico (Shimmer) em Todos os Botões
+   ========================================================================== */
+
+.btn-primary span,
+.btn-secondary span,
+.btn-header-cta span,
+.social-btn span,
+.animated-shiny-text {
+  --shiny-width: 90px;
+  display: inline-block;
+  vertical-align: middle;
+  background-size: var(--shiny-width) 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shiny-text 8s infinite cubic-bezier(0.6, 0.6, 0, 1);
+  will-change: background-position;
+}
+
+/* Botões primários e header CTA (brilho puro sobre base branca) */
+.btn-primary span,
+.btn-header-cta span {
+  background-image:
+    linear-gradient(90deg, transparent 0%, #ffffff 50%, transparent 100%),
+    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88));
+}
+
+/* Botões secundários no Modo Claro (brilho escuro sobre base escura) */
+html[data-theme="light"] .btn-secondary span,
+html[data-theme="light"] .social-btn span {
+  background-image:
+    linear-gradient(90deg, transparent 0%, #000000 50%, transparent 100%),
+    linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75));
+}
+
+/* Botões secundários no Modo Escuro (brilho branco sobre base clara) */
+html[data-theme="dark"] .btn-secondary span,
+html[data-theme="dark"] .social-btn span {
+  background-image:
+    linear-gradient(90deg, transparent 0%, #ffffff 50%, transparent 100%),
+    linear-gradient(rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.75));
+}
+
+/* Interação tátil: Shimmer acelera ao passar o mouse */
+.btn-primary:hover span,
+.btn-secondary:hover span,
+.btn-header-cta:hover span,
+.social-btn:hover span {
+  animation-duration: 2.2s;
+}
+
+@keyframes shiny-text {
+  0%,
+  90%,
+  100% {
+    background-position: calc(-100% - var(--shiny-width)) 0, 0 0;
+  }
+  30%,
+  60% {
+    background-position: calc(100% + var(--shiny-width)) 0, 0 0;
+  }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary span,
+  .btn-secondary span,
+  .btn-header-cta span,
+  .social-btn span,
+  .animated-shiny-text {
+    animation: none;
+    background-image: none;
+    -webkit-text-fill-color: initial;
+    color: currentColor;
+  }
 }
 
 /* Hero Vector Illustration Art */

@@ -18,6 +18,17 @@
   <!-- Ambient Glow -->
   <div class="ambient-glow"></div>
 
+  <!-- Animated Grid Pattern Background -->
+  <svg id="animated-grid-pattern" class="animated-grid-pattern" aria-hidden="true">
+    <defs>
+      <pattern id="grid-pattern-bg" width="40" height="40" patternUnits="userSpaceOnUse" x="-1" y="-1">
+        <path d="M.5 40V.5H40" fill="none" stroke="currentColor" stroke-width="1" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid-pattern-bg)" />
+    <svg x="-1" y="-1" id="animated-grid-squares" class="animated-grid-squares"></svg>
+  </svg>
+
   <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
