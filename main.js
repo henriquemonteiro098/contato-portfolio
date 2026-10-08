@@ -201,14 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Object.values(sectionEls).forEach(el => observer.observe(el));
 
-  // ── 4. Animated Grid Pattern Background ─────────────────────────────────
-  const gridSvg = document.getElementById('animated-grid-pattern');
-  const squaresGroup = document.getElementById('animated-grid-squares');
+  // ── 4. Magic UI InteractiveGridPattern Background ───────────────────────
+  const gridSvg = document.getElementById('interactive-grid-pattern') || document.getElementById('animated-grid-pattern');
+  const hoverSquaresGroup = document.getElementById('interactive-grid-hover-squares');
+  const ambientSquaresGroup = document.getElementById('animated-grid-squares');
 
-  if (gridSvg && squaresGroup) {
+  if (gridSvg) {
     const squareSize = 40;
-    const numSquares = 45;
-    const maxOpacity = 0.45;
+    const maxAmbientSquares = 35;
+    const maxOpacity = 0.40;
     const duration = 4000;
     const repeatDelay = 500;
 
@@ -222,48 +223,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', updateGridDimensions, { passive: true });
 
-    function getRandomGridPos() {
-      return {
-        x: Math.floor(Math.random() * cols) * squareSize + 1,
-        y: Math.floor(Math.random() * rows) * squareSize + 1
-      };
+    // ── Mouse & Touch Interactive Trail (Magic UI) ────────────────────────
+    if (hoverSquaresGroup) {
+      let lastCol = -1;
+      let lastRow = -1;
+      const activeSquaresMap = new Map();
+
+      function triggerSquareAt(x, y) {
+        const col = Math.floor(x / squareSize);
+        const row = Math.floor(y / squareSize);
+
+        if (col === lastCol && row === lastRow) return;
+        lastCol = col;
+        lastRow = row;
+
+        const key = `${col},${row}`;
+        if (activeSquaresMap.has(key)) return;
+
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', col * squareSize + 1);
+        rect.setAttribute('y', row * squareSize + 1);
+        rect.setAttribute('width', squareSize - 1);
+        rect.setAttribute('height', squareSize - 1);
+        rect.setAttribute('class', 'interactive-hover-square');
+
+        hoverSquaresGroup.appendChild(rect);
+        activeSquaresMap.set(key, rect);
+
+        // Magic UI decay: not-[&:hover]:duration-1000
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            rect.classList.add('fade-out');
+            setTimeout(() => {
+              if (rect.parentNode) {
+                rect.parentNode.removeChild(rect);
+              }
+              activeSquaresMap.delete(key);
+            }, 1000);
+          }, 120);
+        });
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        triggerSquareAt(e.clientX, e.clientY);
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+          triggerSquareAt(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
     }
 
-    function createAndAnimateSquare(index) {
-      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      rect.setAttribute('width', squareSize - 1);
-      rect.setAttribute('height', squareSize - 1);
-      rect.setAttribute('class', 'grid-square');
-      rect.setAttribute('opacity', '0');
-      squaresGroup.appendChild(rect);
-
-      function loopAnimation(initialDelay = 0) {
-        const pos = getRandomGridPos();
-        rect.setAttribute('x', pos.x);
-        rect.setAttribute('y', pos.y);
-
-        const anim = rect.animate([
-          { opacity: 0 },
-          { opacity: maxOpacity, offset: 0.5 },
-          { opacity: 0 }
-        ], {
-          duration: duration,
-          delay: initialDelay,
-          easing: 'ease-in-out'
-        });
-
-        anim.onfinish = () => {
-          setTimeout(() => {
-            loopAnimation(0);
-          }, repeatDelay);
+    // ── Ambient Background Pulse ──────────────────────────────────────────
+    if (ambientSquaresGroup) {
+      function getRandomGridPos() {
+        return {
+          x: Math.floor(Math.random() * cols) * squareSize + 1,
+          y: Math.floor(Math.random() * rows) * squareSize + 1
         };
       }
 
-      loopAnimation(index * 100);
-    }
+      function createAndAnimateSquare(index) {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('width', squareSize - 1);
+        rect.setAttribute('height', squareSize - 1);
+        rect.setAttribute('class', 'grid-square');
+        rect.setAttribute('opacity', '0');
+        ambientSquaresGroup.appendChild(rect);
 
-    for (let i = 0; i < numSquares; i++) {
-      createAndAnimateSquare(i);
+        function loopAnimation(initialDelay = 0) {
+          const pos = getRandomGridPos();
+          rect.setAttribute('x', pos.x);
+          rect.setAttribute('y', pos.y);
+
+          const anim = rect.animate([
+            { opacity: 0 },
+            { opacity: maxOpacity, offset: 0.5 },
+            { opacity: 0 }
+          ], {
+            duration: duration,
+            delay: initialDelay,
+            easing: 'ease-in-out'
+          });
+
+          anim.onfinish = () => {
+            setTimeout(() => {
+              loopAnimation(0);
+            }, repeatDelay);
+          };
+        }
+
+        loopAnimation(index * 120);
+      }
+
+      for (let i = 0; i < maxAmbientSquares; i++) {
+        createAndAnimateSquare(i);
+      }
     }
   }
 
