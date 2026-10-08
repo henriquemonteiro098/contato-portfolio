@@ -75,29 +75,48 @@
       </nav>
 
       <div class="header-controls">
-        <!-- Dual Mode Toggle Button (Icon Only) -->
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Alternar tema" title="Alternar tema">
-          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
+        <!-- Dual Mode Toggle Button (Magic UI Shimmer) -->
+        <button id="theme-toggle" class="theme-toggle-btn shimmer-btn" aria-label="Alternar tema" title="Alternar tema">
+          <div class="shimmer-spark-container">
+            <div class="shimmer-spark-slide">
+              <div class="shimmer-spin-around"></div>
+            </div>
+          </div>
+          <div class="shimmer-highlight"></div>
+          <div class="shimmer-backdrop"></div>
+          <span class="shimmer-content">
+            <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
         </button>
 
-        <a href="#contact" class="btn-header-cta">
-          <span>CONVERSAR</span>
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.343 8h11.314m0 0L8.673 3.016M13.657 8l-4.984 4.984"/>
-          </svg>
+        <!-- CTA Header Button (Magic UI Shimmer) -->
+        <a href="#contact" class="btn-header-cta shimmer-btn">
+          <div class="shimmer-spark-container">
+            <div class="shimmer-spark-slide">
+              <div class="shimmer-spin-around"></div>
+            </div>
+          </div>
+          <div class="shimmer-highlight"></div>
+          <div class="shimmer-backdrop"></div>
+          <span class="shimmer-content">
+            <span>CONVERSAR</span>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.343 8h11.314m0 0L8.673 3.016M13.657 8l-4.984 4.984"/>
+            </svg>
+          </span>
         </a>
       </div>
     </div>
