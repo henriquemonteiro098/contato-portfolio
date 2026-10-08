@@ -318,29 +318,33 @@ html[data-theme="dark"] .tab-item.active {
 
 /* Haste principal neutra de alto contraste */
 .brand-lambda-glyph .lambda-stem {
-  fill: #121214;
+  fill: #000000;
   transition: fill var(--transition-theme);
 }
 
 html[data-theme="dark"] .brand-lambda-glyph .lambda-stem {
-  fill: #f8fafc;
+  fill: #ffffff;
 }
 
-/* Perna modular de apoio reativa ao canal RGB */
+/* Perna modular da marca com Aurora RGB fluida */
 .brand-lambda-glyph .lambda-leg {
-  fill: var(--accent-primary);
-  transition: fill 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-origin: 50% 50%;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  transform-origin: 67px 65px;
+}
+
+html[data-theme="light"] .brand-lambda-glyph .lambda-leg {
+  fill: url(#auroraRgbGradientLight);
+  filter: drop-shadow(0 1px 4px rgba(0, 82, 204, 0.20));
 }
 
 html[data-theme="dark"] .brand-lambda-glyph .lambda-leg {
-  fill: var(--accent-primary);
-  filter: drop-shadow(0 0 8px var(--accent-primary));
+  fill: url(#auroraRgbGradientDark);
+  filter: drop-shadow(0 0 8px rgba(255, 0, 60, 0.60));
 }
 
-/* Micro-deslocamento magnético no hover */
+/* Mini zoom sutil no hover da marca */
 .brand-wrap:hover .brand-lambda-glyph .lambda-leg {
-  transform: translate(2.5px, 1.5px);
+  transform: scale(1.10);
 }
 
 .header-controls {
@@ -657,45 +661,50 @@ html[data-theme="dark"] .aurora-text:hover .aurora-text-gradient {
   max-width: 480px;
   aspect-ratio: 1 / 1;
   color: var(--vector-color);
-  animation: softFloat 7s ease-in-out infinite alternate;
+  animation: heroLogoFloat 6s ease-in-out infinite alternate;
   transition: var(--transition-theme);
-  cursor: default;
+  cursor: pointer;
 }
 
-@keyframes softFloat {
-  0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-10px) rotate(1.5deg); }
+/* Flutuação pura vertical sem inclinação, mantendo a geometria imponente */
+@keyframes heroLogoFloat {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-10px); }
 }
 
-/* Monumental Hero Lambda Styling */
+/* Monumental Hero Lambda Styling - Design Final da Marca */
 .hero-lambda-stem {
-  fill: #121214;
+  fill: #000000;
   transition: fill var(--transition-theme);
 }
 
 html[data-theme="dark"] .hero-lambda-stem {
-  fill: #f8fafc;
+  fill: #ffffff;
 }
 
 .hero-lambda-leg {
-  fill: var(--accent-primary);
-  transition: fill 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-origin: 345px 270px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+  transform-origin: 388px 375px;
+}
+
+html[data-theme="light"] .hero-lambda-leg {
+  fill: url(#heroAuroraRgbLight);
+  filter: drop-shadow(0 4px 14px rgba(0, 82, 204, 0.22));
+}
+
+html[data-theme="light"] .hero-art-box:hover .hero-lambda-leg {
+  transform: scale(1.06);
+  filter: drop-shadow(0 6px 22px rgba(217, 4, 41, 0.30)) drop-shadow(0 2px 10px rgba(0, 82, 204, 0.30));
 }
 
 html[data-theme="dark"] .hero-lambda-leg {
-  fill: var(--accent-primary);
-  filter: drop-shadow(0 0 24px var(--accent-primary)) drop-shadow(0 0 50px var(--accent-glow));
+  fill: url(#heroAuroraRgbDark);
+  filter: drop-shadow(0 0 16px rgba(255, 0, 60, 0.55)) drop-shadow(0 0 30px rgba(0, 102, 255, 0.45));
 }
 
-/* Microinteração magnética no hover da arte hero */
-.hero-art-box:hover .hero-lambda-leg {
-  transform: translate(6px, 4px);
-}
-
-.hero-art-box:hover .blueprint-grid {
-  opacity: 0.4;
-  transition: opacity 0.4s ease;
+html[data-theme="dark"] .hero-art-box:hover .hero-lambda-leg {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 22px rgba(0, 255, 102, 0.75)) drop-shadow(0 0 38px rgba(0, 102, 255, 0.65)) drop-shadow(0 0 50px rgba(255, 0, 60, 0.55));
 }
 
 /* Section: Pillars of Craft */
