@@ -398,4 +398,324 @@ document.addEventListener('DOMContentLoaded', () => {
       setInterval(pushNextNotification, 2800);
     }
   }
+
+  /* --------------------------------------------------------------------------
+     6. MAGIC UI ICONCLOUD 3D (ESFERA DE TECNOLOGIAS EM FORMAÇÕES)
+     -------------------------------------------------------------------------- */
+  const cloudCanvas = document.getElementById('icon-cloud-canvas');
+  if (cloudCanvas) {
+    const slugs = [
+      "typescript", "javascript", "dart", "java", "react", "flutter", "android",
+      "html5", "css3", "nodedotjs", "express", "nextdotjs", "prisma", "amazonaws",
+      "postgresql", "firebase", "nginx", "vercel", "testinglibrary", "jest",
+      "cypress", "docker", "git", "jira", "github", "gitlab", "visualstudiocode",
+      "androidstudio", "sonarqube", "figma"
+    ];
+
+    const slugMap = {
+      java: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg",
+      css3: "https://cdn.simpleicons.org/css",
+      amazonaws: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+      visualstudiocode: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg",
+      sonarqube: "https://cdn.simpleicons.org/sonar"
+    };
+
+    const numIcons = slugs.length;
+    const ctx = cloudCanvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const LOGICAL_WIDTH = 440;
+    const LOGICAL_HEIGHT = 440;
+
+    cloudCanvas.width = LOGICAL_WIDTH * dpr;
+    cloudCanvas.height = LOGICAL_HEIGHT * dpr;
+
+    // Configurações da esfera
+    const SPHERE_RADIUS = 132;
+    const offset = 2 / numIcons;
+    const increment = Math.PI * (3 - Math.sqrt(5)); // Golden angle (~2.39996 rad)
+    const iconPositions = [];
+
+    for (let i = 0; i < numIcons; i++) {
+      const y = i * offset - 1 + offset / 2;
+      const r = Math.sqrt(1 - y * y);
+      const phi = i * increment;
+      const x = Math.cos(phi) * r;
+      const z = Math.sin(phi) * r;
+
+      iconPositions.push({
+        x: x * SPHERE_RADIUS,
+        y: y * SPHERE_RADIUS,
+        z: z * SPHERE_RADIUS,
+        slug: slugs[i],
+        id: i
+      });
+    }
+
+    // Carregamento de imagens
+    const iconImages = [];
+    const imagesLoaded = new Array(numIcons).fill(false);
+
+    slugs.forEach((slug, idx) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = slugMap[slug] || `https://cdn.simpleicons.org/${slug}`;
+      img.onload = () => {
+        imagesLoaded[idx] = true;
+      };
+      img.onerror = () => {
+        imagesLoaded[idx] = false;
+      };
+      iconImages.push(img);
+    });
+
+    // Estado de rotação e interatividade
+    let rotation = { x: 0.15, y: 0.15 };
+    let isDragging = false;
+    let lastPointerPos = { x: 0, y: 0 };
+    let mousePos = { x: LOGICAL_WIDTH / 2, y: LOGICAL_HEIGHT / 2 };
+    let isMouseOver = false;
+    let hoveredIcon = null;
+    let targetRotation = null;
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function getLogicalCoords(e) {
+      const rect = cloudCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: ((clientX - rect.left) / rect.width) * LOGICAL_WIDTH,
+        y: ((clientY - rect.top) / rect.height) * LOGICAL_HEIGHT,
+        clientX,
+        clientY
+      };
+    }
+
+    // Interações de Mouse
+    cloudCanvas.addEventListener('mousedown', (e) => {
+      const coords = getLogicalCoords(e);
+      isDragging = true;
+      lastPointerPos = { x: coords.clientX, y: coords.clientY };
+
+      if (hoveredIcon) {
+        const icon = hoveredIcon;
+        const targetX = -Math.atan2(icon.y, Math.sqrt(icon.x * icon.x + icon.z * icon.z));
+        const targetY = Math.atan2(icon.x, icon.z);
+        const currentX = rotation.x;
+        const currentY = rotation.y;
+        const distance = Math.sqrt(Math.pow(targetX - currentX, 2) + Math.pow(targetY - currentY, 2));
+        const duration = Math.min(1800, Math.max(700, distance * 800));
+
+        targetRotation = {
+          x: targetX,
+          y: targetY,
+          startX: currentX,
+          startY: currentY,
+          distance,
+          startTime: performance.now(),
+          duration
+        };
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const deltaX = e.clientX - lastPointerPos.x;
+        const deltaY = e.clientY - lastPointerPos.y;
+        rotation.x += deltaY * 0.003;
+        rotation.y += deltaX * 0.003;
+        lastPointerPos = { x: e.clientX, y: e.clientY };
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    cloudCanvas.addEventListener('mouseenter', () => {
+      isMouseOver = true;
+    });
+
+    cloudCanvas.addEventListener('mouseleave', () => {
+      isMouseOver = false;
+      hoveredIcon = null;
+    });
+
+    cloudCanvas.addEventListener('mousemove', (e) => {
+      const coords = getLogicalCoords(e);
+      mousePos = { x: coords.x, y: coords.y };
+    });
+
+    // Suporte a Touch para Mobile
+    cloudCanvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        const coords = getLogicalCoords(e);
+        isDragging = true;
+        lastPointerPos = { x: coords.clientX, y: coords.clientY };
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (isDragging && e.touches.length === 1) {
+        const deltaX = e.touches[0].clientX - lastPointerPos.x;
+        const deltaY = e.touches[0].clientY - lastPointerPos.y;
+        rotation.x += deltaY * 0.004;
+        rotation.y += deltaX * 0.004;
+        lastPointerPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    // Loop de Animação 3D
+    const motionPref = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function renderCloud() {
+      ctx.clearRect(0, 0, cloudCanvas.width, cloudCanvas.height);
+      ctx.save();
+      ctx.scale(dpr, dpr);
+
+      const centerX = LOGICAL_WIDTH / 2;
+      const centerY = LOGICAL_HEIGHT / 2;
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+      // Atualizar rotação
+      if (targetRotation) {
+        const elapsed = performance.now() - targetRotation.startTime;
+        const progress = Math.min(1, elapsed / targetRotation.duration);
+        const eased = easeOutCubic(progress);
+
+        rotation.x = targetRotation.startX + (targetRotation.x - targetRotation.startX) * eased;
+        rotation.y = targetRotation.startY + (targetRotation.y - targetRotation.startY) * eased;
+
+        if (progress >= 1) {
+          targetRotation = null;
+        }
+      } else if (!isDragging && !motionPref) {
+        if (isMouseOver) {
+          const dx = mousePos.x - centerX;
+          const dy = mousePos.y - centerY;
+          rotation.y += (dx / LOGICAL_WIDTH) * 0.006;
+          rotation.x += (dy / LOGICAL_HEIGHT) * 0.006;
+        } else {
+          // Auto-rotação contínua e fluida
+          rotation.y += 0.0028;
+          rotation.x += 0.0006;
+        }
+      }
+
+      const cosX = Math.cos(rotation.x);
+      const sinX = Math.sin(rotation.x);
+      const cosY = Math.cos(rotation.y);
+      const sinY = Math.sin(rotation.y);
+
+      // Calcular projeção de cada ícone
+      let nextHovered = null;
+      let minHoverDist = 26;
+
+      const projected = iconPositions.map((icon, idx) => {
+        const rotatedX = icon.x * cosY - icon.z * sinY;
+        const rotatedZ = icon.x * sinY + icon.z * cosY;
+        const rotatedY = icon.y * cosX + rotatedZ * sinX;
+
+        // Perspectiva e projeção
+        const cameraZ = 300;
+        const scale = (rotatedZ + cameraZ) / (cameraZ + SPHERE_RADIUS * 0.4);
+        const screenX = centerX + rotatedX;
+        const screenY = centerY + rotatedY;
+        const opacity = Math.max(0.18, Math.min(1, (rotatedZ + SPHERE_RADIUS) / (SPHERE_RADIUS * 1.8)));
+
+        if (isMouseOver && !isDragging) {
+          const dx = mousePos.x - screenX;
+          const dy = mousePos.y - screenY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < minHoverDist * scale && rotatedZ > 0) {
+            minHoverDist = dist;
+            nextHovered = icon;
+          }
+        }
+
+        return {
+          icon,
+          idx,
+          screenX,
+          screenY,
+          rotatedZ,
+          scale,
+          opacity
+        };
+      });
+
+      hoveredIcon = nextHovered;
+
+      // Z-Sorting (desenha elementos de trás para a frente)
+      projected.sort((a, b) => a.rotatedZ - b.rotatedZ);
+
+      // Renderizar itens
+      projected.forEach(({ icon, idx, screenX, screenY, scale, opacity }) => {
+        ctx.save();
+        ctx.translate(screenX, screenY);
+        ctx.scale(Math.max(0.45, scale), Math.max(0.45, scale));
+        ctx.globalAlpha = opacity;
+
+        const isCurrentHovered = hoveredIcon && hoveredIcon.id === icon.id;
+        const badgeRadius = 22;
+
+        // Pill badge backdrop
+        ctx.beginPath();
+        ctx.arc(0, 0, badgeRadius, 0, Math.PI * 2);
+
+        if (isCurrentHovered) {
+          ctx.fillStyle = isDark ? "rgba(0, 255, 102, 0.22)" : "rgba(0, 153, 68, 0.16)";
+          ctx.strokeStyle = isDark ? "rgba(0, 255, 102, 0.85)" : "rgba(0, 153, 68, 0.8)";
+          ctx.lineWidth = 2;
+        } else {
+          ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 0, 0, 0.04)";
+          ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.14)" : "rgba(0, 0, 0, 0.08)";
+          ctx.lineWidth = 1;
+        }
+
+        if (opacity > 0.6) {
+          ctx.shadowColor = isDark ? "rgba(0, 0, 0, 0.55)" : "rgba(0, 0, 0, 0.08)";
+          ctx.shadowBlur = 8;
+        }
+
+        ctx.fill();
+        ctx.stroke();
+
+        // Desenhar SVG do Ícone
+        if (imagesLoaded[idx]) {
+          const imgSize = 25;
+          ctx.drawImage(iconImages[idx], -imgSize / 2, -imgSize / 2, imgSize, imgSize);
+        } else {
+          ctx.fillStyle = isDark ? "#ffffff" : "#111111";
+          ctx.font = "bold 10px monospace";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(icon.slug.slice(0, 3).toUpperCase(), 0, 0);
+        }
+
+        // Nome da tecnologia no hover
+        if (isCurrentHovered) {
+          ctx.shadowColor = "transparent";
+          ctx.fillStyle = isDark ? "#ffffff" : "#09090b";
+          ctx.font = "600 11px system-ui, -apple-system, sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(icon.slug, 0, -badgeRadius - 4);
+        }
+
+        ctx.restore();
+      });
+
+      ctx.restore();
+      requestAnimationFrame(renderCloud);
+    }
+
+    requestAnimationFrame(renderCloud);
+  }
 });

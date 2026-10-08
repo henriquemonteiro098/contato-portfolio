@@ -2012,6 +2012,92 @@ html[data-theme="dark"] .work-tags span {
   transition: var(--transition-theme);
 }
 
+/* ==========================================================================
+   Magic UI - IconCloud 3D Sphere & Layout
+   ========================================================================== */
+.education-layout {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (max-width: 1060px) {
+  .education-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.education-layout .education-item {
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 720px) {
+  .education-layout .education-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Container do Icon Cloud 3D */
+.education-cloud-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 24px 16px;
+  min-height: 440px;
+}
+
+html[data-theme="dark"] .education-cloud-wrapper {
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 -20px 80px -20px rgba(255, 255, 255, 0.08) inset;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cloud-header-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  background: var(--accent-light);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-light);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.icon-cloud-canvas {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  aspect-ratio: 1;
+  cursor: grab;
+  touch-action: none;
+  z-index: 1;
+  display: block;
+}
+
+.icon-cloud-canvas:active {
+  cursor: grabbing;
+}
+
 .education-list {
   display: flex;
   flex-direction: column;
