@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   applyRgb(savedRgb);
 
   const titleTrigger = document.getElementById('hero-title-trigger');
-  const pillTrigger = document.getElementById('rgb-pill-trigger');
 
   function cycleRgb() {
     const currentRgb = root.getAttribute('data-rgb') || 'r';
@@ -39,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
     applyRgb(nextRgb);
     localStorage.setItem('jh_rgb', nextRgb);
 
-    // Micro-interação tátil/visual
+    // Micro-interação tátil/visual no clique
     if (titleTrigger) {
-      titleTrigger.style.transform = 'scale(0.985)';
+      titleTrigger.style.transform = 'scale(0.99)';
       setTimeout(() => {
         titleTrigger.style.transform = '';
       }, 150);
@@ -50,17 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function applyRgb(channel) {
     root.setAttribute('data-rgb', channel);
-    const labelEls = document.querySelectorAll('.rgb-channel-name');
-    labelEls.forEach(el => {
-      el.textContent = channelLabels[channel] || 'R';
-    });
   }
 
   if (titleTrigger) {
     titleTrigger.addEventListener('click', cycleRgb);
-  }
-  if (pillTrigger) {
-    pillTrigger.addEventListener('click', cycleRgb);
   }
 
   // ── 3. iOS Tab Navigation — Intersection Observer ────────────────────────

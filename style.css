@@ -202,26 +202,51 @@ html[data-theme="dark"] .site-header {
 
 /* ==========================================================================
    iOS / Apple Music Style Segmented Glass Tab Navigation
-   Segmento escuro translúcido tipo vidro, letras em branco, abas ativas
-   em alto relevo metálico com cores do tema (dourado / vermelho tech).
+   Segmento translúcido tipo vidro (frosted glass no modo claro e cyber glass no modo escuro)
    ========================================================================== */
 .tab-nav {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  background: rgba(22, 22, 26, 0.78);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-pill);
   padding: 4px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Modo Claro: Frosted Glass Puro & Translúcido */
+html[data-theme="light"] .tab-nav {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+}
+
+html[data-theme="light"] .tab-item {
+  color: #475569;
+}
+
+html[data-theme="light"] .tab-item:hover:not(.active) {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Modo Escuro: Cyber Glass Translúcido */
 html[data-theme="dark"] .tab-nav {
-  background: rgba(12, 8, 10, 0.82);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.14);
+  background: rgba(20, 24, 34, 0.55);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .tab-item {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+html[data-theme="dark"] .tab-item:hover:not(.active) {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.10);
 }
 
 .tab-item {
@@ -233,14 +258,8 @@ html[data-theme="dark"] .tab-nav {
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.75);
   white-space: nowrap;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tab-item:hover:not(.active) {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.10);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Active tab: tema RGB no modo claro (chapado) */
@@ -248,7 +267,7 @@ html[data-theme="light"] .tab-item.active {
   background: var(--accent-primary);
   color: #ffffff;
   font-weight: 700;
-  box-shadow: 0 3px 12px var(--shadow-theme);
+  box-shadow: 0 2px 10px var(--shadow-theme);
 }
 
 /* Active tab: tema RGB no modo escuro (neon) */
@@ -428,39 +447,23 @@ html[data-theme="dark"] .moon-icon {
    - Clicável: Alterna os canais R → G → B instantaneamente
    ========================================================================== */
 
-.hero-rgb-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 18px;
-}
-
-.rgb-pill {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--accent-primary);
-  background: var(--accent-light);
-  border: 1px solid var(--border-light);
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  transition: var(--transition-theme);
-  cursor: pointer;
-  user-select: none;
-}
-
-.rgb-pill:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-1px);
+.hero-text-content {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  direction: ltr;
 }
 
 .hero-title {
-  font-size: clamp(2.4rem, 4.6vw, 4.1rem);
+  text-align: left;
+  direction: ltr;
+  align-self: flex-start;
+  font-size: clamp(2.5rem, 4.8vw, 4.2rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.1;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
   transition: var(--transition-theme);
 }
 
@@ -905,14 +908,19 @@ html[data-theme="dark"] .hero-lambda-leg {
   .hero-layout {
     grid-template-columns: 1fr;
     gap: 48px;
-    text-align: center;
+    text-align: left;
+  }
+  .hero-text-content {
+    align-items: flex-start;
+    text-align: left;
   }
   .hero-sub {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
   }
   .hero-actions {
-    justify-content: center;
+    justify-content: flex-start;
   }
   .hero-art-container {
     order: -1;
