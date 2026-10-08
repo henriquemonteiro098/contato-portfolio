@@ -11,7 +11,7 @@
       fill: currentColor;
     }
     .wordmark-leg {
-      fill: #d97706;
+      fill: var(--accent-primary, #d90429);
     }
   </style>
 

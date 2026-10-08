@@ -20,63 +20,115 @@
 }
 
 /* --------------------------------------------------------------------------
-   THEME 1: SOLAR GOLD (Light Mode)
-   Fundo branco puro, tipografia grafite, acentos em ouro metálico luminoso.
+   BASE LIGHT MODE (Estilo Chapado / Swiss High-Contrast)
    -------------------------------------------------------------------------- */
 html[data-theme="light"], :root {
   --bg-main: #ffffff;
-  --bg-subtle: #fbf9f5;
-  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-subtle: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.92);
   --bg-card-hover: #ffffff;
   
-  --text-main: #121214;
-  --text-muted: #57534e;
-  --text-subtle: #a8a29e;
-  
-  --accent-primary: #c88a04;       /* Ouro metálico luminoso */
-  --accent-glow: #f59e0b;          /* Âmbar dourado vibrante */
-  --accent-gold: #fcd34d;          /* Ouro claro / amarelo dourado */
-  --accent-light: rgba(245, 158, 11, 0.12); /* Chip/glow translúcido */
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #94a3b8;
   --accent-contrast: #ffffff;
-  
-  --border-light: rgba(200, 138, 4, 0.18);
-  --border-hover: rgba(200, 138, 4, 0.45);
-  
-  --shadow-card: 0 10px 30px rgba(200, 138, 4, 0.08);
-  --shadow-hover: 0 20px 40px rgba(200, 138, 4, 0.16);
-  --shadow-theme: rgba(200, 138, 4, 0.35);
-  
-  --vector-color: #d49a00;
 }
 
 /* --------------------------------------------------------------------------
-   THEME 2: CRIMSON VOID (Dark Mode)
-   Fundo preto profundo, vermelho tech metálico, tipografia platina legível.
+   BASE DARK MODE (Estilo Cyber Neon / Deep Void)
    -------------------------------------------------------------------------- */
 html[data-theme="dark"] {
-  --bg-main: #060608;
-  --bg-subtle: #0d0a0e;
-  --bg-card: rgba(18, 10, 14, 0.72);
-  --bg-card-hover: rgba(28, 14, 20, 0.88);
+  --bg-main: #06070a;
+  --bg-subtle: #0d1017;
+  --bg-card: rgba(13, 16, 23, 0.78);
+  --bg-card-hover: rgba(22, 27, 38, 0.90);
   
-  --text-main: #f8fafc;           /* Platina de alta legibilidade */
-  --text-muted: #a1a1aa;          /* Cinza técnico */
-  --text-subtle: #71717a;         /* Cinza discreto */
-  
-  --accent-primary: #e60012;      /* Vermelho tech puro */
-  --accent-glow: #b3000f;         /* Glow tech red profundo */
-  --accent-gold: #fcd34d;         /* Dourado amarelo metálico para detalhes */
-  --accent-light: rgba(230, 0, 18, 0.14);
-  --accent-contrast: #ffffff;
-  
-  --border-light: rgba(230, 0, 18, 0.24);
-  --border-hover: rgba(230, 0, 18, 0.65);
-  
-  --shadow-card: 0 10px 30px rgba(230, 0, 18, 0.16);
-  --shadow-hover: 0 20px 50px rgba(230, 0, 18, 0.32);
-  --shadow-theme: rgba(230, 0, 18, 0.45);
-  
-  --vector-color: #e60012;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --accent-contrast: #06070a;
+}
+
+/* ==========================================================================
+   RGB CHROMATIC ENGINE: [R] Red • [G] Green • [B] Blue
+   ========================================================================== */
+
+/* --- CANAL R: RED --- */
+html[data-theme="light"][data-rgb="r"],
+html[data-theme="light"]:not([data-rgb]),
+:root {
+  --accent-primary: #d90429;
+  --accent-glow: #ef233c;
+  --accent-light: rgba(217, 4, 41, 0.10);
+  --border-light: rgba(217, 4, 41, 0.20);
+  --border-hover: rgba(217, 4, 41, 0.55);
+  --shadow-card: 0 10px 30px rgba(217, 4, 41, 0.08);
+  --shadow-hover: 0 20px 40px rgba(217, 4, 41, 0.16);
+  --shadow-theme: rgba(217, 4, 41, 0.35);
+  --vector-color: #d90429;
+}
+
+html[data-theme="dark"][data-rgb="r"],
+html[data-theme="dark"]:not([data-rgb]) {
+  --accent-primary: #ff003c;
+  --accent-glow: #ff2a5f;
+  --accent-light: rgba(255, 0, 60, 0.16);
+  --border-light: rgba(255, 0, 60, 0.28);
+  --border-hover: rgba(255, 0, 60, 0.75);
+  --shadow-card: 0 10px 30px rgba(255, 0, 60, 0.16);
+  --shadow-hover: 0 20px 50px rgba(255, 0, 60, 0.35);
+  --shadow-theme: rgba(255, 0, 60, 0.60);
+  --vector-color: #ff003c;
+}
+
+/* --- CANAL G: GREEN --- */
+html[data-theme="light"][data-rgb="g"] {
+  --accent-primary: #00875a;
+  --accent-glow: #059669;
+  --accent-light: rgba(0, 135, 90, 0.10);
+  --border-light: rgba(0, 135, 90, 0.20);
+  --border-hover: rgba(0, 135, 90, 0.55);
+  --shadow-card: 0 10px 30px rgba(0, 135, 90, 0.08);
+  --shadow-hover: 0 20px 40px rgba(0, 135, 90, 0.16);
+  --shadow-theme: rgba(0, 135, 90, 0.35);
+  --vector-color: #00875a;
+}
+
+html[data-theme="dark"][data-rgb="g"] {
+  --accent-primary: #00ff66;
+  --accent-glow: #00f59b;
+  --accent-light: rgba(0, 255, 102, 0.16);
+  --border-light: rgba(0, 255, 102, 0.28);
+  --border-hover: rgba(0, 255, 102, 0.75);
+  --shadow-card: 0 10px 30px rgba(0, 255, 102, 0.16);
+  --shadow-hover: 0 20px 50px rgba(0, 255, 102, 0.35);
+  --shadow-theme: rgba(0, 255, 102, 0.60);
+  --vector-color: #00ff66;
+}
+
+/* --- CANAL B: BLUE --- */
+html[data-theme="light"][data-rgb="b"] {
+  --accent-primary: #0052cc;
+  --accent-glow: #1d4ed8;
+  --accent-light: rgba(0, 82, 204, 0.10);
+  --border-light: rgba(0, 82, 204, 0.20);
+  --border-hover: rgba(0, 82, 204, 0.55);
+  --shadow-card: 0 10px 30px rgba(0, 82, 204, 0.08);
+  --shadow-hover: 0 20px 40px rgba(0, 82, 204, 0.16);
+  --shadow-theme: rgba(0, 82, 204, 0.35);
+  --vector-color: #0052cc;
+}
+
+html[data-theme="dark"][data-rgb="b"] {
+  --accent-primary: #00e5ff;
+  --accent-glow: #00b0ff;
+  --accent-light: rgba(0, 229, 255, 0.16);
+  --border-light: rgba(0, 229, 255, 0.28);
+  --border-hover: rgba(0, 229, 255, 0.75);
+  --shadow-card: 0 10px 30px rgba(0, 229, 255, 0.16);
+  --shadow-hover: 0 20px 50px rgba(0, 229, 255, 0.35);
+  --shadow-theme: rgba(0, 229, 255, 0.60);
+  --vector-color: #00e5ff;
 }
 
 /* Reset & Base */
@@ -191,22 +243,20 @@ html[data-theme="dark"] .tab-nav {
   background: rgba(255, 255, 255, 0.10);
 }
 
-/* Active tab: tema dourado metálico no modo claro */
+/* Active tab: tema RGB no modo claro (chapado) */
 html[data-theme="light"] .tab-item.active {
-  background: linear-gradient(135deg, #fce881 0%, #e5a912 40%, #c88a04 80%, #9e6b02 100%);
+  background: var(--accent-primary);
   color: #ffffff;
   font-weight: 700;
-  text-shadow: 0 1px 2px rgba(90, 60, 0, 0.65);
-  box-shadow: 0 3px 14px rgba(200, 138, 4, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+  box-shadow: 0 3px 12px var(--shadow-theme);
 }
 
-/* Active tab: tema vermelho tech metálico no modo escuro */
+/* Active tab: tema RGB no modo escuro (neon) */
 html[data-theme="dark"] .tab-item.active {
-  background: linear-gradient(135deg, #ff334b 0%, #e60012 45%, #a8000d 85%, #660008 100%);
-  color: #ffffff;
+  background: var(--accent-primary);
+  color: #06070a;
   font-weight: 700;
-  text-shadow: 0 1px 2px rgba(60, 0, 4, 0.7);
-  box-shadow: 0 3px 18px rgba(230, 0, 18, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 16px var(--accent-primary), 0 0 30px var(--accent-glow);
 }
 
 
@@ -257,15 +307,16 @@ html[data-theme="dark"] .brand-lambda-glyph .lambda-stem {
   fill: #f8fafc;
 }
 
-/* Perna modular de apoio com Shimmer Dinâmico contínuo */
+/* Perna modular de apoio reativa ao canal RGB */
 .brand-lambda-glyph .lambda-leg {
-  fill: url(#brandLambdaShimmerLight);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  fill: var(--accent-primary);
+  transition: fill 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: 50% 50%;
 }
 
 html[data-theme="dark"] .brand-lambda-glyph .lambda-leg {
-  fill: url(#brandLambdaShimmerDark);
+  fill: var(--accent-primary);
+  filter: drop-shadow(0 0 8px var(--accent-primary));
 }
 
 /* Micro-deslocamento magnético no hover */
@@ -370,165 +421,113 @@ html[data-theme="dark"] .moon-icon {
   width: 100%;
 }
 
+/* ==========================================================================
+   Hero Title: Interactive RGB Engine & Dual Aesthetics
+   - Light Mode: Estilo Chapado / Solid Swiss Typography de alto contraste
+   - Dark Mode: Estilo Cyber Neon / Pulso respiratório luminescente
+   - Clicável: Alterna os canais R → G → B instantaneamente
+   ========================================================================== */
+
+.hero-rgb-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.rgb-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  background: var(--accent-light);
+  border: 1px solid var(--border-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  transition: var(--transition-theme);
+  cursor: pointer;
+  user-select: none;
+}
+
+.rgb-pill:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
 .hero-title {
-  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-size: clamp(2.4rem, 4.6vw, 4.1rem);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 1.08;
-  margin-bottom: 24px;
+  line-height: 1.1;
+  margin-bottom: 26px;
   transition: var(--transition-theme);
 }
 
-/* ==========================================================================
-   Multi-Directional Liquid Metallic Silk Shimmer
-   Múltiplas ondas líquidas cruzadas (diagonal 45°, cross-diagonal 135°,
-   ondulações verticais 180° e reflexos caústicos 90°) simulando tecido metálico
-   e água líquida fluindo continuamente em várias direções pelas letras.
-   ========================================================================== */
+.hero-title-interactive {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-@keyframes liquidMetalSilk {
-  0% {
-    background-position:
-      0% 0%,        /* Onda 1: diagonal 45° */
-      100% 0%,      /* Onda 2: cruzada 135° */
-      50% 0%,       /* Onda 3: vertical fluida */
-      0% 50%;       /* Onda 4: caústica / glint */
+.hero-title-interactive:hover {
+  transform: scale(1.008);
+}
+
+.hero-title-interactive:active {
+  transform: scale(0.995);
+}
+
+/* Modo Claro: 100% Chapado e Sólido (Estilo Pôster Suíço) */
+html[data-theme="light"] .hero-title-interactive .title-text {
+  color: var(--accent-primary);
+  background: none;
+  -webkit-text-fill-color: initial;
+  text-shadow: none;
+  filter: none;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modo Escuro: Tubo de Neon com Pulso Contínuo Respiratório */
+html[data-theme="dark"] .hero-title-interactive .title-text {
+  color: #ffffff;
+  background: none;
+  -webkit-text-fill-color: initial;
+  animation: neonBreathingPulse 3.5s ease-in-out infinite;
+  transition: color 0.3s ease;
+}
+
+@keyframes neonBreathingPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 4px #ffffff,
+      0 0 10px var(--accent-primary),
+      0 0 24px var(--accent-primary),
+      0 0 48px var(--accent-glow),
+      0 0 85px var(--accent-glow);
+    opacity: 0.98;
   }
   50% {
-    background-position:
-      100% 100%,
-      0% 100%,
-      50% 150%,
-      100% 50%;
+    text-shadow:
+      0 0 2px #ffffff,
+      0 0 6px var(--accent-primary),
+      0 0 14px var(--accent-primary),
+      0 0 28px var(--accent-glow),
+      0 0 52px var(--accent-glow);
+    opacity: 0.88;
   }
-  100% {
-    background-position:
-      200% 200%,
-      -100% 200%,
-      50% 300%,
-      200% 50%;
-  }
-}
-
-.gemini-text-shimmer {
-  display: inline-block;
-  font-weight: 800;
-  position: relative;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-
-  /* OURO METÁLICO LÍQUIDO MULTI-DIRECIONAL (Modo Claro) */
-  background-image:
-    /* Layer 1: Glint especular diagonal de alta frequência */
-    linear-gradient(
-      45deg,
-      transparent 0%,
-      transparent 38%,
-      rgba(255, 255, 255, 0.95) 48%,
-      rgba(255, 254, 215, 0.95) 52%,
-      transparent 62%,
-      transparent 100%
-    ),
-    /* Layer 2: Tecido cruzado em ouro líquido 24k */
-    linear-gradient(
-      135deg,
-      #5c3a02 0%,
-      #a67405 18%,
-      #f5c53a 36%,
-      #fff8d0 48%,
-      #e5a912 58%,
-      #8a5806 76%,
-      #5c3a02 100%
-    ),
-    /* Layer 3: Ondas verticais fluidas */
-    linear-gradient(
-      180deg,
-      #7a4f02 0%,
-      #e5a912 25%,
-      #fff4be 50%,
-      #d49a00 75%,
-      #7a4f02 100%
-    ),
-    /* Layer 4: Caústica e reflexo horizontal */
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 248, 200, 0.85) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
-
-  background-size:
-    200% 200%,
-    200% 200%,
-    100% 300%,
-    200% 100%;
-
-  background-blend-mode: color-dodge, normal, soft-light, overlay;
-  animation: liquidMetalSilk 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  filter: drop-shadow(0 2px 10px rgba(200, 138, 4, 0.35));
-}
-
-/* VERMELHO TECH METÁLICO LÍQUIDO (Modo Escuro) */
-html[data-theme="dark"] .gemini-text-shimmer {
-  background-image:
-    /* Layer 1: Glint de platina / reflexo laser */
-    linear-gradient(
-      45deg,
-      transparent 0%,
-      transparent 38%,
-      rgba(255, 255, 255, 0.95) 48%,
-      rgba(255, 200, 210, 0.95) 52%,
-      transparent 62%,
-      transparent 100%
-    ),
-    /* Layer 2: Tecido cruzado de titânio vermelho tech */
-    linear-gradient(
-      135deg,
-      #2e0005 0%,
-      #7a000d 18%,
-      #d8001d 36%,
-      #ff7588 48%,
-      #e60012 58%,
-      #59000a 76%,
-      #2e0005 100%
-    ),
-    /* Layer 3: Ondas verticais fluidas */
-    linear-gradient(
-      180deg,
-      #470007 0%,
-      #cc0018 25%,
-      #ffa3b1 50%,
-      #b30014 75%,
-      #470007 100%
-    ),
-    /* Layer 4: Caústica laser horizontal */
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 180, 195, 0.85) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
-
-  background-size:
-    200% 200%,
-    200% 200%,
-    100% 300%,
-    200% 100%;
-
-  background-blend-mode: color-dodge, normal, soft-light, overlay;
-  filter: drop-shadow(0 2px 14px rgba(230, 0, 18, 0.5));
 }
 
 /* Acessibilidade */
 @media (prefers-reduced-motion: reduce) {
-  .gemini-text-shimmer {
+  html[data-theme="dark"] .hero-title-interactive .title-text {
     animation: none;
-    background-image: linear-gradient(90deg, #c88a04, #f5c53a);
-  }
-  html[data-theme="dark"] .gemini-text-shimmer {
-    background-image: linear-gradient(90deg, #e60012, #ff7588);
+    text-shadow:
+      0 0 4px #ffffff,
+      0 0 10px var(--accent-primary),
+      0 0 20px var(--accent-glow);
   }
 }
 
@@ -626,13 +625,14 @@ html[data-theme="dark"] .hero-lambda-stem {
 }
 
 .hero-lambda-leg {
-  fill: url(#heroLambdaShimmerLight);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  fill: var(--accent-primary);
+  transition: fill 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: 345px 270px;
 }
 
 html[data-theme="dark"] .hero-lambda-leg {
-  fill: url(#heroLambdaShimmerDark);
+  fill: var(--accent-primary);
+  filter: drop-shadow(0 0 24px var(--accent-primary)) drop-shadow(0 0 50px var(--accent-glow));
 }
 
 /* Microinteração magnética no hover da arte hero */
