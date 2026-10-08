@@ -993,6 +993,292 @@ html[data-theme="dark"] .hero-art-box:hover .hero-lambda-leg {
 }
 
 /* ==========================================================================
+   Section: Works & Projects (Trabalhos & Produtos Autorais)
+   ========================================================================== */
+.section-works {
+  padding: 100px 0;
+  border-top: 1px solid var(--border-light);
+  transition: var(--transition-theme);
+}
+
+.featured-work-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: clamp(32px, 4.5vw, 48px);
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-work-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.featured-work-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.featured-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.work-badge-primary {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: #27272a;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .work-badge-primary {
+  background: #ffffff;
+  color: #090a0f;
+}
+
+.work-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-light);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-light);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: pulseStatus 2s infinite ease-in-out;
+}
+
+@keyframes pulseStatus {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.work-meta-tech {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.featured-work-title {
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.featured-work-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--accent-primary);
+  margin-bottom: 16px;
+}
+
+.featured-work-desc {
+  font-size: 1.02rem;
+  color: var(--text-muted);
+  line-height: 1.68;
+  max-width: 820px;
+  margin-bottom: 32px;
+}
+
+/* 5 Pilares do Life Hub */
+.lifehub-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.lifehub-pillar-item {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+html[data-theme="dark"] .lifehub-pillar-item {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lifehub-pillar-item:hover {
+  border-color: var(--border-hover);
+  background: var(--accent-light);
+}
+
+.pillar-number {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.pillar-details h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.pillar-details p {
+  font-size: 0.80rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.featured-work-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+}
+
+.work-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.work-tags span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+  transition: all 0.2s ease;
+}
+
+html[data-theme="dark"] .work-tags span {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.work-tags span:hover {
+  color: var(--text-main);
+  border-color: var(--border-hover);
+}
+
+.work-progress-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+/* Secondary Works Grid */
+.secondary-works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.work-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-card);
+}
+
+.work-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.work-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.work-mini-tag {
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+}
+
+.work-mini-status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-light);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+}
+
+.work-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.work-card-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+@media (max-width: 840px) {
+  .secondary-works-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
    Section: Education & Qualification (Technical List Format)
    ========================================================================== */
 .section-education {
@@ -1241,17 +1527,29 @@ html[data-theme="dark"] .social-btn:hover {
 
 @media (max-width: 640px) {
   .site-header {
-    padding: 14px 16px;
+    padding: 12px 14px;
   }
   .header-inner {
     gap: 8px;
   }
   .brand-title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
+  }
+  .tab-nav {
+    max-width: calc(100vw - 110px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 3px;
+    gap: 2px;
+  }
+  .tab-nav::-webkit-scrollbar {
+    display: none;
   }
   .tab-item {
     padding: 5px 8px;
     font-size: 0.68rem;
+    flex-shrink: 0;
   }
   .theme-toggle-btn {
     width: 34px;

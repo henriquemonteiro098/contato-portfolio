@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 3. iOS Tab Navigation — Intersection Observer ────────────────────────
   const tabItems = document.querySelectorAll('.tab-item[data-section]');
-  const sections = ['hero', 'pillars', 'education', 'contact'];
+  const sections = ['hero', 'pillars', 'works', 'education', 'contact'];
 
   const sectionEls = {};
   sections.forEach(id => {
