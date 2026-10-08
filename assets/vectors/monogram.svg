@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" class="lambda-modular-logo" aria-hidden="true">
-  <!-- Haste Principal Desconstruída (High-contrast neutral) -->
-  <polygon class="lambda-stem" points="36,14 52,14 32,86 16,86" fill="currentColor" />
-  
-  <!-- Perna Modular de Apoio (Dual-theme accent) -->
-  <polygon class="lambda-leg" points="51,44 67,44 84,86 68,86" fill="#d97706" />
-</svg>
