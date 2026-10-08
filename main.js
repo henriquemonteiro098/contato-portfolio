@@ -266,4 +266,80 @@ document.addEventListener('DOMContentLoaded', () => {
       createAndAnimateSquare(i);
     }
   }
+
+  // ── 5. Magic UI AnimatedList (Life Hub Notifications) ───────────────────
+  const notifContainer = document.getElementById('lifehub-animated-list');
+  if (notifContainer) {
+    const notificationsData = [
+      {
+        name: "Despensa Inteligente",
+        description: "Café em grãos atingiu o estoque mínimo",
+        time: "Agora",
+        icon: "☕",
+        color: "#00C9A7"
+      },
+      {
+        name: "Alerta de Validade",
+        description: "Laticínios vencem em 48 horas",
+        time: "5m atrás",
+        icon: "⏳",
+        color: "#FF3D71"
+      },
+      {
+        name: "Fatura de Assinatura",
+        description: "Cobrança de streaming agendada",
+        time: "15m atrás",
+        icon: "💸",
+        color: "#FFB800"
+      },
+      {
+        name: "Checklist Residencial",
+        description: "Ciclo de limpeza de filtros programado",
+        time: "30m atrás",
+        icon: "🏡",
+        color: "#1E86FF"
+      },
+      {
+        name: "Meta & Hábito",
+        description: "Sequência de 14 dias de foco atingida!",
+        time: "1h atrás",
+        icon: "⚡",
+        color: "#8B5CF6"
+      }
+    ];
+
+    let notifIndex = 2;
+
+    function pushNextNotification() {
+      const item = notificationsData[notifIndex % notificationsData.length];
+      notifIndex++;
+
+      const figure = document.createElement('figure');
+      figure.className = 'magic-notification-item anim-spring-enter';
+      figure.innerHTML = `
+        <div class="magic-notif-icon-box" style="background-color: ${item.color};">
+          <span>${item.icon}</span>
+        </div>
+        <div class="magic-notif-content">
+          <figcaption class="magic-notif-header">
+            <span>${item.name}</span>
+            <span class="magic-notif-sep">·</span>
+            <span class="magic-notif-time">${item.time}</span>
+          </figcaption>
+          <p class="magic-notif-desc">${item.description}</p>
+        </div>
+      `;
+
+      notifContainer.prepend(figure);
+
+      while (notifContainer.children.length > 3) {
+        notifContainer.removeChild(notifContainer.lastElementChild);
+      }
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
+      setInterval(pushNextNotification, 2800);
+    }
+  }
 });

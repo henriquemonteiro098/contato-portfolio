@@ -1563,81 +1563,126 @@ html[data-theme="dark"] .bento-pill {
   color: var(--text-muted);
 }
 
-/* ── 3. Animated List Background ──────────────────────────────────── */
-.bento-anim-list {
+/* ── 3. Magic UI Animated List (Notifications) ─────────────────────── */
+.bento-bg-animated-list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14px;
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+}
+
+.magic-animated-list-wrapper {
+  width: 92%;
+  max-width: 320px;
+  overflow: hidden;
+}
+
+.magic-animated-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 90%;
-  max-width: 340px;
-  transform: translateY(6px);
+  width: 100%;
 }
 
-.bento-anim-item {
+.magic-notification-item {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 10px 12px;
+  margin: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 12px;
+  gap: 12px;
+  /* Light styles */
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  font-size: 0.74rem;
-  animation: floatNotification 4s ease-in-out infinite;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.05), 0 12px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease-in-out;
+  transform-origin: top center;
 }
 
-.bento-anim-item:nth-child(2) {
-  animation-delay: 1.3s;
-  transform: scale(0.96);
-  opacity: 0.88;
+html[data-theme="dark"] .magic-notification-item {
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 -20px 80px -20px rgba(255, 255, 255, 0.12) inset;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.bento-anim-item:nth-child(3) {
-  animation-delay: 2.6s;
-  transform: scale(0.92);
-  opacity: 0.70;
+.magic-notification-item:hover {
+  transform: scale(1.02);
 }
 
-@keyframes floatNotification {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-.bento-anim-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: var(--accent-light);
-  color: var(--accent-primary);
+.magic-notif-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 1.1rem;
   flex-shrink: 0;
 }
 
-.bento-anim-text {
+.magic-notif-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  line-height: 1.3;
+  overflow: hidden;
+  line-height: 1.35;
 }
 
-.bento-anim-title {
+.magic-notif-header {
+  display: flex;
+  align-items: center;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--text-main);
-  font-size: 0.74rem;
+  white-space: nowrap;
 }
 
-.bento-anim-sub {
-  font-size: 0.66rem;
+.magic-notif-sep {
+  margin: 0 4px;
   color: var(--text-muted);
 }
 
-.bento-anim-time {
+.magic-notif-time {
+  font-size: 0.65rem;
+  color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+}
+
+.magic-notif-desc {
+  font-size: 0.70rem;
   color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+/* Magic UI Spring entrance animation */
+@keyframes magicNotifSpringIn {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(-16px);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.04) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.magic-notification-item.anim-spring-enter {
+  animation: magicNotifSpringIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ── 4. Calendar Background ───────────────────────────────────────── */
