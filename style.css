@@ -1738,6 +1738,56 @@ html[data-theme="dark"] .bento-cal-widget {
   transform: translateY(-3px);
 }
 
+/* ==========================================================================
+   Magic UI - Border Beam Engine
+   ========================================================================== */
+.border-beam-container {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: var(--border-beam-width, 1.5px) solid transparent;
+  mask: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  -webkit-mask: linear-gradient(transparent, transparent) padding-box, linear-gradient(#000, #000) border-box;
+  -webkit-mask-composite: destination-out;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.border-beam {
+  position: absolute;
+  aspect-ratio: 1;
+  width: var(--border-beam-size, 160px);
+  background: linear-gradient(to left, var(--border-beam-from, #ffaa40), var(--border-beam-to, #9c40ff), transparent);
+  offset-path: rect(0 auto auto 0 round var(--radius-lg));
+  animation: borderBeamTravel var(--border-beam-duration, 8s) linear infinite;
+  filter: drop-shadow(0 0 12px var(--border-beam-to, #9c40ff));
+}
+
+@keyframes borderBeamTravel {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-beam {
+    animation: none;
+  }
+}
+
+.featured-work-header,
+.featured-work-body,
+.featured-work-footer {
+  position: relative;
+  z-index: 3;
+}
+
 .featured-work-header {
   display: flex;
   align-items: center;
