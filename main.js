@@ -23,36 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     root.setAttribute('data-theme', theme);
   }
 
-  // ── 2. RGB Chromatic Engine (R → G → B Cycle) ───────────────────────────
-  const rgbChannels = ['r', 'g', 'b'];
-  const channelLabels = { r: 'R', g: 'G', b: 'B' };
+  // ── 2. RGB Chromatic Engine ─────────────────────────────────────────────
   const savedRgb = localStorage.getItem('jh_rgb') || 'r';
   applyRgb(savedRgb);
 
-  const titleTrigger = document.getElementById('hero-title-trigger');
-
-  function cycleRgb() {
-    const currentRgb = root.getAttribute('data-rgb') || 'r';
-    const nextIndex = (rgbChannels.indexOf(currentRgb) + 1) % rgbChannels.length;
-    const nextRgb = rgbChannels[nextIndex];
-    applyRgb(nextRgb);
-    localStorage.setItem('jh_rgb', nextRgb);
-
-    // Micro-interação tátil/visual no clique
-    if (titleTrigger) {
-      titleTrigger.style.transform = 'scale(0.99)';
-      setTimeout(() => {
-        titleTrigger.style.transform = '';
-      }, 150);
-    }
-  }
-
   function applyRgb(channel) {
     root.setAttribute('data-rgb', channel);
-  }
-
-  if (titleTrigger) {
-    titleTrigger.addEventListener('click', cycleRgb);
   }
 
   // ── 3. iOS Tab Navigation — Intersection Observer ────────────────────────
