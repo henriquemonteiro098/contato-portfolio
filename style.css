@@ -1743,6 +1743,32 @@ html[data-theme="light"] .beam-floating-tooltip {
   transform: translateX(-50%) translateY(0);
 }
 
+@media (max-width: 480px) {
+  .animated-beam-container {
+    padding: 12px 10px;
+    min-height: 200px;
+  }
+  .beam-col {
+    gap: 14px;
+  }
+  .beam-circle {
+    width: 38px;
+    height: 38px;
+  }
+  .beam-circle-core {
+    width: 50px;
+    height: 50px;
+  }
+  .beam-circle svg {
+    transform: scale(0.85);
+  }
+  .beam-floating-tooltip {
+    font-size: 0.62rem;
+    padding: 4px 10px;
+    bottom: 4px;
+  }
+}
+
 /* ── 3. Magic UI Animated List (Notifications) ─────────────────────── */
 .bento-bg-animated-list {
   display: flex;
