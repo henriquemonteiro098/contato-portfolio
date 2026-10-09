@@ -718,4 +718,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
     requestAnimationFrame(renderCloud);
   }
+
+  /* --------------------------------------------------------------------------
+     7. MAGIC UI ANIMATED BEAM ENGINE (LIFE HUB)
+     -------------------------------------------------------------------------- */
+  const beamContainer = document.getElementById('lifehub-beam-container');
+  const beamSvg = document.getElementById('lifehub-beam-svg');
+  const pathsGroup = document.getElementById('lifehub-beam-paths');
+  const coreNode = document.getElementById('beam-node-core');
+  const floatingTooltip = document.getElementById('beam-floating-tooltip');
+
+  if (beamContainer && beamSvg && pathsGroup && coreNode) {
+    const connections = [
+      { id: 'beam-node-drive', curvature: -40, endYOffset: -6, reverse: false },
+      { id: 'beam-node-notion', curvature: 0, endYOffset: 0, reverse: false },
+      { id: 'beam-node-whatsapp', curvature: 40, endYOffset: 6, reverse: false },
+      { id: 'beam-node-docs', curvature: -40, endYOffset: -6, reverse: true },
+      { id: 'beam-node-zapier', curvature: 0, endYOffset: 0, reverse: true },
+      { id: 'beam-node-alerts', curvature: 40, endYOffset: 6, reverse: true }
+    ];
+
+    const pathElements = new Map();
+
+    function createOrUpdatePaths() {
+      const containerRect = beamContainer.getBoundingClientRect();
+      if (containerRect.width === 0 || containerRect.height === 0) return;
+
+      const coreRect = coreNode.getBoundingClientRect();
+      const coreCenterX = coreRect.left - containerRect.left + coreRect.width / 2;
+      const coreCenterY = coreRect.top - containerRect.top + coreRect.height / 2;
+
+      connections.forEach((conn, index) => {
+        const nodeEl = document.getElementById(conn.id);
+        if (!nodeEl) return;
+
+        const nodeRect = nodeEl.getBoundingClientRect();
+        const nodeCenterX = nodeRect.left - containerRect.left + nodeRect.width / 2;
+        const nodeCenterY = nodeRect.top - containerRect.top + nodeRect.height / 2;
+
+        let startX, startY, endX, endY, curvature;
+        if (!conn.reverse) {
+          startX = nodeCenterX;
+          startY = nodeCenterY;
+          endX = coreCenterX;
+          endY = coreCenterY + conn.endYOffset;
+          curvature = conn.curvature;
+        } else {
+          startX = coreCenterX;
+          startY = coreCenterY + conn.endYOffset;
+          endX = nodeCenterX;
+          endY = nodeCenterY;
+          curvature = -conn.curvature;
+        }
+
+        const controlX = (startX + endX) / 2;
+        const controlY = (startY + endY) / 2 + curvature;
+        const d = `M ${startX.toFixed(1)},${startY.toFixed(1)} Q ${controlX.toFixed(1)},${controlY.toFixed(1)} ${endX.toFixed(1)},${endY.toFixed(1)}`;
+
+        let elements = pathElements.get(conn.id);
+        if (!elements) {
+          const trackPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          trackPath.setAttribute('class', 'beam-track');
+
+          const photonPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          photonPath.setAttribute('class', 'beam-photon');
+          photonPath.setAttribute('stroke', conn.reverse ? 'url(#beamGradOut)' : 'url(#beamGradIn)');
+          photonPath.setAttribute('filter', 'url(#beamPrecisionGlow)');
+          photonPath.style.animationDelay = `${index * 0.55}s`;
+
+          pathsGroup.appendChild(trackPath);
+          pathsGroup.appendChild(photonPath);
+
+          elements = { track: trackPath, photon: photonPath };
+          pathElements.set(conn.id, elements);
+        }
+
+        elements.track.setAttribute('d', d);
+        elements.photon.setAttribute('d', d);
+      });
+    }
+
+    // Inicialização pós-renderização
+    setTimeout(createOrUpdatePaths, 50);
+
+    // ResizeObserver para manter alinhamento dinâmico sub-pixel em qualquer tela
+    if (window.ResizeObserver) {
+      const resizeObserver = new ResizeObserver(() => {
+        requestAnimationFrame(createOrUpdatePaths);
+      });
+      resizeObserver.observe(beamContainer);
+    } else {
+      window.addEventListener('resize', createOrUpdatePaths, { passive: true });
+    }
+
+    // Micro-interações e Tooltips
+    const allNodes = beamContainer.querySelectorAll('.beam-circle');
+    allNodes.forEach((node) => {
+      const tooltipText = node.getAttribute('data-tooltip');
+      const nodeId = node.id;
+
+      function highlightOn() {
+        const elements = pathElements.get(nodeId);
+        if (elements) {
+          elements.track.classList.add('active-highlight');
+          elements.photon.classList.add('active-highlight');
+        } else if (nodeId === 'beam-node-core') {
+          pathElements.forEach((el) => {
+            el.track.classList.add('active-highlight');
+            el.photon.classList.add('active-highlight');
+          });
+        }
+
+        if (floatingTooltip && tooltipText) {
+          floatingTooltip.textContent = tooltipText;
+          floatingTooltip.classList.add('is-visible');
+        }
+      }
+
+      function highlightOff() {
+        pathElements.forEach((el) => {
+          el.track.classList.remove('active-highlight');
+          el.photon.classList.remove('active-highlight');
+        });
+
+        if (floatingTooltip) {
+          floatingTooltip.classList.remove('is-visible');
+        }
+      }
+
+      node.addEventListener('mouseenter', highlightOn);
+      node.addEventListener('mouseleave', highlightOff);
+      node.addEventListener('focus', highlightOn);
+      node.addEventListener('blur', highlightOff);
+    });
+  }
 });

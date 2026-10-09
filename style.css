@@ -1517,84 +1517,230 @@ html[data-theme="dark"] .bento-pill {
 }
 
 /* ── 2. Animated Beam Background ──────────────────────────────────── */
-.bento-beam-wrapper {
+/* ── 2. Magic UI Animated Beam (Neural Integration Hub) ─────────────── */
+.animated-beam-container {
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 16px 20px;
 }
 
-.bento-beam-svg {
+.animated-beam-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
 }
 
-.bento-beam-line {
-  stroke: var(--border-light);
-  stroke-width: 1.5;
+.beam-paths-group {
+  overflow: visible;
+}
+
+/* Linha-guia base neutra ultra-fina */
+.beam-track {
   fill: none;
+  stroke: rgba(0, 0, 0, 0.08);
+  stroke-width: 1.2;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
 }
 
-.bento-beam-pulse {
-  stroke: var(--accent-primary);
-  stroke-width: 2.5;
+html[data-theme="dark"] .beam-track {
+  stroke: rgba(255, 255, 255, 0.09);
+}
+
+.beam-track.active-highlight {
+  stroke: rgba(0, 255, 102, 0.5);
+  stroke-width: 1.6;
+}
+
+/* Feixe de fótons animado */
+.beam-photon {
+  fill: none;
+  stroke-width: 1.8;
   stroke-linecap: round;
-  fill: none;
-  stroke-dasharray: 40 180;
-  animation: beamFlow 3.5s linear infinite;
-  filter: drop-shadow(0 0 5px var(--accent-primary));
+  stroke-dasharray: 48 180;
+  animation: beamFlowTravel 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter: drop-shadow(0 0 4px rgba(0, 102, 255, 0.6));
+  opacity: 0.9;
+  transition: stroke-width 0.3s ease, filter 0.3s ease;
 }
 
-@keyframes beamFlow {
-  0% { stroke-dashoffset: 220; }
-  100% { stroke-dashoffset: -220; }
+.beam-photon.active-highlight {
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 102, 0.85));
+  opacity: 1;
 }
 
-.bento-beam-nodes {
+@keyframes beamFlowTravel {
+  0% {
+    stroke-dashoffset: 228;
+  }
+  100% {
+    stroke-dashoffset: -228;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam-photon {
+    animation: none;
+    stroke-dasharray: none;
+    opacity: 0.5;
+  }
+}
+
+/* Layout dos Nós (3 Colunas) */
+.beam-nodes-layout {
   position: relative;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 90%;
-  max-width: 480px;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
 }
 
-.bento-node-hub {
-  padding: 7px 15px;
-  border-radius: 9999px;
-  background: var(--bg-card);
-  border: 1.5px solid var(--accent-primary);
-  box-shadow: 0 0 16px var(--accent-light);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--accent-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.bento-node-endpoints {
+.beam-col {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
 }
 
-.bento-node-endpoint {
-  padding: 4px 10px;
-  border-radius: 8px;
-  background: var(--bg-card);
+.beam-col-center {
+  justify-content: center;
+}
+
+/* Círculo do Nó (Circle Component) */
+.beam-circle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
   border: 1px solid var(--border-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+html[data-theme="dark"] .beam-circle {
+  background: rgba(24, 24, 27, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.beam-circle:hover,
+.beam-circle:focus-visible {
+  transform: translateY(-2px) scale(1.08);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Nó Central (Core) */
+.beam-circle-core {
+  width: 58px;
+  height: 58px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="dark"] .beam-circle-core {
+  background: rgba(18, 18, 20, 0.95);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 30px rgba(0, 255, 102, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.beam-circle-core:hover,
+.beam-circle-core:focus-visible {
+  transform: scale(1.08);
+  border-color: #00ff66;
+  box-shadow: 0 0 28px rgba(0, 255, 102, 0.35);
+}
+
+.core-pulse-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 255, 102, 0.3);
+  animation: coreHaloPulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes coreHaloPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+.core-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tooltip Dinâmico */
+.beam-floating-tooltip {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(18, 18, 22, 0.92);
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 500;
-  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.2s;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+html[data-theme="light"] .beam-floating-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  color: #111111;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.beam-floating-tooltip.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ── 3. Magic UI Animated List (Notifications) ─────────────────────── */
@@ -1825,7 +1971,7 @@ html[data-theme="dark"] .bento-cal-widget {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  border: var(--border-beam-width, 1.5px) solid transparent;
+  border: var(--border-beam-width, 1px) solid transparent;
   mask: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
   mask-clip: padding-box, border-box;
   mask-composite: intersect;
@@ -1838,11 +1984,12 @@ html[data-theme="dark"] .bento-cal-widget {
 .border-beam {
   position: absolute;
   aspect-ratio: 1;
-  width: var(--border-beam-size, 160px);
-  background: linear-gradient(to left, var(--border-beam-from, #ffaa40), var(--border-beam-to, #9c40ff), transparent);
+  width: var(--border-beam-size, 110px);
+  background: linear-gradient(to left, var(--border-beam-from, #00ff66), var(--border-beam-to, #0066ff), transparent);
   offset-path: rect(0 auto auto 0 round var(--radius-lg));
-  animation: borderBeamTravel var(--border-beam-duration, 8s) linear infinite;
-  filter: drop-shadow(0 0 12px var(--border-beam-to, #9c40ff));
+  animation: borderBeamTravel var(--border-beam-duration, 10s) linear infinite;
+  filter: drop-shadow(0 0 6px rgba(0, 102, 255, 0.6));
+  opacity: 0.9;
 }
 
 @keyframes borderBeamTravel {

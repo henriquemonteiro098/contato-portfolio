@@ -482,7 +482,7 @@
       <article class="featured-work-card">
         <!-- Magic UI Border Beam -->
         <div class="border-beam-container" aria-hidden="true">
-          <div class="border-beam" style="--border-beam-size: 160px; --border-beam-duration: 8s;"></div>
+          <div class="border-beam" style="--border-beam-size: 110px; --border-beam-duration: 10s;"></div>
         </div>
 
         <div class="featured-work-header">
@@ -505,37 +505,114 @@
           <!-- 5 Pilares do Life Hub em Bento Grid -->
           <div class="bento-grid">
             
-            <!-- Bento Work 1: Core Hub (Span 2) -->
-            <div class="bento-card col-span-2">
+            <!-- Bento Work 1: Core Hub com Magic UI AnimatedBeam (Span 2) -->
+            <div class="bento-card col-span-2 bento-card-animated-beam">
               <div class="bento-overlay"></div>
               <div class="bento-bg">
-                <div class="bento-beam-wrapper">
-                  <svg class="bento-beam-svg" viewBox="0 0 460 140" preserveAspectRatio="none">
-                    <path d="M70,40 C150,40 160,70 230,70" class="bento-beam-line"></path>
-                    <path d="M70,100 C150,100 160,70 230,70" class="bento-beam-line"></path>
-                    <path d="M230,70 C300,70 310,35 390,35" class="bento-beam-line"></path>
-                    <path d="M230,70 C300,70 310,70 390,70" class="bento-beam-line"></path>
-                    <path d="M230,70 C300,70 310,105 390,105" class="bento-beam-line"></path>
+                <div class="animated-beam-container" id="lifehub-beam-container">
+                  <!-- SVG Dinâmico dos Feixes de Fótons -->
+                  <svg class="animated-beam-svg" id="lifehub-beam-svg">
+                    <defs>
+                      <!-- Gradiente Aurora para os Feixes da Esquerda (Entrada) -->
+                      <linearGradient id="beamGradIn" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00ff66" stop-opacity="0" />
+                        <stop offset="30%" stop-color="#00ff66" stop-opacity="0.9" />
+                        <stop offset="85%" stop-color="#0066ff" stop-opacity="1" />
+                        <stop offset="100%" stop-color="#0066ff" stop-opacity="0" />
+                      </linearGradient>
 
-                    <path d="M70,40 C150,40 160,70 230,70" class="bento-beam-pulse" style="animation-delay: 0s;"></path>
-                    <path d="M70,100 C150,100 160,70 230,70" class="bento-beam-pulse" style="animation-delay: 0.6s;"></path>
-                    <path d="M230,70 C300,70 310,35 390,35" class="bento-beam-pulse" style="animation-delay: 1.2s;"></path>
-                    <path d="M230,70 C300,70 310,70 390,70" class="bento-beam-pulse" style="animation-delay: 1.8s;"></path>
-                    <path d="M230,70 C300,70 310,105 390,105" class="bento-beam-pulse" style="animation-delay: 2.4s;"></path>
+                      <!-- Gradiente Aurora para os Feixes da Direita (Saída/Ações) -->
+                      <linearGradient id="beamGradOut" x1="100%" y1="0%" x2="0%" y2="0%">
+                        <stop offset="0%" stop-color="#0066ff" stop-opacity="0" />
+                        <stop offset="30%" stop-color="#0066ff" stop-opacity="0.9" />
+                        <stop offset="85%" stop-color="#00ff66" stop-opacity="1" />
+                        <stop offset="100%" stop-color="#00ff66" stop-opacity="0" />
+                      </linearGradient>
+
+                      <!-- Gradiente do Núcleo Central MEGλ Core -->
+                      <linearGradient id="coreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00ff66" />
+                        <stop offset="100%" stop-color="#0066ff" />
+                      </linearGradient>
+
+                      <!-- Filtro de Brilho Sutil de Alta Precisão -->
+                      <filter id="beamPrecisionGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="2" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                      </filter>
+                    </defs>
+
+                    <!-- Grupo onde as curvas de Bézier e feixes são gerados dinamicamente -->
+                    <g id="lifehub-beam-paths" class="beam-paths-group"></g>
                   </svg>
-                  <div class="bento-beam-nodes">
-                    <div class="bento-node-endpoints">
-                      <span class="bento-node-endpoint">Assinaturas</span>
-                      <span class="bento-node-endpoint">Despensa</span>
+
+                  <!-- Grid de Nós (3 Colunas: Entradas · Núcleo · Ações) -->
+                  <div class="beam-nodes-layout">
+                    <!-- Coluna Esquerda: Fontes de Dados & Input -->
+                    <div class="beam-col beam-col-left">
+                      <div class="beam-circle" id="beam-node-drive" data-tooltip="Google Drive · Faturas & Arquivos" tabindex="0" role="button" aria-label="Google Drive">
+                        <svg width="20" height="20" viewBox="0 0 87.3 78" aria-hidden="true">
+                          <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+                          <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
+                          <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+                          <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+                          <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+                          <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+                        </svg>
+                      </div>
+
+                      <div class="beam-circle" id="beam-node-notion" data-tooltip="Notion · Metas & Sincronização" tabindex="0" role="button" aria-label="Notion">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l11.413-.7c.326 0 .093-.326-.047-.42L16.29 2.158c-.56-.42-1.354-.7-2.38-.607L3.48 2.392c-.42.046-.514.326-.373.56l1.352 1.256zm-.886 3.125v13.593c0 .84.42 1.166 1.26 1.12l13.788-.794c.84-.047 1.026-.607 1.026-1.307V6.588c0-.653-.326-.933-.933-.886l-14.255.84c-.606.046-.886.326-.886.791zm13.134.887c.093.42 0 .84-.42.886l-.886.14v9.006c-.513.28-1.026.467-1.493.467-.653 0-.84-.233-1.353-.887l-4.153-6.44v6.253l1.353.28c.093.42 0 .84-.42.887l-3.36.186c-.093-.42 0-.84.42-.886l.886-.187V9.76l-1.213-.093c-.093-.42 0-.84.42-.887l3.453-.233 4.48 6.813V9.527l-1.12-.14c-.093-.42 0-.84.42-.886l3.467-.28z"/>
+                        </svg>
+                      </div>
+
+                      <div class="beam-circle" id="beam-node-whatsapp" data-tooltip="WhatsApp · Captura de Despesas & Notas" tabindex="0" role="button" aria-label="WhatsApp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
+                          <path d="M12.004 2C6.48 2 2 6.48 2 12c0 1.92.544 3.712 1.488 5.232L2 22l4.904-1.448A9.94 9.94 0 0 0 12.004 22c5.523 0 10-4.48 10-10s-4.477-10-10-10zm5.824 14.168c-.24.672-1.392 1.296-1.92 1.344-.48.048-1.08.072-3.144-.792-2.48-1.04-4.064-3.568-4.184-3.736-.12-.168-1.008-1.344-1.008-2.56 0-1.216.632-1.816.856-2.064.224-.248.496-.312.664-.312.168 0 .336.008.48.016.152.008.36-.056.56.424.208.496.712 1.736.776 1.864.064.128.104.28.016.448-.088.168-.136.272-.264.424-.128.152-.272.336-.392.456-.128.128-.264.264-.112.528.152.264.672 1.104 1.44 1.784.992.88 1.824 1.152 2.088 1.28.264.128.416.112.568-.064.152-.176.656-.768.832-1.032.176-.264.352-.216.592-.128.24.088 1.52.72 1.784.848.264.128.44.192.504.304.064.112.064.648-.176 1.32z"/>
+                        </svg>
+                      </div>
                     </div>
-                    <div class="bento-node-hub">
-                      <span>⚡ Life Hub Core</span>
+
+                    <!-- Coluna Central: Hub Neural Life Hub Core -->
+                    <div class="beam-col beam-col-center">
+                      <div class="beam-circle beam-circle-core" id="beam-node-core" data-tooltip="Life Hub AI Core · Motor Preditivo Autônomo" tabindex="0" role="button" aria-label="Life Hub Core">
+                        <div class="core-pulse-halo" aria-hidden="true"></div>
+                        <div class="core-icon-wrap">
+                          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                            <path d="M6 26L16 6L26 26" stroke="url(#coreGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 20H21" stroke="url(#coreGradient)" stroke-width="2.5" stroke-linecap="round"/>
+                            <circle cx="16" cy="14" r="2.5" fill="#00ff66"/>
+                          </svg>
+                        </div>
+                      </div>
                     </div>
-                    <div class="bento-node-endpoints">
-                      <span class="bento-node-endpoint">Metas</span>
-                      <span class="bento-node-endpoint">Time-Blocking</span>
+
+                    <!-- Coluna Direita: Saídas & Automações -->
+                    <div class="beam-col beam-col-right">
+                      <div class="beam-circle" id="beam-node-docs" data-tooltip="Google Docs · Relatórios Semanais" tabindex="0" role="button" aria-label="Google Docs">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="#4285F4" aria-hidden="true">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 9V3.5L18.5 8H14zM8 12h8v2H8v-2zm0 4h8v2H8v-2z"/>
+                        </svg>
+                      </div>
+
+                      <div class="beam-circle" id="beam-node-zapier" data-tooltip="Zapier · Triggers & Sincronização" tabindex="0" role="button" aria-label="Zapier">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="#FF4F00" aria-hidden="true">
+                          <path d="M13.2 2L4 13.5h7.2L9.6 22 20 10.5h-6.8L13.2 2z"/>
+                        </svg>
+                      </div>
+
+                      <div class="beam-circle" id="beam-node-alerts" data-tooltip="Central de Alertas · Notificações Preditivas" tabindex="0" role="button" aria-label="Alertas Preditivos">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                      </div>
                     </div>
                   </div>
+
+                  <!-- Tooltip Flutuante de Alta Precisão -->
+                  <div class="beam-floating-tooltip" id="beam-floating-tooltip" aria-hidden="true"></div>
                 </div>
               </div>
               <div class="bento-body">
