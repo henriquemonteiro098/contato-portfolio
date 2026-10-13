@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 1. Theme Controller (Magic UI AnimatedThemeToggler - Star Variant) ──
   const savedTheme = localStorage.getItem('jh_theme') || 'light';
+  let isDarkTheme = savedTheme === 'dark';
   applyTheme(savedTheme);
 
   let isThemeTransitioning = false;
@@ -128,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
+    isDarkTheme = theme === 'dark';
   }
 
   // ── 2. RGB Chromatic Engine ─────────────────────────────────────────────
@@ -208,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (gridSvg) {
     const squareSize = 40;
-    const maxAmbientSquares = 35;
+    const maxAmbientSquares = 14;
     const maxOpacity = 0.40;
     const duration = 4000;
     const repeatDelay = 500;
@@ -223,13 +225,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', updateGridDimensions, { passive: true });
 
-    // ── Mouse & Touch Interactive Trail (Magic UI) ────────────────────────
-    if (hoverSquaresGroup) {
+    // Scroll suppression guard (prevents hover trail and DOM churn during scrolling)
+    let isScrolling = false;
+    let scrollDebounceTimer = null;
+
+    window.addEventListener('scroll', () => {
+      isScrolling = true;
+      if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
+      scrollDebounceTimer = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    }, { passive: true });
+
+    // ── Mouse Interactive Trail (Magic UI) ─────────────────────────────────
+    // Isolates hover trail strictly to devices with true hover and precision pointer
+    const hasFinePointerHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    if (hoverSquaresGroup && hasFinePointerHover) {
       let lastCol = -1;
       let lastRow = -1;
       const activeSquaresMap = new Map();
 
       function triggerSquareAt(x, y) {
+        if (isScrolling) return;
+
         const col = Math.floor(x / squareSize);
         const row = Math.floor(y / squareSize);
 
@@ -264,19 +283,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      window.addEventListener('mousemove', (e) => {
-        triggerSquareAt(e.clientX, e.clientY);
-      }, { passive: true });
+      let pendingMouseX = 0;
+      let pendingMouseY = 0;
+      let isMouseRafPending = false;
 
-      window.addEventListener('touchmove', (e) => {
-        if (e.touches && e.touches[0]) {
-          triggerSquareAt(e.touches[0].clientX, e.touches[0].clientY);
+      window.addEventListener('mousemove', (e) => {
+        if (isScrolling) return;
+        pendingMouseX = e.clientX;
+        pendingMouseY = e.clientY;
+
+        if (!isMouseRafPending) {
+          isMouseRafPending = true;
+          requestAnimationFrame(() => {
+            isMouseRafPending = false;
+            if (!isScrolling) {
+              triggerSquareAt(pendingMouseX, pendingMouseY);
+            }
+          });
         }
       }, { passive: true });
     }
 
     // ── Ambient Background Pulse ──────────────────────────────────────────
-    if (ambientSquaresGroup) {
+    const ambientReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (ambientSquaresGroup && !ambientReducedMotion) {
+      const activeAmbientAnims = [];
+
       function getRandomGridPos() {
         return {
           x: Math.floor(Math.random() * cols) * squareSize + 1,
@@ -292,12 +325,23 @@ document.addEventListener('DOMContentLoaded', () => {
         rect.setAttribute('opacity', '0');
         ambientSquaresGroup.appendChild(rect);
 
+        let activeAnim = null;
+
         function loopAnimation(initialDelay = 0) {
+          if (document.hidden) {
+            const onVisible = () => {
+              document.removeEventListener('visibilitychange', onVisible);
+              loopAnimation(0);
+            };
+            document.addEventListener('visibilitychange', onVisible);
+            return;
+          }
+
           const pos = getRandomGridPos();
           rect.setAttribute('x', pos.x);
           rect.setAttribute('y', pos.y);
 
-          const anim = rect.animate([
+          activeAnim = rect.animate([
             { opacity: 0 },
             { opacity: maxOpacity, offset: 0.5 },
             { opacity: 0 }
@@ -307,7 +351,22 @@ document.addEventListener('DOMContentLoaded', () => {
             easing: 'ease-in-out'
           });
 
-          anim.onfinish = () => {
+          activeAmbientAnims.push(activeAnim);
+
+          activeAnim.onfinish = () => {
+            const idx = activeAmbientAnims.indexOf(activeAnim);
+            if (idx !== -1) activeAmbientAnims.splice(idx, 1);
+            activeAnim = null;
+
+            if (document.hidden) {
+              const onVisible = () => {
+                document.removeEventListener('visibilitychange', onVisible);
+                loopAnimation(0);
+              };
+              document.addEventListener('visibilitychange', onVisible);
+              return;
+            }
+
             setTimeout(() => {
               loopAnimation(0);
             }, repeatDelay);
@@ -320,6 +379,18 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < maxAmbientSquares; i++) {
         createAndAnimateSquare(i);
       }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          activeAmbientAnims.forEach(anim => {
+            try { anim.pause(); } catch (_) {}
+          });
+        } else {
+          activeAmbientAnims.forEach(anim => {
+            try { anim.play(); } catch (_) {}
+          });
+        }
+      });
     }
   }
 
@@ -393,9 +464,45 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    const notifTarget = document.getElementById('life-hub-notifications') || notifContainer;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReducedMotion) {
-      setInterval(pushNextNotification, 2800);
+    let notifIntervalId = null;
+    let isNotifInView = false;
+
+    function startNotifInterval() {
+      if (!notifIntervalId && !prefersReducedMotion && isNotifInView && !document.hidden) {
+        notifIntervalId = setInterval(pushNextNotification, 2800);
+      }
+    }
+
+    function stopNotifInterval() {
+      if (notifIntervalId) {
+        clearInterval(notifIntervalId);
+        notifIntervalId = null;
+      }
+    }
+
+    if (notifTarget && !prefersReducedMotion) {
+      const notifObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isNotifInView = entry.isIntersecting;
+          if (isNotifInView) {
+            startNotifInterval();
+          } else {
+            stopNotifInterval();
+          }
+        });
+      }, { threshold: 0.1 });
+
+      notifObserver.observe(notifTarget);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stopNotifInterval();
+        } else if (isNotifInView) {
+          startNotifInterval();
+        }
+      });
     }
   }
 
@@ -481,8 +588,21 @@ document.addEventListener('DOMContentLoaded', () => {
       return 1 - Math.pow(1 - t, 3);
     }
 
+    let cachedCanvasRect = null;
+    function updateCanvasRect() {
+      if (cloudCanvas) {
+        cachedCanvasRect = cloudCanvas.getBoundingClientRect();
+      }
+    }
+    updateCanvasRect();
+    window.addEventListener('resize', updateCanvasRect, { passive: true });
+    window.addEventListener('scroll', updateCanvasRect, { passive: true });
+
     function getLogicalCoords(e) {
-      const rect = cloudCanvas.getBoundingClientRect();
+      if (!cachedCanvasRect) {
+        updateCanvasRect();
+      }
+      const rect = cachedCanvasRect || cloudCanvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       return {
@@ -493,11 +613,32 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }
 
+    // Handlers dinâmicos de drag vinculados apenas durante o arrasto
+    function onWindowDragMouseMove(e) {
+      if (isDragging) {
+        const deltaX = e.clientX - lastPointerPos.x;
+        const deltaY = e.clientY - lastPointerPos.y;
+        rotation.x += deltaY * 0.003;
+        rotation.y += deltaX * 0.003;
+        lastPointerPos = { x: e.clientX, y: e.clientY };
+      }
+    }
+
+    function onWindowDragMouseUp() {
+      isDragging = false;
+      window.removeEventListener('mousemove', onWindowDragMouseMove);
+      window.removeEventListener('mouseup', onWindowDragMouseUp);
+    }
+
     // Interações de Mouse
     cloudCanvas.addEventListener('mousedown', (e) => {
+      updateCanvasRect();
       const coords = getLogicalCoords(e);
       isDragging = true;
       lastPointerPos = { x: coords.clientX, y: coords.clientY };
+
+      window.addEventListener('mousemove', onWindowDragMouseMove, { passive: true });
+      window.addEventListener('mouseup', onWindowDragMouseUp, { passive: true });
 
       if (hoveredIcon) {
         const icon = hoveredIcon;
@@ -520,21 +661,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    window.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        const deltaX = e.clientX - lastPointerPos.x;
-        const deltaY = e.clientY - lastPointerPos.y;
-        rotation.x += deltaY * 0.003;
-        rotation.y += deltaX * 0.003;
-        lastPointerPos = { x: e.clientX, y: e.clientY };
-      }
-    });
-
-    window.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
     cloudCanvas.addEventListener('mouseenter', () => {
+      updateCanvasRect();
       isMouseOver = true;
     });
 
@@ -546,18 +674,10 @@ document.addEventListener('DOMContentLoaded', () => {
     cloudCanvas.addEventListener('mousemove', (e) => {
       const coords = getLogicalCoords(e);
       mousePos = { x: coords.x, y: coords.y };
-    });
-
-    // Suporte a Touch para Mobile
-    cloudCanvas.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        const coords = getLogicalCoords(e);
-        isDragging = true;
-        lastPointerPos = { x: coords.clientX, y: coords.clientY };
-      }
     }, { passive: true });
 
-    window.addEventListener('touchmove', (e) => {
+    // Suporte a Touch dinâmico para Mobile
+    function onWindowTouchMove(e) {
       if (isDragging && e.touches.length === 1) {
         const deltaX = e.touches[0].clientX - lastPointerPos.x;
         const deltaY = e.touches[0].clientY - lastPointerPos.y;
@@ -565,23 +685,54 @@ document.addEventListener('DOMContentLoaded', () => {
         rotation.y += deltaX * 0.004;
         lastPointerPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       }
+    }
+
+    function onWindowTouchEnd() {
+      isDragging = false;
+      window.removeEventListener('touchmove', onWindowTouchMove);
+      window.removeEventListener('touchend', onWindowTouchEnd);
+    }
+
+    cloudCanvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        updateCanvasRect();
+        const coords = getLogicalCoords(e);
+        isDragging = true;
+        lastPointerPos = { x: coords.clientX, y: coords.clientY };
+        window.addEventListener('touchmove', onWindowTouchMove, { passive: true });
+        window.addEventListener('touchend', onWindowTouchEnd, { passive: true });
+      }
     }, { passive: true });
 
-    window.addEventListener('touchend', () => {
-      isDragging = false;
-    });
+    // Prealocar array de projeção para evitar GC churn por frame
+    const projected = iconPositions.map((icon, idx) => ({
+      icon,
+      idx,
+      screenX: 0,
+      screenY: 0,
+      rotatedZ: 0,
+      scale: 1,
+      opacity: 1
+    }));
 
-    // Loop de Animação 3D
+    // Loop de Animação 3D com controle de ciclo de vida
     const motionPref = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let isCanvasVisible = false;
+    let cloudRafId = null;
 
     function renderCloud() {
+      if (!isCanvasVisible) {
+        cloudRafId = null;
+        return;
+      }
+
       ctx.clearRect(0, 0, cloudCanvas.width, cloudCanvas.height);
       ctx.save();
       ctx.scale(dpr, dpr);
 
       const centerX = LOGICAL_WIDTH / 2;
       const centerY = LOGICAL_HEIGHT / 2;
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const isDark = isDarkTheme;
 
       // Atualizar rotação
       if (targetRotation) {
@@ -613,11 +764,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const cosY = Math.cos(rotation.y);
       const sinY = Math.sin(rotation.y);
 
-      // Calcular projeção de cada ícone
+      // Calcular projeção de cada ícone sem novas alocações por frame
       let nextHovered = null;
       let minHoverDist = 26;
 
-      const projected = iconPositions.map((icon, idx) => {
+      for (let i = 0; i < iconPositions.length; i++) {
+        const icon = iconPositions[i];
+        const p = projected[i];
+
         const rotatedX = icon.x * cosY - icon.z * sinY;
         const rotatedZ = icon.x * sinY + icon.z * cosY;
         const rotatedY = icon.y * cosX + rotatedZ * sinX;
@@ -639,16 +793,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        return {
-          icon,
-          idx,
-          screenX,
-          screenY,
-          rotatedZ,
-          scale,
-          opacity
-        };
-      });
+        p.icon = icon;
+        p.idx = i;
+        p.screenX = screenX;
+        p.screenY = screenY;
+        p.rotatedZ = rotatedZ;
+        p.scale = scale;
+        p.opacity = opacity;
+      }
 
       hoveredIcon = nextHovered;
 
@@ -679,11 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.lineWidth = 1;
         }
 
-        if (opacity > 0.6) {
-          ctx.shadowColor = isDark ? "rgba(0, 0, 0, 0.55)" : "rgba(0, 0, 0, 0.08)";
-          ctx.shadowBlur = 8;
-        }
-
+        // Removido software Gaussian blur (ctx.shadowBlur = 8) para economizar rasterização pesada de CPU/GPU
         ctx.fill();
         ctx.stroke();
 
@@ -701,7 +849,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Nome da tecnologia no hover
         if (isCurrentHovered) {
-          ctx.shadowColor = "transparent";
           ctx.fillStyle = isDark ? "#ffffff" : "#09090b";
           ctx.font = "600 11px system-ui, -apple-system, sans-serif";
           ctx.textAlign = "center";
@@ -713,10 +860,50 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       ctx.restore();
-      requestAnimationFrame(renderCloud);
+      if (isCanvasVisible) {
+        cloudRafId = requestAnimationFrame(renderCloud);
+      }
     }
 
-    requestAnimationFrame(renderCloud);
+    function startCloudLoop() {
+      if (!cloudRafId && isCanvasVisible && !document.hidden) {
+        cloudRafId = requestAnimationFrame(renderCloud);
+      }
+    }
+
+    function stopCloudLoop() {
+      if (cloudRafId) {
+        cancelAnimationFrame(cloudRafId);
+        cloudRafId = null;
+      }
+    }
+
+    const educationSection = document.getElementById('education');
+
+    const cloudObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isCanvasVisible = entry.isIntersecting;
+        if (isCanvasVisible) {
+          updateCanvasRect();
+          startCloudLoop();
+        } else {
+          stopCloudLoop();
+        }
+      });
+    }, { root: null, rootMargin: '100px 0px 100px 0px', threshold: 0.01 });
+
+    cloudObserver.observe(cloudCanvas);
+    if (educationSection) {
+      cloudObserver.observe(educationSection);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopCloudLoop();
+      } else if (isCanvasVisible) {
+        startCloudLoop();
+      }
+    });
   }
 
   /* --------------------------------------------------------------------------

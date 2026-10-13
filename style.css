@@ -153,7 +153,6 @@ html[data-theme="dark"][data-rgb="b"] {
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--bg-main);
   color: var(--text-main);
