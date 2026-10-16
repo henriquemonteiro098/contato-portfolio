@@ -1557,36 +1557,41 @@ html[data-theme="dark"] .bento-pill {
 /* Linha-guia base neutra ultra-fina */
 .beam-track {
   fill: none;
-  stroke: rgba(0, 0, 0, 0.08);
-  stroke-width: 1.2;
+  stroke: rgba(0, 0, 0, 0.06);
+  stroke-width: 1px;
   transition: stroke 0.3s ease, stroke-width 0.3s ease;
 }
 
 html[data-theme="dark"] .beam-track {
-  stroke: rgba(255, 255, 255, 0.09);
+  stroke: rgba(255, 255, 255, 0.07);
 }
 
 .beam-track.active-highlight {
-  stroke: rgba(0, 255, 102, 0.5);
-  stroke-width: 1.6;
+  stroke: rgba(0, 255, 102, 0.45);
+  stroke-width: 1.2px;
 }
 
-/* Feixe de fótons animado */
+/* Feixe de fótons animado ultra-leve (aceleração por GPU via gradiente nativo puro) */
 .beam-photon {
   fill: none;
-  stroke-width: 1.8;
+  stroke-width: 1.2px;
   stroke-linecap: round;
-  stroke-dasharray: 48 180;
+  stroke-dasharray: 40 180;
   animation: beamFlowTravel 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  filter: drop-shadow(0 0 4px rgba(0, 102, 255, 0.6));
-  opacity: 0.9;
-  transition: stroke-width 0.3s ease, filter 0.3s ease;
+  opacity: 0.85;
+  will-change: stroke-dashoffset;
+  transition: stroke-width 0.2s ease, opacity 0.2s ease;
 }
 
 .beam-photon.active-highlight {
-  stroke-width: 2.4;
-  filter: drop-shadow(0 0 8px rgba(0, 255, 102, 0.85));
+  stroke-width: 1.8px;
   opacity: 1;
+}
+
+/* Pausa automática quando fora da viewport ou aba inativa */
+.animated-beam-container.is-paused .beam-photon,
+.beam-paths-group.is-paused .beam-photon {
+  animation-play-state: paused;
 }
 
 @keyframes beamFlowTravel {
@@ -2001,7 +2006,7 @@ html[data-theme="dark"] .bento-cal-widget {
 }
 
 /* ==========================================================================
-   Magic UI - Border Beam Engine
+   Magic UI - Border Beam Engine (Laser Ultra-Fino Otimizado)
    ========================================================================== */
 .border-beam-container {
   pointer-events: none;
@@ -2021,12 +2026,18 @@ html[data-theme="dark"] .bento-cal-widget {
 .border-beam {
   position: absolute;
   aspect-ratio: 1;
-  width: var(--border-beam-size, 110px);
+  width: var(--border-beam-size, 65px);
   background: linear-gradient(to left, var(--border-beam-from, #00ff66), var(--border-beam-to, #0066ff), transparent);
   offset-path: rect(0 auto auto 0 round var(--radius-lg));
-  animation: borderBeamTravel var(--border-beam-duration, 10s) linear infinite;
-  filter: drop-shadow(0 0 6px rgba(0, 102, 255, 0.6));
-  opacity: 0.9;
+  animation: borderBeamTravel var(--border-beam-duration, 12s) linear infinite;
+  opacity: 0.75;
+  will-change: offset-distance;
+}
+
+/* Pausa automática quando o card Life Hub não estiver visível */
+.border-beam-container.is-paused .border-beam,
+.border-beam.is-paused {
+  animation-play-state: paused;
 }
 
 @keyframes borderBeamTravel {

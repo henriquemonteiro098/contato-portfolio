@@ -404,7 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const photonPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           photonPath.setAttribute('class', 'beam-photon');
           photonPath.setAttribute('stroke', conn.reverse ? 'url(#beamGradOut)' : 'url(#beamGradIn)');
-          photonPath.setAttribute('filter', 'url(#beamPrecisionGlow)');
           photonPath.style.animationDelay = `${index * 0.55}s`;
 
           pathsGroup.appendChild(trackPath);
@@ -472,5 +471,45 @@ document.addEventListener('DOMContentLoaded', () => {
       node.addEventListener('focus', highlightOn);
       node.addEventListener('blur', highlightOff);
     });
+
+    // Observer de performance: desliga animação de feixes e borda quando fora da tela
+    const featuredCard = document.querySelector('.featured-work-card');
+    const borderBeamEl = document.getElementById('lifehub-border-beam');
+    const borderContainerEl = document.getElementById('lifehub-border-beam-container');
+
+    if ('IntersectionObserver' in window) {
+      const beamObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const isVisible = entry.isIntersecting;
+          if (isVisible) {
+            beamContainer.classList.remove('is-paused');
+            if (borderBeamEl) borderBeamEl.classList.remove('is-paused');
+            if (borderContainerEl) borderContainerEl.classList.remove('is-paused');
+          } else {
+            beamContainer.classList.add('is-paused');
+            if (borderBeamEl) borderBeamEl.classList.add('is-paused');
+            if (borderContainerEl) borderContainerEl.classList.add('is-paused');
+          }
+        });
+      }, { rootMargin: '80px 0px 80px 0px', threshold: 0.05 });
+
+      if (featuredCard) {
+        beamObserver.observe(featuredCard);
+      } else {
+        beamObserver.observe(beamContainer);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          beamContainer.classList.add('is-paused');
+          if (borderBeamEl) borderBeamEl.classList.add('is-paused');
+          if (borderContainerEl) borderContainerEl.classList.add('is-paused');
+        } else if (featuredCard ? featuredCard.getBoundingClientRect().top < window.innerHeight && featuredCard.getBoundingClientRect().bottom > 0 : true) {
+          beamContainer.classList.remove('is-paused');
+          if (borderBeamEl) borderBeamEl.classList.remove('is-paused');
+          if (borderContainerEl) borderContainerEl.classList.remove('is-paused');
+        }
+      });
+    }
   }
 });
