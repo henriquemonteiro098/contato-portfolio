@@ -187,73 +187,85 @@ body {
 
 /* ==========================================================================
 /* ==========================================================================
-   Magic UI - InteractiveGridPattern: Background Interativo & Dinâmico
+/* ==========================================================================
+   Clean Background & Hero Scroll Indicator
    ========================================================================== */
 
-.interactive-grid-wrapper {
+/* Indicador de rolagem do Hero (some suavemente ao rolar) */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   pointer-events: none;
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  overflow: hidden;
-  transition: color var(--transition-theme);
-  /* Máscara radial de centro suave com difusão harmônica */
-  mask-image: radial-gradient(circle at center, #000 35%, transparent 88%);
-  -webkit-mask-image: radial-gradient(circle at center, #000 35%, transparent 88%);
+  z-index: 10;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-.interactive-grid-pattern {
-  width: 100%;
-  height: 100%;
-  display: block;
+.hero-scroll-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-html[data-theme="light"] .interactive-grid-pattern {
-  color: rgba(148, 163, 184, 0.28); /* stroke-gray-400/30 */
+.hero-scroll-mouse {
+  width: 20px;
+  height: 32px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-light);
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-html[data-theme="dark"] .interactive-grid-pattern {
-  color: rgba(148, 163, 184, 0.14); /* dark cyber suave */
+html[data-theme="dark"] .hero-scroll-mouse {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.08);
 }
 
-/* Quadrados aleatórios ambientes */
-.animated-grid-squares {
-  overflow: visible;
+.hero-scroll-wheel {
+  width: 3px;
+  height: 6px;
+  background: var(--accent-primary);
+  border-radius: 2px;
+  animation: scrollWheelPulse 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
-.interactive-grid-pattern .grid-square {
-  fill: currentColor;
-  stroke: none;
-  pointer-events: none;
-  will-change: opacity;
+@keyframes scrollWheelPulse {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
 }
 
-/* Quadrados interativos acionados pelo mouse / toque */
-.interactive-hover-square {
-  fill: var(--accent-primary);
-  opacity: 0.50;
-  stroke: var(--accent-primary);
-  stroke-width: 0.5;
-  pointer-events: none;
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-              fill 0.1s ease-in-out;
-}
-
-html[data-theme="light"] .interactive-hover-square {
-  fill: var(--accent-primary);
-  opacity: 0.40;
-}
-
-html[data-theme="dark"] .interactive-hover-square {
-  fill: #ffffff;
-  opacity: 0.28;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
-}
-
-.interactive-hover-square.fade-out {
-  opacity: 0;
+@media (max-width: 640px) {
+  .hero-scroll-indicator {
+    bottom: 12px;
+  }
+  .hero-scroll-text {
+    font-size: 0.6rem;
+  }
 }
 
 /* Header & Nav */
@@ -2213,8 +2225,10 @@ html[data-theme="dark"] .work-tags span {
   }
 }
 
-/* Container do Icon Cloud 3D */
-.education-cloud-wrapper {
+/* ==========================================================================
+   Magic UI - Marquee de Habilidades Técnicas (Formação & Qualificação)
+   ========================================================================== */
+.education-skills-wrapper {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -2225,17 +2239,17 @@ html[data-theme="dark"] .work-tags span {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 24px 16px;
-  min-height: 440px;
+  padding: 56px 14px 20px 14px;
+  height: 440px;
 }
 
-html[data-theme="dark"] .education-cloud-wrapper {
+html[data-theme="dark"] .education-skills-wrapper {
   background: rgba(255, 255, 255, 0.02);
   box-shadow: 0 -20px 80px -20px rgba(255, 255, 255, 0.08) inset;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.cloud-header-badge {
+.skills-header-badge {
   position: absolute;
   top: 16px;
   left: 16px;
@@ -2251,23 +2265,151 @@ html[data-theme="dark"] .education-cloud-wrapper {
   padding: 4px 10px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-light);
-  z-index: 2;
+  z-index: 5;
   pointer-events: none;
 }
 
-.icon-cloud-canvas {
+/* Viewport do Marquee com Máscara Vertical de Gradiente Fade */
+.skills-marquee-viewport {
+  position: relative;
   width: 100%;
-  max-width: 420px;
-  height: auto;
-  aspect-ratio: 1;
-  cursor: grab;
-  touch-action: none;
-  z-index: 1;
-  display: block;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
 }
 
-.icon-cloud-canvas:active {
-  cursor: grabbing;
+.skills-marquee-column {
+  flex: 1;
+  max-width: 195px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.skills-marquee-track {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  will-change: transform;
+}
+
+/* Animações contínuas e fluidas sem pulos */
+.track-up {
+  animation: marqueeVerticalUp 24s linear infinite;
+}
+
+.track-down {
+  animation: marqueeVerticalDown 24s linear infinite;
+}
+
+/* Pausa suave ao passar o mouse */
+.skills-marquee-viewport:hover .skills-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeVerticalUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marqueeVerticalDown {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Card Individual de Habilidade (Vidro Fosco Minimalista) */
+.skill-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              background-color 0.2s ease;
+  cursor: default;
+}
+
+html[data-theme="dark"] .skill-card {
+  background: rgba(24, 24, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.skill-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(0, 255, 102, 0.15);
+}
+
+html[data-theme="dark"] .skill-card:hover {
+  background: rgba(28, 28, 34, 0.9);
+  box-shadow: 0 6px 20px rgba(0, 255, 102, 0.22);
+}
+
+.skill-icon-box {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-light);
+}
+
+html[data-theme="dark"] .skill-icon-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.skill-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.skill-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.skill-category {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-up, .track-down {
+    animation: none;
+  }
 }
 
 .education-list {

@@ -15,22 +15,8 @@
 </head>
 <body>
 
-  <!-- Ambient Glow -->
-  <div class="ambient-glow"></div>
-
-  <!-- Magic UI Interactive Grid Pattern Background -->
-  <div class="interactive-grid-wrapper" aria-hidden="true">
-    <svg id="interactive-grid-pattern" class="interactive-grid-pattern" width="100%" height="100%">
-      <defs>
-        <pattern id="interactive-grid-bg" width="40" height="40" patternUnits="userSpaceOnUse" x="-1" y="-1">
-          <path d="M.5 40V.5H40" fill="none" stroke="currentColor" stroke-width="1" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#interactive-grid-bg)" />
-      <g id="interactive-grid-hover-squares"></g>
-      <svg x="-1" y="-1" id="animated-grid-squares" class="animated-grid-squares"></svg>
-    </svg>
-  </div>
+  <!-- Ambient Clean Minimalist Glow -->
+  <div class="ambient-glow" aria-hidden="true"></div>
 
   <!-- Header -->
   <header class="site-header">
@@ -264,6 +250,12 @@
                 <polygon class="hero-lambda-leg" points="305,270 385,270 470,480 390,480" />
               </g>
             </svg>
+          </div>
+        <!-- Scroll to Explore Indicator (Some dinamicamente ao rolar) -->
+        <div class="hero-scroll-indicator" id="hero-scroll-indicator" aria-hidden="true">
+          <span class="hero-scroll-text">ROLAR PARA EXPLORAR</span>
+          <div class="hero-scroll-mouse">
+            <span class="hero-scroll-wheel"></span>
           </div>
         </div>
 
@@ -841,13 +833,306 @@
 
         </div>
 
-        <!-- Magic UI IconCloud (Esfera 3D de Tecnologias) -->
-        <div class="education-cloud-wrapper">
-          <div class="cloud-header-badge">
+        <!-- Magic UI Marquee de Habilidades Técnicas Reais (Substitui Esfera 3D) -->
+        <div class="education-skills-wrapper">
+          <div class="skills-header-badge">
             <span class="pulse-dot"></span>
-            <span>STACK 3D &bull; ARRASTE PARA GIRAR</span>
+            <span>HABILIDADES TÉCNICAS &bull; EM PRÁTICA</span>
           </div>
-          <canvas id="icon-cloud-canvas" class="icon-cloud-canvas" width="440" height="440" aria-label="Interactive 3D Icon Cloud" role="img"></canvas>
+
+          <!-- Container do Marquee Duplo com Gradiente de Fade -->
+          <div class="skills-marquee-viewport" aria-label="Carrossel de Habilidades Técnicas Reais">
+            
+            <!-- Coluna 1 do Marquee (Fluxo Vertical 1) -->
+            <div class="skills-marquee-column">
+              <div class="skills-marquee-track track-up">
+                
+                <!-- Card 1: Python -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M11.914 2c-5.076 0-4.73 2.193-4.73 2.193l.006 2.274h4.796v.683H5.253S2 6.782 2 11.874c0 5.093 2.834 4.908 2.834 4.908h1.692v-2.378s-.092-2.834 2.788-2.834h4.786s2.696.046 2.696-2.65V4.65S17.29 2 11.914 2zm-2.61 1.488a.95.95 0 1 1 0 1.9.95.95 0 0 1 0-1.9z" fill="#3776AB"/>
+                      <path d="M12.086 22c5.076 0 4.73-2.193 4.73-2.193l-.006-2.274H12.02v-.683h6.733s3.253.368 3.253-4.724c0-5.093-2.834-4.908-2.834-4.908h-1.692v2.378s.092 2.834-2.788 2.834H9.906s-2.696-.046-2.696 2.65v4.267s-.494 2.65 4.876 2.65zm2.61-1.488a.95.95 0 1 1 0-1.9.95.95 0 0 1 0 1.9z" fill="#FFD438"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Python</span>
+                    <span class="skill-category">Linguagem &amp; IA</span>
+                  </div>
+                </div>
+
+                <!-- Card 2: LLMs & RAG -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                      <circle cx="12" cy="12" r="3" fill="#00ff66" fill-opacity="0.3"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">LLMs &amp; RAG</span>
+                    <span class="skill-category">Engenharia de Contexto</span>
+                  </div>
+                </div>
+
+                <!-- Card 3: Scikit-Learn -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#F7931E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Scikit-Learn</span>
+                    <span class="skill-category">Modelagem Preditiva</span>
+                  </div>
+                </div>
+
+                <!-- Card 4: Pandas -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <rect x="3" y="4" width="4" height="16" rx="1" fill="#150458"/>
+                      <rect x="10" y="8" width="4" height="12" rx="1" fill="#E70488"/>
+                      <rect x="17" y="12" width="4" height="8" rx="1" fill="#FFD438"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Pandas</span>
+                    <span class="skill-category">Tratamento de Dados</span>
+                  </div>
+                </div>
+
+                <!-- Card 5: PostgreSQL -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1" aria-hidden="true">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-3.5h2v3.5h-2zm-4 0v-5h2v5H9zm2-7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 1.5h-2V9h2v2z"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">PostgreSQL</span>
+                    <span class="skill-category">Modelagem Relacional</span>
+                  </div>
+                </div>
+
+                <!-- Card 6: Docker -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#2496ED" aria-hidden="true">
+                      <path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 0 0 .186-.186V3.574a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186H8.1a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.185-.186H5.136a.186.186 0 0 0-.186.185v1.888c0 .102.084.185.186.185m-2.928 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.185-.186H2.208a.186.186 0 0 0-.186.185v1.888c0 .102.084.185.186.185M23.72 10.6a5.6 5.6 0 0 0-2.888-.868c-.147-.015-.295-.022-.444-.022-.507 0-.996.082-1.458.232a4.4 4.4 0 0 0-.613-1.637 4.5 4.5 0 0 0-1.89-1.574l-.398-.184-.33.284a7 7 0 0 0-1.748 2.296H.504a.49.49 0 0 0-.492.493v.23C.012 11.2 0 12.56.096 13.9c.475 6.643 6.002 8.1 11.233 8.1 7.42 0 12.338-3.978 12.637-10.963.003-.092.003-.186-.007-.278z"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Docker</span>
+                    <span class="skill-category">Containerização</span>
+                  </div>
+                </div>
+
+                <!-- Clone da Coluna 1 para loop infinito contínuo -->
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11.914 2c-5.076 0-4.73 2.193-4.73 2.193l.006 2.274h4.796v.683H5.253S2 6.782 2 11.874c0 5.093 2.834 4.908 2.834 4.908h1.692v-2.378s-.092-2.834 2.788-2.834h4.786s2.696.046 2.696-2.65V4.65S17.29 2 11.914 2zm-2.61 1.488a.95.95 0 1 1 0 1.9.95.95 0 0 1 0-1.9z" fill="#3776AB"/><path d="M12.086 22c5.076 0 4.73-2.193 4.73-2.193l-.006-2.274H12.02v-.683h6.733s3.253.368 3.253-4.724c0-5.093-2.834-4.908-2.834-4.908h-1.692v2.378s.092 2.834-2.788 2.834H9.906s-2.696-.046-2.696 2.65v4.267s-.494 2.65 4.876 2.65zm2.61-1.488a.95.95 0 1 1 0-1.9.95.95 0 0 1 0 1.9z" fill="#FFD438"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Python</span>
+                    <span class="skill-category">Linguagem &amp; IA</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff66" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3" fill="#00ff66" fill-opacity="0.3"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">LLMs &amp; RAG</span>
+                    <span class="skill-category">Engenharia de Contexto</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#F7931E" stroke-width="2"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Scikit-Learn</span>
+                    <span class="skill-category">Modelagem Preditiva</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="4" height="16" rx="1" fill="#150458"/><rect x="10" y="8" width="4" height="12" rx="1" fill="#E70488"/><rect x="17" y="12" width="4" height="8" rx="1" fill="#FFD438"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Pandas</span>
+                    <span class="skill-category">Tratamento de Dados</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-3.5h2v3.5h-2zm-4 0v-5h2v5H9zm2-7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 1.5h-2V9h2v2z"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">PostgreSQL</span>
+                    <span class="skill-category">Modelagem Relacional</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#2496ED"><path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 0 0 .186-.186V3.574a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.186.186.186"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Docker</span>
+                    <span class="skill-category">Containerização</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Coluna 2 do Marquee (Fluxo Vertical 2 - Direção Reversa) -->
+            <div class="skills-marquee-column">
+              <div class="skills-marquee-track track-down">
+                
+                <!-- Card 7: Git & GitHub -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#F05032" aria-hidden="true">
+                      <path d="M21.62 10.45l-8.07-8.07a2.53 2.53 0 0 0-3.58 0L8.03 4.32l2.45 2.45a1.8 1.8 0 0 1 2.28 2.3l2.36 2.36a1.8 1.8 0 0 1 2.12 2.15l2.38-2.38a2.53 2.53 0 0 0 0-3.57zM5.65 6.7L1.93 10.42a2.53 2.53 0 0 0 0 3.58l8.07 8.07a2.53 2.53 0 0 0 3.58 0l2.38-2.38-2.45-2.45a1.8 1.8 0 0 1-2.28-2.3L8.87 12.58a1.8 1.8 0 0 1-2.12-2.15L4.37 8.05l1.28-1.35z"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Git &amp; GitHub</span>
+                    <span class="skill-category">CI/CD &amp; Versionamento</span>
+                  </div>
+                </div>
+
+                <!-- Card 8: JavaScript -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#F7DF1E" aria-hidden="true">
+                      <rect width="24" height="24" rx="4" fill="#F7DF1E"/>
+                      <path d="M7.5 17.5c0 1.5 1 2 2.5 2 1.5 0 2.5-.8 2.5-2.5V8h-2v9.5c0 .5-.3.8-.8.8s-.7-.3-.7-.8v-3H7.5v3zm7.3 2c1.7 0 2.7-.8 3.2-1.8l-1.6-.9c-.3.6-.8.9-1.5.9-.8 0-1.4-.4-1.4-1.1 0-.9.8-1.2 2-1.6 1.8-.6 2.7-1.3 2.7-2.7 0-1.6-1.3-2.5-2.9-2.5-1.5 0-2.6.7-3.1 1.7l1.6.9c.3-.5.7-.8 1.4-.8.7 0 1.2.3 1.2.9 0 .7-.6 1-1.8 1.4-1.8.6-2.9 1.3-2.9 2.8 0 1.8 1.3 2.8 3.1 2.8z" fill="#000000"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">JavaScript</span>
+                    <span class="skill-category">Lógica &amp; Web</span>
+                  </div>
+                </div>
+
+                <!-- Card 9: TypeScript -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#3178C6" aria-hidden="true">
+                      <rect width="24" height="24" rx="4" fill="#3178C6"/>
+                      <path d="M12.5 11h-4v2h2.8c0 2.2-1.3 3.5-3.3 3.5-2.2 0-3.7-1.6-3.7-3.9s1.5-3.9 3.7-3.9c1.3 0 2.4.6 3 1.5l1.6-1.2C11.5 7.6 10 6.9 8.3 6.9 4.8 6.9 2.5 9.4 2.5 12.6s2.3 5.7 5.8 5.7c3.3 0 5.4-2.1 5.4-5.3V11h-1.2zm6.2 1.8c1.3-.4 2-1 2-2 0-1.4-1.1-2.2-2.7-2.2-1.4 0-2.4.6-2.9 1.5l1.5.9c.2-.4.6-.7 1.3-.7.6 0 1 .3 1 .8 0 .6-.5.8-1.5 1.1-1.6.5-2.6 1.2-2.6 2.5 0 1.6 1.2 2.5 2.8 2.5 1.5 0 2.5-.7 3-1.6l-1.5-.9c-.3.5-.7.8-1.4.8-.7 0-1.2-.3-1.2-.9 0-.7.5-1 1.2-1.2l1-.3z" fill="#FFFFFF"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">TypeScript</span>
+                    <span class="skill-category">Tipagem &amp; Robustez</span>
+                  </div>
+                </div>
+
+                <!-- Card 10: HTML5 & CSS3 -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M4 2l1.6 18 6.4 2 6.4-2L20 2H4zm13.3 5.4l-.2 2.3H8.3l.2 2.4h7.2l-.5 5.5-3.2 1-3.2-1-.2-2.3H6.4l.4 4.3 5.2 1.6 5.2-1.6.7-7.8H6.1L5.9 7.4h11.4z" fill="#E34F26"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">HTML5 &amp; CSS3</span>
+                    <span class="skill-category">Layouts &amp; Semântica</span>
+                  </div>
+                </div>
+
+                <!-- Card 11: Linux -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12.001 2c-3.15 0-5.001 2.39-5.001 5.34 0 1.05.29 2.5.76 3.76-.94.75-2.03 2.13-2.03 4.2 0 3.2 2.25 5.7 5.6 5.7 1.07 0 2.05-.28 2.67-.73.62.45 1.6.73 2.67.73 3.35 0 5.6-2.5 5.6-5.7 0-2.07-1.09-3.45-2.03-4.2.47-1.26.76-2.71.76-3.76C20.002 4.39 18.151 2 15.001 2h-3zm-1.5 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm3 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-1.5 2.5c.83 0 1.5.45 1.5 1s-.67 1-1.5 1-1.5-.45-1.5-1 .67-1 1.5-1z"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Linux</span>
+                    <span class="skill-category">Sistemas &amp; Servidores</span>
+                  </div>
+                </div>
+
+                <!-- Card 12: Cibersegurança -->
+                <div class="skill-card">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Cibersegurança</span>
+                    <span class="skill-category">Hardening &amp; Redes</span>
+                  </div>
+                </div>
+
+                <!-- Clone da Coluna 2 para loop infinito contínuo -->
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#F05032"><path d="M21.62 10.45l-8.07-8.07a2.53 2.53 0 0 0-3.58 0L8.03 4.32l2.45 2.45a1.8 1.8 0 0 1 2.28 2.3l2.36 2.36a1.8 1.8 0 0 1 2.12 2.15l2.38-2.38a2.53 2.53 0 0 0 0-3.57zM5.65 6.7L1.93 10.42a2.53 2.53 0 0 0 0 3.58l8.07 8.07a2.53 2.53 0 0 0 3.58 0l2.38-2.38-2.45-2.45a1.8 1.8 0 0 1-2.28-2.3L8.87 12.58a1.8 1.8 0 0 1-2.12-2.15L4.37 8.05l1.28-1.35z"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Git &amp; GitHub</span>
+                    <span class="skill-category">CI/CD &amp; Versionamento</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#F7DF1E"><rect width="24" height="24" rx="4" fill="#F7DF1E"/><path d="M7.5 17.5c0 1.5 1 2 2.5 2 1.5 0 2.5-.8 2.5-2.5V8h-2v9.5c0 .5-.3.8-.8.8s-.7-.3-.7-.8v-3H7.5v3zm7.3 2c1.7 0 2.7-.8 3.2-1.8l-1.6-.9c-.3.6-.8.9-1.5.9-.8 0-1.4-.4-1.4-1.1 0-.9.8-1.2 2-1.6 1.8-.6 2.7-1.3 2.7-2.7 0-1.6-1.3-2.5-2.9-2.5-1.5 0-2.6.7-3.1 1.7l1.6.9c.3-.5.7-.8 1.4-.8.7 0 1.2.3 1.2.9 0 .7-.6 1-1.8 1.4-1.8.6-2.9 1.3-2.9 2.8 0 1.8 1.3 2.8 3.1 2.8z" fill="#000000"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">JavaScript</span>
+                    <span class="skill-category">Lógica &amp; Web</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#3178C6"><rect width="24" height="24" rx="4" fill="#3178C6"/><path d="M12.5 11h-4v2h2.8c0 2.2-1.3 3.5-3.3 3.5-2.2 0-3.7-1.6-3.7-3.9s1.5-3.9 3.7-3.9c1.3 0 2.4.6 3 1.5l1.6-1.2C11.5 7.6 10 6.9 8.3 6.9 4.8 6.9 2.5 9.4 2.5 12.6s2.3 5.7 5.8 5.7c3.3 0 5.4-2.1 5.4-5.3V11h-1.2zm6.2 1.8c1.3-.4 2-1 2-2 0-1.4-1.1-2.2-2.7-2.2-1.4 0-2.4.6-2.9 1.5l1.5.9c.2-.4.6-.7 1.3-.7.6 0 1 .3 1 .8 0 .6-.5.8-1.5 1.1-1.6.5-2.6 1.2-2.6 2.5 0 1.6 1.2 2.5 2.8 2.5 1.5 0 2.5-.7 3-1.6l-1.5-.9c-.3.5-.7.8-1.4.8-.7 0-1.2-.3-1.2-.9 0-.7.5-1 1.2-1.2l1-.3z" fill="#FFFFFF"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">TypeScript</span>
+                    <span class="skill-category">Tipagem &amp; Robustez</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 2l1.6 18 6.4 2 6.4-2L20 2H4zm13.3 5.4l-.2 2.3H8.3l.2 2.4h7.2l-.5 5.5-3.2 1-3.2-1-.2-2.3H6.4l.4 4.3 5.2 1.6 5.2-1.6.7-7.8H6.1L5.9 7.4h11.4z" fill="#E34F26"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">HTML5 &amp; CSS3</span>
+                    <span class="skill-category">Layouts &amp; Semântica</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 2c-3.15 0-5.001 2.39-5.001 5.34 0 1.05.29 2.5.76 3.76-.94.75-2.03 2.13-2.03 4.2 0 3.2 2.25 5.7 5.6 5.7 1.07 0 2.05-.28 2.67-.73.62.45 1.6.73 2.67.73 3.35 0 5.6-2.5 5.6-5.7 0-2.07-1.09-3.45-2.03-4.2.47-1.26.76-2.71.76-3.76C20.002 4.39 18.151 2 15.001 2h-3zm-1.5 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm3 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-1.5 2.5c.83 0 1.5.45 1.5 1s-.67 1-1.5 1-1.5-.45-1.5-1 .67-1 1.5-1z"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Linux</span>
+                    <span class="skill-category">Sistemas &amp; Servidores</span>
+                  </div>
+                </div>
+                <div class="skill-card" aria-hidden="true">
+                  <div class="skill-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff66" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                  </div>
+                  <div class="skill-info">
+                    <span class="skill-name">Cibersegurança</span>
+                    <span class="skill-category">Hardening &amp; Redes</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
