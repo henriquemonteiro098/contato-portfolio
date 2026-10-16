@@ -512,4 +512,57 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  /* --------------------------------------------------------------------------
+     8. CHAMPION UTILITIES: TOAST ENGINE, 1-CLICK COPY & CV HANDLER
+     -------------------------------------------------------------------------- */
+  const toastEl = document.getElementById('toast-notification');
+  let toastTimer = null;
+
+  function showToast(message, duration = 3200) {
+    if (!toastEl) return;
+    toastEl.textContent = message;
+    toastEl.classList.add('is-active');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.remove('is-active');
+    }, duration);
+  }
+
+  // 1-Click Copy E-mail
+  const copyBtn = document.getElementById('btn-copy-email');
+  const copyText = document.getElementById('copy-btn-text');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const email = 'mega.monteiro0908@gmail.com';
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(email);
+        } else {
+          const tempInput = document.createElement('input');
+          tempInput.value = email;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+        }
+        if (copyText) copyText.textContent = 'Copiado!';
+        showToast('E-mail copiado para a área de transferência! ✨');
+        setTimeout(() => {
+          if (copyText) copyText.textContent = 'Copiar';
+        }, 2500);
+      } catch (err) {
+        showToast('mega.monteiro0908@gmail.com');
+      }
+    });
+  }
+
+  // CV Access Handler
+  const cvButtons = [document.getElementById('header-cv-btn'), document.getElementById('hero-cv-btn')];
+  cvButtons.forEach((btn) => {
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      showToast('📄 Currículo completo: entre em contato ou solicite via e-mail!');
+    });
+  });
 });
