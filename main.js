@@ -557,12 +557,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // CV Access Handler
-  const cvButtons = [document.getElementById('header-cv-btn'), document.getElementById('hero-cv-btn')];
-  cvButtons.forEach((btn) => {
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      showToast('📄 Currículo completo: entre em contato ou solicite via e-mail!');
-    });
-  });
+
 });
